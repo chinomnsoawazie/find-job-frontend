@@ -21,6 +21,11 @@ const PageNavBar = (props) => {
         }
     }
 
+    const handleNav = () => {
+        props.history.push('my-dashboard')
+
+    }
+
 
     const whatToShow = () =>{
 
@@ -37,7 +42,7 @@ const PageNavBar = (props) => {
                     </div>
 
                     <div className="generic-image sign-up">
-                        <button onClick={() => props.history.push('my-dashboard')} className="button">My Dashboard</button>
+                        <button onClick={handleNav} className="button">My Dashboard</button>
                     </div>
 
                    <LogOut user={user} logOut={logOut}/>

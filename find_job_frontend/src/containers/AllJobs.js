@@ -21,7 +21,7 @@ const AllJobs = (props) => {
         
         <div className='job-card-div'>
             <div className='main-container'>
-                {jobsToMap().map(job => <AllJobsJobCard key={job.id + 'view'} job={job} fromDashboard={fromDashboard} showJob={showJob}/>)}    
+                {jobsToMap().map(job => <AllJobsJobCard key={job.id} job={job} fromDashboard={fromDashboard} showJob={showJob}/>)}    
             </div>
         </div>
     )
