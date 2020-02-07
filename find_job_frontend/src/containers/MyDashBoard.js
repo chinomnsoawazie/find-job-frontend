@@ -8,7 +8,7 @@ const MyDashBoard = (props) => {
     const handleClick = (event) =>{
         // event.preventDefault()
         //make this a class component and story from dashboard stuff here
-        toggleFromDashboard(event.target.name)
+        // toggleFromDashboard(event.target.name)
         props.history.push(event.target.name)
     }
 
@@ -18,7 +18,7 @@ const MyDashBoard = (props) => {
 
             <div className='column'>
                 <div className='row'>
-                    <button onClick={handleClick} name='favorite-jobs' className='dashboard-buttons'>Favorite jobs</button>
+                    <button onClick={() => props.history.push('/favorite-jobs')} name='favorite-jobs' className='dashboard-buttons'>Favorite jobs</button>
                 </div><br/>
                 <div className='row'>
                     <button onClick={handleClick} className='dashboard-buttons' name='applied-key' >Applied Jobs</button>

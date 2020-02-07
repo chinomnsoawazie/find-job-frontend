@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
- 
+import {login} from '../redux/actions'
+import {withRouter} from 'react-router'
+import {connect} from 'react-redux'
+
+
 export class LoginForm extends Component {
 
     state ={
@@ -14,16 +18,13 @@ export class LoginForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
+        let push = this.props.history.push
+        let dispatch = this.props.dispatch
         let user = {
             "username": this.state.username,
             "password": this.state.password
         }
- 
-        axios.post('http://localhost:3000/login', user)
-        .then(r => {
-            console.log(r.data)
-            this.props.getUser(r.data)
-        })
+        login(user, push, dispatch)
     }
 
 
@@ -61,7 +62,4 @@ export class LoginForm extends Component {
     }
 }
 
-export default LoginForm
-
-
-
+export default connect()(withRouter(LoginForm))

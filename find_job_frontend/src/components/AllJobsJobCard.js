@@ -1,6 +1,5 @@
 import React from 'react'
 import ViewButton from '../buttons/ViewButton'
-import DeleteButton from '../buttons/DeleteButton'
 
 const AllJobsJobCard = (props) => {
     const {job} =props

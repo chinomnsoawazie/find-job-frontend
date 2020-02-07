@@ -13,7 +13,7 @@ import jobReducer from './redux/jobsReducer'
 import userReducer from './redux/userReducer'
 
 const rootReducer = combineReducers({
-    allInfoOnUsers: userReducer,
+    allInfoOnUser: userReducer,
     allInfoOnJobs: jobReducer
 })
 

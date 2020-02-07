@@ -17,6 +17,7 @@ import AllSkills from './AllSkills'
 import AllMemberships from './AllMemberships'
 import AllCertifications from './AllCertifications'
 import MyDashBoard from './MyDashBoard'
+import FavoriteJobs from './FavoriteJobs'
 
 const PageMainContainer = (props) => {
 
@@ -67,76 +68,7 @@ const PageMainContainer = (props) => {
                 <EntryPoint />
             </Route>
 
-
-            {/*JobSearch*/}
-            <Route path='/search-jobs'>
-                <SearchPage loggedIn={loggedIn} allJobs={allJobs} setJobSearchResults={setJobSearchResults}/>
-            </Route>
-
-            <Route path='/search-jobs-results'>
-                <AllJobs allJobs={searchResults} showJob={showJob}/>
-            </Route>
-
-
-            {/*Profile */}
-            <Route path='/profile-entry-point'>
-                <ProfileEntryPoint />
-            </Route>
-
-            <Route path='/profile-info'>
-                <PersonalInfoCard user={user}/>
-            </Route>
-
-            <Route path='/profile-work-history'>
-                <AllWorkHistory userEmployments={userEmployments} monthDisplay={monthDisplay}/>
-            </Route>
-
-            <Route path='/profile-education-history'>
-                <AllEducationHistory userEducations={userEducations} monthDisplay={monthDisplay}/>
-            </Route>
-
-            <Route path='/profile-skills'>
-                <AllSkills userSkills={userSkills}/>
-            </Route>
-
-            <Route path='/profile-memberships'>
-                <AllMemberships userMemberships={userMemberships} monthDisplay={monthDisplay}/>
-            </Route>
-
-            <Route path='/profile-certifications'>
-                <AllCertifications userCertifications={userCertifications} monthDisplay={monthDisplay}/>
-            </Route>
-
-
-
-            {/*Login issues */}
-
-            <Route  path='/login'>
-              {loggedIn ?  <Redirect to="/logged-in-options" /> : <LoginForm  getUser={getUser}/>}  
-            </Route>
-
-            <Route exact path='/signup'>
-                <SignUPForm getUser={getUser}/>
-            </Route>
-
-
-            <Route path='/logged-in-options'>
-                <LoggedInEntryOptions user={user} />
-            </Route>
-
-            <Route  exact path="/jobs">
-                <AllJobs allJobs={allJobs} showJob={showJob} />
-            </Route>
-
-            <Route path="/jobs/:id">
-                <JobCard  user={user} favoriteAJob={favoriteAJob} loggedIn={loggedIn} job={jobToShow}
-                fromDashboard={fromDashboard} resetShowFavJobsAndShowAppliedJobs={resetShowFavJobsAndShowAppliedJobs} />
-            </Route>
-
-
-
-
-
+                        {/*JOBS */}
 
             <Route  path="/jobs/:id/apply">
                 <Apply />
@@ -146,10 +78,77 @@ const PageMainContainer = (props) => {
                 <AllTODo />
             </Route>
 
-            <Route path='/favorite-jobs'>
-                <AllJobs allJobs={userJobs} fromDashboard={fromDashboard} showFavoriteJobs={showFavoriteJobs} 
-                showJob={showJob} showAppliedJobs={showAppliedJobs}/>
+            <Route exact path='/favorite-jobs'>
+                <FavoriteJobs/>
             </Route>
+
+
+            {/*JobSearch*/}
+            <Route exact path='/search-jobs'>
+                <SearchPage loggedIn={loggedIn} allJobs={allJobs} setJobSearchResults={setJobSearchResults}/>
+            </Route>
+
+            <Route exact path='/search-jobs-results'>
+                <AllJobs allJobs={searchResults} showJob={showJob}/>
+            </Route>
+
+
+            {/*Profile */}
+            <Route exact path='/profile-entry-point'>
+                <ProfileEntryPoint />
+            </Route>
+
+            <Route exact path='/profile-info'>
+                <PersonalInfoCard user={user}/>
+            </Route>
+
+            <Route exact path='/profile-work-history'>
+                <AllWorkHistory userEmployments={userEmployments} monthDisplay={monthDisplay}/>
+            </Route>
+
+            <Route exact path='/profile-education-history'>
+                <AllEducationHistory userEducations={userEducations} monthDisplay={monthDisplay}/>
+            </Route>
+
+            <Route  exact path='/profile-skills'>
+                <AllSkills userSkills={userSkills}/>
+            </Route>
+
+            <Route exact path='/profile-memberships'>
+                <AllMemberships userMemberships={userMemberships} monthDisplay={monthDisplay}/>
+            </Route>
+
+            <Route exact path='/profile-certifications'>
+                <AllCertifications userCertifications={userCertifications} monthDisplay={monthDisplay}/>
+            </Route>
+
+
+
+            {/*Login issues */}
+
+            <Route  exact path='/login'>
+              {loggedIn ?  <Redirect to="/logged-in-options" /> : <LoginForm  getUser={getUser}/>}  
+            </Route>
+
+            <Route exact path='/signup'>
+                <SignUPForm getUser={getUser}/>
+            </Route>
+
+
+            <Route exact path='/logged-in-options'>
+                <LoggedInEntryOptions user={user} />
+            </Route>
+
+            <Route  exact path="/jobs">
+                <AllJobs allJobs={allJobs} showJob={showJob} />
+            </Route>
+
+            <Route exact path="/jobs/:id">
+                <JobCard  user={user} favoriteAJob={favoriteAJob} loggedIn={loggedIn} job={jobToShow}
+                fromDashboard={fromDashboard} resetShowFavJobsAndShowAppliedJobs={resetShowFavJobsAndShowAppliedJobs} />
+            </Route>
+
+
 
 
 
