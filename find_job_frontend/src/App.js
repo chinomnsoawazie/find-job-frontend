@@ -15,7 +15,6 @@ class App extends Component {
     allJobs: [],
 
     loggedIn: false,
-    fromDashboard: false,
     showFavoriteJobs: false,
     showAppliedJobs: false,
 
@@ -94,21 +93,7 @@ setJobSearchResult = (results) => {
   this.setState({jobSearchResult: results})
 }
 
-toggleFromDashboard = (value) => {
-  console.log(value)
-  if(value === 'favorite-jobs'){
-    this.setState({
-      fromDashboard: !this.state.fromDashboard,
-      showFavoriteJobs: !this.state.showFavoriteJobs
-    })
-  }else{
-    this.setState({
-      fromDashboard: !this.state.fromDashboard,
-      showAppliedJobs: !this.state.showAppliedJobs
-    })
-  }
 
-}
 
 favoriteAJob = (job) => {
 
@@ -183,10 +168,10 @@ resetShowFavJobsAndShowAppliedJobs = () =>{
 
           <PageMainContainer  setJobSearchResults={this.setJobSearchResult} user={this.state.user} getUser={this.getUser}
            allJobs = {this.state.allJobs} showJob={this.showJob} jobToShow={this.state.jobToShow}
-            searchResults={this.state.jobSearchResult} loggedIn={this.state.loggedIn} toggleFromDashboard={this.toggleFromDashboard}
+            searchResults={this.state.jobSearchResult} loggedIn={this.state.loggedIn} 
             favoriteAJob={this.favoriteAJob} userEmployments={this.state.userEmployments} userEducations={this.state.userEducations}
             userSkills={this.state.userSkills} userMemberships={this.state.userMemberships} userCertifications={this.state.userCertifications}
-            userJobs={this.state.userJobs} fromDashboard={this.state.fromDashboard} showAppliedJobs={this.state.showAppliedJobs}
+            userJobs={this.state.userJobs}  showAppliedJobs={this.state.showAppliedJobs}
             showFavoriteJobs={this.state.showFavoriteJobs} resetShowFavJobsAndShowAppliedJobs={this.resetShowFavJobsAndShowAppliedJobs}
             />
 

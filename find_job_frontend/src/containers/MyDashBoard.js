@@ -3,7 +3,6 @@ import { withRouter } from 'react-router'
 
 const MyDashBoard = (props) => {
 
-    const {toggleFromDashboard} = props
 
     const handleClick = (event) =>{
         // event.preventDefault()
