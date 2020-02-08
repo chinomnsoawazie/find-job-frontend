@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Switch, Redirect} from 'react-router-dom'
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import AllJobs from './AllJobs'
 import JobCard from '../components/JobCard'
 import Apply from '../components/Apply'
@@ -18,6 +18,7 @@ import AllMemberships from './AllMemberships'
 import AllCertifications from './AllCertifications'
 import MyDashBoard from './MyDashBoard'
 import FavoriteJobs from './FavoriteJobs'
+import {connect} from 'react-redux'
 
 const PageMainContainer = (props) => {
 
@@ -79,7 +80,7 @@ const PageMainContainer = (props) => {
             </Route>
 
             <Route exact path='/favorite-jobs'>
-                <FavoriteJobs/>
+                <FavoriteJobs dispatch={props.dispatch} push={props.history.push}/>
             </Route>
 
 
@@ -143,9 +144,9 @@ const PageMainContainer = (props) => {
                 <AllJobs allJobs={allJobs} showJob={showJob} />
             </Route>
 
-            <Route exact path="/jobs/:id">
+            <Route  path="/jobs/:id">
                 <JobCard  user={user} favoriteAJob={favoriteAJob} loggedIn={loggedIn} job={jobToShow}
-                fromDashboard={fromDashboard} resetShowFavJobsAndShowAppliedJobs={resetShowFavJobsAndShowAppliedJobs} />
+                fromDashboard={fromDashboard} resetShowFavJobsAndShowAppliedJobs={resetShowFavJobsAndShowAppliedJobs} dispatch={props.dispatch} push={props.history.push}/>
             </Route>
 
 
@@ -186,7 +187,7 @@ const PageMainContainer = (props) => {
     
 }
 
-export default PageMainContainer
+export default connect()(withRouter(PageMainContainer))
 
 
 

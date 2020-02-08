@@ -1,16 +1,15 @@
 import React from 'react'
-// import React, { Component } from 'react'
 import JobCardNav from '../containers/JobCardNav'
-import { withRouter, NavLink } from 'react-router-dom'
+import { withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 
 const JobCard = (props) => {
 
-    const {job, favoriteAJob, user, loggedIn, fromDashboard, resetShowFavJobsAndShowAppliedJobs} = props
+    const {favoriteAJob, user, loggedIn, resetShowFavJobsAndShowAppliedJobs} = props
+    const job = props.currentJob
 
-    const handleClick = () => {
-        props.history.push('my-dashboard')
-    }
+ 
     return (
         <div className='job-card-div'>
             <div className='row'>
@@ -80,24 +79,28 @@ const JobCard = (props) => {
             </div>
 
             <div className='row'>
-                {fromDashboard ?
-
-                <NavLink to='/my-dashboard'>
-
-                    {/*button below also needs to toggle favorite and applied */}
-
-                    <button onClick={handleClick} className='button'>Back to Dashboard</button>
-                </NavLink>
+                {job.user_id ?
+                <>
+                    <button onClick = {() => props.history.push('/my-dashboard')} className='button'>Back to Dashboard</button>
+                    <button className='button'>Back to All Jobs</button>
+                    
+                    //button below also needs to toggle favorite and applied
+                    </>
 
                 :
-                <NavLink to='/jobs'>
                     <button className='button'>Back to All Jobs</button>
-                </NavLink>
                 }
             </div>
+            
         </div>
     )
 }
 
-export default withRouter(JobCard) 
+const mapStateToProps = (state) =>{
+    return {
+        currentJob: state.allInfoOnJobs.currentJob
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(JobCard))
 

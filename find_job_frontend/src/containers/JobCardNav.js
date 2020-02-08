@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import {NavLink} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
+import {connect} from 'react-redux'
 
 
 export class JobCardNav extends Component {
@@ -36,17 +37,14 @@ export class JobCardNav extends Component {
         return 'Remove Job'
     }
     render() {
-        console.log(this.props.job)
+        console.log(this.props.job, this.props.loggedIn)
         return (
 
             <>
                 {this.props.loggedIn ? 
                     <div className='row'>
                         {!this.props.job.favorite_key ? 
-                        
-                        <div className='column job-card-row'>
                             <button onClick={this.handleFavoriting} className='job-card-button'> <img src={favoriteIcon} alt='add to favorites'/> Add to favorites </button>
-                        </div>
                     :
                     <div className='column job-card-row'>
                         <button className='job-card-button'> <img src={favoriteIcon} alt='add to favorites'/>Job already in favorites</button>
@@ -59,9 +57,7 @@ export class JobCardNav extends Component {
                     
                 
                         <div className='column job-card-row'>
-                            <NavLink to={'/jobs/general_jobs/:id/apply'} >
                                 <button  onClick={this.handleClick}   className='job-card-button'> <img src={applyIcon} alt='apply'/> Apply</button> 
-                            </NavLink>
                         </div>  
                 
                 
@@ -92,9 +88,7 @@ export class JobCardNav extends Component {
                         </div>
         
                         <div className='column job-card-row'>
-                            <NavLink to={'/jobs/general_jobs/:id/apply'} >
                                 <button  onClick={this.handleClick}   className='job-card-button'> <img src={shareIcon} alt='apply'/> Share</button> 
-                            </NavLink>
                         </div> 
                         
                     </div>
@@ -103,14 +97,10 @@ export class JobCardNav extends Component {
 
                     <div className='row'>
                         <div className='column job-card-row'>
-                            <NavLink to={'/jobs/general_jobs/:id/apply'} >
                                 <button  onClick={this.handleClick}   className='job-card-button'> <img src={applyIcon} alt='apply'/> Apply</button> 
-                            </NavLink>
                         </div>  
                         <div className='column job-card-row'>
-                            <NavLink to={'/jobs/general_jobs/:id/apply'} >
                                 <button  onClick={this.handleClick}   className='job-card-button'> <img src={shareIcon} alt='apply'/> Share</button> 
-                            </NavLink>
                         </div> 
                     </div>
                 }
@@ -119,4 +109,10 @@ export class JobCardNav extends Component {
     }
 }
 
-export default JobCardNav
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.allInfoOnUser.loggedIn
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(JobCardNav))

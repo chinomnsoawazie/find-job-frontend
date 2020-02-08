@@ -1,18 +1,12 @@
 import React from 'react'
-import ViewButton from '../buttons/ViewButton'
+import {setCurrentJob} from '../redux/actions'
 
 const AllJobsJobCard = (props) => {
     const {job} =props
 
-    const viewButtonText = () => {
-        return 'View Job'
+    const viewJob = () => {
+        setCurrentJob(job, props)
     }
-
-   const removeButtonText = () => {
-        return 'Remove Job'
-    }
-
-
    
     return (
 
@@ -22,7 +16,7 @@ const AllJobsJobCard = (props) => {
             <div  className='row'><strong>Title: </strong> {job.job_title}</div>
                         <div  className='row job-card-row'><strong>Pay: </strong> ${job.pay}</div> 
                         <div  className='row job-card-row'><strong>Location: </strong> {job.city}, {job.state} </div>
-                        <div  className='row'><ViewButton  key={job.id + 'view'} buttonText={viewButtonText()} showJob={props.showJob} job={props.job}/> </div>
+                        <button onClick={viewJob} className='side-bar-button'>View Job</button>
         </div>
     )
 }

@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 
 const LoggedInEntryOptions = (props) => {
     const push = props.history.push
-    console.log(props)
-
     return (
         <div className='entry-pg'>
             <div className='column'>
@@ -15,26 +13,18 @@ const LoggedInEntryOptions = (props) => {
                 <p className='landing-pg-row'>What would you like to do?</p>
                 </div> <br/>
 
-                {/* <NavLink to='my-dashboard'> */}
                 <div className='row'>
                     <button className='landing-pg-button' onClick={() => push('/my-dashboard')}>View dashboard</button>
                 </div><br/>
-                {/* </NavLink> */}
 
-                {/* <NavLink to='profile-entry-point'> */}
                 <div className='row '>
                     <button onClick={() => push('/profile-entry-point')} className='landing-pg-button'>View Profile</button>
                 </div><br/>
-                {/* </NavLink> */}
 
-                {/* <NavLink to='search-jobs'> */}
                     <div className='row'>
                         <button onClick={() => push('/search-jobs')} className='landing-pg-button'>Search for jobs</button>
                     </div>
-                {/* </NavLink> */}
             </div>
-
-        
         </div>
     )
 }

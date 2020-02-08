@@ -1,2 +1,8 @@
 //USER STUFF
 export const SET_USER = "SET_USER"
+
+
+//JOBS STUFF
+
+export const SET_CURRENT_JOB = "SET_CURRENT_JOB"
+export const JOB_FROM_MY_DASHBOARD = "JOB_FROM_MY_DASHBOARD"

@@ -6,7 +6,7 @@ const FavoriteJobs = (props) => {
     console.log(props)
     return (
         <>
-            {props.userJobs.map(job => <AllJobsJobCard key={job.id} job={job} />)}    
+            {props.userJobs.map(job => <AllJobsJobCard key={job.id} fromDashboard={true} job={job} push={props.push} dispatch={props.dispatch}/>)}    
         </>
     )
 }

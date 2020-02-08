@@ -20,7 +20,8 @@ const initialState = {
     userCertifications: [],
     userJobs: [],
     userNotes: [],
-    userTasks: []
+    userTasks: [],
+    loggedIn: ''
 
   }
   
@@ -56,7 +57,8 @@ const initialState = {
         userCertifications: user.certifications,
         userJobs: user.jobs,
         userNotes: user.notes,
-        userTasks: user.tasks
+        userTasks: user.tasks,
+        loggedIn: true
       }
   
       default:
