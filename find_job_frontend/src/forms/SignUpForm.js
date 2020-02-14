@@ -27,7 +27,6 @@ export class SignUpForm extends Component {
  
         axios.post('http://localhost:3000/users', newUser)
         .then(r => {
-            this.props.getUser(r.data)
         })
         .then(() => this.props.history.push('/logged-in-options'))
         .catch((error) =>{

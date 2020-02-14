@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {login} from '../redux/actions'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'

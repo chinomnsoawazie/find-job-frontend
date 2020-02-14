@@ -205,7 +205,7 @@ color: white;
 }
 
 .entry-pg{
-  width: 60%;
+  /* width: 60%; */
   padding-top: 20%;
   padding-left: 30%;
   text-align: center;
@@ -257,6 +257,15 @@ padding-top: 10%;
     background-color: #FFA333;
     box-shadow: 0 2px #666;
     translate: 4px;
+  }
+
+
+  .location{
+    min-width: 30vw;
+  }
+
+  .location-select{
+    width: 14vw;
   }
 
  

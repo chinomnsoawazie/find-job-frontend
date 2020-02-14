@@ -6,7 +6,7 @@ const LogIn = (props) => {
     return (
             <div width='20%' className="generic-image sign-in">
             <img src={profileIcon} height='32' width='32' className="profile-icon" alt="profile-icon"/>
-            <button onClick={() => props.history.push('login') } className="button" >Login</button>
+            <button onClick={() => props.history.push('/login') } className="button" >Login</button>
          </div>
     )
 }

@@ -1,4 +1,4 @@
-import {SET_USER} from './actionTypes'
+import {SET_USER, LOGOUT} from './actionTypes'
 
 const initialState = {
     user_id: '',
@@ -21,7 +21,8 @@ const initialState = {
     userJobs: [],
     userNotes: [],
     userTasks: [],
-    loggedIn: ''
+    loggedIn: '',
+    token: ''
 
   }
   
@@ -34,8 +35,8 @@ const initialState = {
       }
 
       case SET_USER:
-        // console.log(action.payload.user)
         let user = action.payload.user
+        let token = action.payload.token
       return {
         ...state,
         user_id: user.id,
@@ -58,8 +59,35 @@ const initialState = {
         userJobs: user.jobs,
         userNotes: user.notes,
         userTasks: user.tasks,
-        loggedIn: true
+        loggedIn: true,
+        token: token
       }
+
+       case LOGOUT:
+         return{
+           ...state,
+           user_id: '',
+           first_name: '',
+           last_name: '',
+           username: '',
+           email: '',
+           country: '',
+           state: '',
+           city: '',
+           age: '',
+           highest_education: '',
+           years_of_experience: '',
+           userPreferences: [],
+           userSkills: [],
+           userMemberships: [],
+           userEmployments: [],
+           userEducations: [],
+           userCertifications: [],
+           userJobs: [],
+           userNotes: [],
+           userTasks: [],
+           loggedIn: ''
+         }
   
       default:
         return state

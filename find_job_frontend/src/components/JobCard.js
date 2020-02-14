@@ -3,95 +3,95 @@ import JobCardNav from '../containers/JobCardNav'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
-
 const JobCard = (props) => {
-
-    const {favoriteAJob, user, loggedIn, resetShowFavJobsAndShowAppliedJobs} = props
     const job = props.currentJob
 
- 
     return (
         <div className='job-card-div'>
             <div className='row'>
-                 <h4>Job Title: {job.job_title}</h4>
+                 <h4><strong>Job Title: </strong>{job.job_title}</h4>
             </div>
 
             <div className='row' >
                 <div className='column job-card-row' >
-                    <p><strong>Company:</strong> {job.company_name}</p> 
+                    <p><strong>Organization:</strong> {job.organization_name}</p> 
                 </div>
                 <div className='column job-card-row'>
-                    <p><strong>State: </strong>{job.state} <strong>City:</strong> {job.city} <strong>Zip Code: </strong>{job.zipcode} </p>
+                    <p><strong>Location: </strong>{job.location}</p>
                 </div>
             </div>
 
             <div className='row' >
                 <div className='column job-card-row'>
-                    <p> <strong>Pay:</strong> ${job.pay}</p>
+                    <p> <strong>Min. pay:</strong> ${job.minimum_pay}</p>
                 </div>
+                <div className='column job-card-row'>
+                    <p> <strong>Max. pay:</strong> ${job.maximum_pay}</p>
+                </div>
+                <div className='column job-card-row'>
+                    <p> <strong>Pay period:</strong> ${job.pay_period}</p>
+                </div>
+            </div>
+
+            <div className='row'>
                 <div className='column job-card-row'>
                     <p><strong>Job Type:</strong> {job.job_type}</p>
                 </div>
-            </div>
-            <div className='row' >
                 <div className='column job-card-row'>
-                   <p> <strong>Summary:</strong></p>
+                    <p><strong>Hiring path: </strong> {job.hiring_path}</p>
                 </div>
-                <div className='column'>
-                    {job.intro}
-                </div>
-            </div>
-            <div className='row' >
                 <div className='column job-card-row'>
-                    <p><strong>Requirements:</strong></p>
+                    <p><strong>Job posting date:</strong> {job.job_posting_date}</p>
                 </div>
-                <div className='column'>
-                    {job.requirement}
+                <div className='column job-card-row'>
+                    <p><strong>Applications close date:</strong> {job.application_close_date}</p>
                 </div>
             </div>
+
             <div className='row' >
                 <div className='column job-card-row'>
                     <p><strong>Schedule:</strong></p>
                 </div>
                 <div className='column'>
-                    {job.schedule}
-                </div>
-            </div>
-            <div className='row' >
-                <div className='column job-card-row'>
-                    <p><strong>Description:</strong></p>
-                </div>
-                <div className='column'>
-                    {job.description}
-                </div>
-            </div>
-            <div className='row' >
-                <div className='column job-card-row'>
-                    <p><strong>Duties:</strong></p>
-                </div>
-                <div className='column'>
-                    {job.duties}
+                    <p>{job.schedule}</p>
                 </div>
             </div>
 
+            <div className='row job-card-row'>
+                <strong>Summary:</strong>
+            </div>
             <div className='row'>
-                <JobCardNav  favoriteAJob={favoriteAJob} user={user} loggedIn={loggedIn} job={job}/>
+                <p>{job.employer_strongpoints}</p>
             </div>
 
+            <div className='row job-card-row'>
+                <strong>Description:</strong>
+            </div>
+            <div className='row'>
+                <p>{job.description}</p> 
+            </div>
+        
+            <div className='row job-card-row'>
+                <strong>Requirements:</strong>
+            </div>
+            <div className='row'>
+                <p>{job.requirement}</p>
+            </div>
+          
+            <div className='row'>
+                <JobCardNav />
+            </div>
+           
             <div className='row'>
                 {job.user_id ?
                 <>
                     <button onClick = {() => props.history.push('/my-dashboard')} className='button'>Back to Dashboard</button>
-                    <button className='button'>Back to All Jobs</button>
-                    
-                    //button below also needs to toggle favorite and applied
-                    </>
-
+                    <button onClick={props.history.push('/search-jobs-results')} className='button'>Back to All Jobs</button>
+                </>
                 :
-                    <button className='button'>Back to All Jobs</button>
+                    <button onClick={() => props.history.push('/search-jobs-results')} className='button'>Back to All Jobs</button>
                 }
             </div>
-            
         </div>
     )
 }

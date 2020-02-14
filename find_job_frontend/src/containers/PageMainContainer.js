@@ -19,19 +19,18 @@ import AllCertifications from './AllCertifications'
 import MyDashBoard from './MyDashBoard'
 import FavoriteJobs from './FavoriteJobs'
 import {connect} from 'react-redux'
+import SearchEntryPoint from './SearchEntryPoint'
+import SearchByTP from '../forms/SearchByTP'
 
 const PageMainContainer = (props) => {
 
-    const {allJobs, userJobs, userSkills, userMemberships, userCertifications,
-         userEmployments, userEducations, favoriteAJob, getUser, 
-         searchResults, jobToShow, loggedIn, setJobSearchResults, showJob, user,
+    const {allJobs, userSkills, userMemberships, userCertifications,
+         userEmployments, userEducations, favoriteAJob,
+         searchResults, jobToShow, loggedIn,  showJob, user,
         toggleFromDashboard, fromDashboard, showFavoriteJobs, showAppliedJobs,
         resetShowFavJobsAndShowAppliedJobs} = props
 
     const monthDisplay = (monthNo) =>{
-
-    
-        
 
         if(monthNo === 1){
             return 'Jan'
@@ -65,12 +64,9 @@ const PageMainContainer = (props) => {
         <Switch>
             
             {/*App entry point */}
-            <Route exact path='/'>
-                <EntryPoint />
-            </Route>
+            <Route exact path='/' render = {() => <EntryPoint />} />
 
-                        {/*JOBS */}
-
+            {/*JOBS */}
             <Route  path="/jobs/:id/apply">
                 <Apply />
             </Route>
@@ -83,15 +79,12 @@ const PageMainContainer = (props) => {
                 <FavoriteJobs dispatch={props.dispatch} push={props.history.push}/>
             </Route>
 
+            <Route  path="/jobs/:id" render = {() => <JobCard push={props.history.push}/>} />
 
             {/*JobSearch*/}
-            <Route exact path='/search-jobs'>
-                <SearchPage loggedIn={loggedIn} allJobs={allJobs} setJobSearchResults={setJobSearchResults}/>
-            </Route>
-
-            <Route exact path='/search-jobs-results'>
-                <AllJobs allJobs={searchResults} showJob={showJob}/>
-            </Route>
+            <Route exact path='/search-jobs' render = { () => <SearchEntryPoint  push={props.history.push}/>} />
+            <Route exact path='/search-by-tp' render = { () => <SearchByTP  push={props.history.push}/>} />
+            <Route exact path='/search-jobs-results' render = { () => <AllJobs push={props.history.push} allJobs={searchResults} showJob={showJob}/>} />
 
 
             {/*Profile */}
@@ -128,11 +121,11 @@ const PageMainContainer = (props) => {
             {/*Login issues */}
 
             <Route  exact path='/login'>
-              {loggedIn ?  <Redirect to="/logged-in-options" /> : <LoginForm  getUser={getUser}/>}  
+              {loggedIn ?  <Redirect to="/logged-in-options" /> : <LoginForm/>}  
             </Route>
 
             <Route exact path='/signup'>
-                <SignUPForm getUser={getUser}/>
+                <SignUPForm/>
             </Route>
 
 
@@ -144,10 +137,6 @@ const PageMainContainer = (props) => {
                 <AllJobs allJobs={allJobs} showJob={showJob} />
             </Route>
 
-            <Route  path="/jobs/:id">
-                <JobCard  user={user} favoriteAJob={favoriteAJob} loggedIn={loggedIn} job={jobToShow}
-                fromDashboard={fromDashboard} resetShowFavJobsAndShowAppliedJobs={resetShowFavJobsAndShowAppliedJobs} dispatch={props.dispatch} push={props.history.push}/>
-            </Route>
 
 
 
@@ -160,25 +149,6 @@ const PageMainContainer = (props) => {
                 <MyDashBoard toggleFromDashboard={toggleFromDashboard} showFavoriteJobs={showFavoriteJobs}
                 showAppliedJobs={showAppliedJobs}/>
             </Route>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         </Switch>
