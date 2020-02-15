@@ -1,49 +1,26 @@
-import React, { Component } from 'react'
+import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-import PageLeftSideBar from './containers/PageLeftSideBar'
-import PageNavBar from './containers/PageNavBar'
-import PageRightSideBar from './containers/PageRightSideBar'
-import PageMainContainer from './containers/PageMainContainer'
-import {setAPIKeys} from './redux/actions'
-import {connect} from 'react-redux'
 
-class App extends Component {
-
-  componentDidMount() {
-    setAPIKeys(this.props)
-  }
-
-  render() {
-    return (
-      <>
-      <div className='nav-bar'>
-        <PageNavBar/>
-      </div>
-
-        <div className='main-page row'>
-          <div className='column'>
-              {this.props.loggedIn ?
-                <>
-                <PageLeftSideBar/>
-                <PageRightSideBar /> 
-                </>
-                : 
-                null
-            }
-          </div>
-          <div className='column'>
-            <PageMainContainer/>
-          </div>
-        </div>
-      </>
-    )
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) =>{
-  return {
-    loggedIn: state.allInfoOnUser.loggedIn
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default App;
