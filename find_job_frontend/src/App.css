@@ -2,37 +2,98 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-bar-items {
+  background-color: #f9f5d3;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.logo{
+  padding-top: 0.5vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.home-button {
+  background-color: #2465b9;
+  color: white;
+  vertical-align: top;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  border-radius: 12px;
+  font-size: medium;
+}
+.home-button:hover {
+  zoom: 120%;
+  opacity: 1;
+  transition: 0.3s;
+  background-color: #FFA333;
+}
+
+.nav-buttons {
+  background-color: #2465b9;
+  color: white;
+  vertical-align: middle;
+  margin-bottom: 0.7vh;
+  border-radius: 12px;
+  font-size: medium;
+}
+
+.nav-buttons:hover {
+  zoom: 120%;
+  opacity: 1;
+  transition: 0.3s;
+  background-color: #FFA333;
+}
+
+.page-buttons {
+  background-color: #2465b9;
+  color: white;
+  vertical-align: middle;
+  margin-bottom: 0.7vh;
+  border-radius: 12px;
+  font-size: small;
+}
+
+.page-buttons:hover {
+  zoom: 120%;
+  opacity: 1;
+  transition: 0.3s;
+  background-color: #FFA333;
+}
+
+.main-page{
+  display: grid;
+  grid-template-columns: 15vw 70vw;
+  /* top: 0; */
+  /* left: 0; */
+  /* width: 100%; */
+  /* height: 100%; */
+}
+
+.entry-page{
+  padding-top: 2vh;
+  /* padding-left: 0vw; */
+  text-align: center;
+}
+
+
+
+.left-side-bar{
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-top: 10vh;
+  padding-left: 1vw;
+}
+
+.logged-in-page {
+  padding-top: 4vh;
+  text-align: center;
 }

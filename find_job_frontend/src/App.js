@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react'
 import './App.css';
+import {connect} from 'react-redux'
+import {setAPIKeys} from './redux/actions'
+import NavBar from './containers/NavBar'
+import PageLeftSideBar from './containers/PageLeftSideBar'
+import MainContainer from './containers/MainContainer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+class App extends Component {
+  componentDidMount() {
+    setAPIKeys(this.props.dispatch)
+  }
+  
+  render() {
+    return (
+      <>
+        <div className='nav-bar'>
+          <NavBar/>
+        </div>
+
+        <div className='row main-page'>
+          <div className='column'>
+              {this.props.loggedIn ?
+              <PageLeftSideBar />
+              :
+              null
+              }
+          </div>
+
+          <div className='column'>
+              <MainContainer />
+          </div>
+      </div>
+      </>
+    )
+  }
 }
 
-export default App;
+
+const mapStateToProps = (state) =>{
+  return {
+    loggedIn: state.allUserInfo.loggedIn
+  }
+}
+
+export default connect(mapStateToProps)(App);
