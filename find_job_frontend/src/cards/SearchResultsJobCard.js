@@ -1,36 +1,36 @@
 import React from 'react'
-import {setCurrentJob, setFavoriteCheck, setAppliedCheck} from '../redux/actions'
+import {setCurrentJob} from '../redux/actions'
 import uuid from 'react-uuid'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
-
-
-
-
-const AllJobsJobCard = (props) => {
+const SearchResultsJobCard = (props) => {
 
     const {job, userJobs} = props
    
    
     const viewJob = (event) => {
         event.preventDefault()
-        if(event.target.children[0].value === 'Select a location'){
-            alert('Please select a location')
-        }else{
-            // let job = props.job
-          if(userJobs.map(userJob => userJob.usaJobs_job_id).includes((job.usaJobs_job_id)) && userJobs.find(foundJob => foundJob.usaJobs_job_id === job.usaJobs_job_id).favorite_key){
-              setFavoriteCheck(props)
-            }
-        if(userJobs.map(userJob => userJob.usaJobs_job_id).includes((job.usaJobs_job_id)) && userJobs.find(foundJob => foundJob.usaJobs_job_id === job.usaJobs_job_id).applied_key){
-                setAppliedCheck(props)
-            }
+        debugger
+                console.log(props.history.push('/individual-job'))
+        // if(event.target.children[0].value === 'Select a location'){
+        //     alert('Please select a location')
+        // }else{
+        //     // let job = props.job
+        //   if(userJobs.map(userJob => userJob.usaJobs_job_id).includes((job.usaJobs_job_id)) && userJobs.find(foundJob => foundJob.usaJobs_job_id === job.usaJobs_job_id).favorite_key){
+        //     //   setFavoriteCheck(props)
+        //     }
+        // if(userJobs.map(userJob => userJob.usaJobs_job_id).includes((job.usaJobs_job_id)) && userJobs.find(foundJob => foundJob.usaJobs_job_id === job.usaJobs_job_id).applied_key){
+        //         // setAppliedCheck(props)
+        //     }
 
-            console.log(event.target.children[0].value)
-                job.location = event.target.children[0].value
-                console.log(job)
-                setCurrentJob(job, props)
+        //     console.log(event.target.children[0].value)
+        //         job.location = event.target.children[0].value
+        //         // console.log(job)
+        //         setCurrentJob(job, props)
+
     
-        }
+        // }
     }
     
     const uniqueArray = (value, index, self) => {
@@ -42,7 +42,7 @@ const AllJobsJobCard = (props) => {
     return (
         <div>
         {/*add filters */}
-            <div  className='row'><strong>Title: </strong> {job.job_title}</div>
+            <div  className='row job-card-row'><strong>Title: </strong> {job.job_title}</div>
             <div  className='row job-card-row'><strong>Min. pay: </strong> ${job.minimum_pay}</div> 
             <div  className='row job-card-row'><strong>Max. pay: </strong> ${job.maximum_pay}</div> 
             <div  className='row job-card-row'><strong>No of Locations: </strong> {job.locations.split('; ').length} </div>
@@ -56,7 +56,7 @@ const AllJobsJobCard = (props) => {
                     {locations.map(location => <option key={uuid()} value={location.name}>{location.name}</option>)}
                 </select>
     
-                <input type="submit" className='button' value="View" />
+                <input type="submit" className='page-buttons' value="View job" />
             </form>
 
 
@@ -74,10 +74,9 @@ const AllJobsJobCard = (props) => {
 
 const mapStateToProps = (state) => {
     return{
-        user_id: state.allInfoOnUser.user_id,
-        userJobs: state.allInfoOnUser.userJobs,
-
+        user_id: state.allUserInfo.user_id,
+        userJobs: state.allUserInfo.userJobs,
     }
 }
 
-export default connect(mapStateToProps)(AllJobsJobCard)
+export default connect(mapStateToProps)(withRouter(SearchResultsJobCard))

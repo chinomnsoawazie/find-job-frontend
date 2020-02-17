@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import { searchJobsByTP, logout } from '../redux/actions'
+import { searchJobsByTP} from '../redux/actions'
 import Geocode from 'react-geocode'
+
 export class SearchByTP extends Component {
 
     state ={
         minimumPay: '',
         title: '',
-        location: '',
-
+        location: ''
     }
 
     handleChange = (event) =>{
@@ -23,7 +22,6 @@ export class SearchByTP extends Component {
         let title = this.state.title
         let location = this.state.location
         searchJobsByTP(title, minimumPay, location, this.props)
-        // console.log(this.state.minimumPay, this.state.title, this.state.location)
     }
 
     getAddress = () =>{
@@ -41,8 +39,8 @@ export class SearchByTP extends Component {
     }
     render() {
         return (
-            <div className='entry-pg'>
-                <button onClick={this.getAddress}>Get address</button>
+            <div className='logged-in-page'>
+                {/* <button onClick={this.getAddress}>Get address</button> */}
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
                         <label>
@@ -76,7 +74,7 @@ export class SearchByTP extends Component {
 
                     
                     <div className='row'>
-                        <button className='login-buttons' type='submit' value='login'>Find jobs</button>
+                        <button className='page-buttons' type='submit' value='login'>Find jobs</button>
                     </div>
                 </form>
             </div>
@@ -84,11 +82,4 @@ export class SearchByTP extends Component {
     }
 }
 
-const mapStateToProps = (state) => { 
-    return { 
-        USAJobsAPIKey: state.allInfoOnJobs.USAJobsAPIKey,
-        myEmail: state.allInfoOnJobs.myEmail
-    }
-}
-
-export default connect(mapStateToProps)(SearchByTP)
+export default SearchByTP

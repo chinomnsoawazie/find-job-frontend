@@ -2,7 +2,7 @@ import React from 'react'
 // import JobCardNav from '../containers/JobCardNav'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addNewJobToFavorites, addExistingJobToFavorites, applyToExistingJob, applyToNewJob, setCurrentJob} from '../redux/actions'
+// import {addNewJobToFavorites, addExistingJobToFavorites, applyToExistingJob, applyToNewJob, setCurrentJob} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -17,13 +17,13 @@ const JobCard = (props) => {
         if(userJobsUSAJobsIDs.includes(currentJob.usaJobs_job_id)){
             // setCurrentJob(currentJob, props)
             let job = userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id)
-            applyToExistingJob(job, props)
+            // applyToExistingJob(job, props)
         }else{
             // setCurrentJob(currentJob, props)
             let job = currentJob
             job.user_id = user_id
             job.applied_key = true
-            applyToNewJob(job, props)
+            // applyToNewJob(job, props)
         }
     }
 
@@ -31,12 +31,12 @@ const JobCard = (props) => {
             let userJobsUSAJobsIDs = userJobs.map(job => job.usaJobs_job_id)
         if(userJobsUSAJobsIDs.includes(currentJob.usaJobs_job_id)){
             let job = userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id)
-            addExistingJobToFavorites(job, props)
+            // addExistingJobToFavorites(job, props)
         }else{
             let job = currentJob
             job.user_id = user_id
             job.favorite_key = true
-            addNewJobToFavorites(job, props)
+            // addNewJobToFavorites(job, props)
         }
     }
 
@@ -199,13 +199,13 @@ const JobCard = (props) => {
 
 const mapStateToProps = (state) =>{
     return {
-        loggedIn: state.allInfoOnUser.loggedIn,
-        user_id: state.allInfoOnUser.user_id,
-        userJobs: state.allInfoOnUser.userJobs,
-        token: state.allInfoOnUser.token,
-        currentJob: state.allInfoOnJobs.currentJob,
-        appliedCheck: state.allInfoOnJobs.appliedCheck,
-        favoriteCheck: state.allInfoOnJobs.favoriteCheck
+        loggedIn: state.allUserInfo.loggedIn,
+        user_id: state.allUserInfo.user_id,
+        userJobs: state.allUserInfo.userJobs,
+        token: state.allUserInfo.token,
+        currentJob: state.allJobInfo.currentJob,
+        appliedCheck: state.allJobInfo.appliedCheck,
+        favoriteCheck: state.allJobInfo.favoriteCheck
     }
 }
 
