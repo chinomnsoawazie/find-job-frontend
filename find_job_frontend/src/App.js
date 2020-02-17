@@ -1,49 +1,49 @@
 import React, { Component } from 'react'
 import './App.css';
-import {connect} from 'react-redux'
-import {setAPIKeys} from './redux/actions'
-import NavBar from './containers/NavBar'
 import PageLeftSideBar from './containers/PageLeftSideBar'
-import MainContainer from './containers/MainContainer'
-
-
-
+import PageNavBar from './containers/PageNavBar'
+import PageRightSideBar from './containers/PageRightSideBar'
+import PageMainContainer from './containers/PageMainContainer'
+import {setAPIKeys} from './redux/actions'
+import {connect} from 'react-redux'
 
 class App extends Component {
+
   componentDidMount() {
-    setAPIKeys(this.props.dispatch)
+    setAPIKeys(this.props)
   }
-  
+
   render() {
     return (
       <>
-        <div className='nav-bar'>
-          <NavBar/>
-        </div>
+      <div className='nav-bar'>
+        <PageNavBar/>
+      </div>
 
-        <div className='row main-page'>
+        <div className='main-page row'>
           <div className='column'>
               {this.props.loggedIn ?
-              <PageLeftSideBar />
-              :
-              null
-              }
+                <>
+                <PageLeftSideBar/>
+                <PageRightSideBar /> 
+                </>
+                : 
+                null
+            }
           </div>
-
           <div className='column'>
-              <MainContainer />
+            <PageMainContainer/>
           </div>
-      </div>
+        </div>
       </>
     )
   }
 }
 
-
 const mapStateToProps = (state) =>{
   return {
-    loggedIn: state.allUserInfo.loggedIn
+    loggedIn: state.allInfoOnUser.loggedIn
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App)

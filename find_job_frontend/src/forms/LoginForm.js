@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import {login, setAPIKeys} from '../redux/actions'
+import {withRouter} from 'react-router'
+import {connect} from 'react-redux'
 
-export class Login extends Component {
+
+export class LoginForm extends Component {
 
     state ={
         username: '',
@@ -9,7 +12,7 @@ export class Login extends Component {
     }
 
     componentDidMount() {
-        setAPIKeys(this.props.dispatch)
+        setAPIKeys(this.props)
       }
 
     handleChange = (event) =>{
@@ -18,7 +21,7 @@ export class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        let push = this.props.push
+        let push = this.props.history.push
         let dispatch = this.props.dispatch
         let user = {
             "username": this.state.username,
@@ -31,7 +34,7 @@ export class Login extends Component {
     render() {
         return (
 
-            <div className='entry-page'>
+            <div className='login-page'>
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
                         <label>
@@ -54,7 +57,7 @@ export class Login extends Component {
                     </div>
                     
                     <div className='row'>
-                        <button className='page-buttons' type='submit' value='login'>Sign In</button>
+                        <button className='login-buttons' type='submit' value='login'>Sign In</button>
                     </div>
                 </form>
             </div>
@@ -62,4 +65,4 @@ export class Login extends Component {
     }
 }
 
-export default Login
+export default connect()(withRouter(LoginForm))

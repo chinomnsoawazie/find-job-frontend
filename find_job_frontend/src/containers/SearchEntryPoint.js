@@ -3,8 +3,7 @@ import React from 'react'
 const SearchEntryPoint = (props) => {
     const{push} = props
     return (
-        <div className='entry-page'>
-            <strong><p>Select a search method</p></strong>
+        <div className='entry-pg'>
             <div className='row'>
                  <button onClick={() => push('/search-by-tp')} className='button'> Job title and pay range </button>
             </div><br/>
