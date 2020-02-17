@@ -1,11 +1,13 @@
-import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB } from './actionTypes'
+import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK } from './actionTypes'
 
 const initialState = {
     USAJobsAPIKey: '',
     Google_mapsAPIKey: '',
     myEmail: '',
     jobsReturnedFromSearch: '',
-    currentJob: ''
+    currentJob: '',
+    favoriteCheck: '',
+    appliedCheck: ''
 }
 
 const jobsReducer = (state = initialState, action) => {
@@ -26,7 +28,9 @@ const jobsReducer = (state = initialState, action) => {
             Google_mapsAPIKey: '',
             myEmail: '',
             jobsReturnedFromSearch: '',
-            currentJob: ''
+            currentJob: '',
+            favoriteCheck: '',
+            appliedCheck: ''
         }
 
         case SET_JOBS_RETURNED_FROM_SEARCH:
@@ -67,10 +71,33 @@ const jobsReducer = (state = initialState, action) => {
         }
 
         case SET_CURRENT_JOB:
-            console.log(action.payload)
         return {
             ...state,
             currentJob: action.payload
+        }
+
+        case SET_FAVORITE_CHECK:
+        return{
+            ...state,
+            favoriteCheck: true
+        }
+
+        case RESET_FAVORITE_CHECK:
+        return {
+            ...state,
+            favoriteCheck: false
+        }
+
+        case SET_APPLIED_CHECK:
+        return {
+            ...state,
+            appliedCheck: true
+        }
+
+        case RESET_APPLIED_CHECK:
+        return {
+            ...state,
+            appliedCheck: false
         }
 
 

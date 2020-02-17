@@ -1,8 +1,7 @@
 import React from 'react'
-// import JobCardNav from '../containers/JobCardNav'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-// import {addNewJobToFavorites, addExistingJobToFavorites, applyToExistingJob, applyToNewJob, setCurrentJob} from '../redux/actions'
+import {addNewJobToFavorites, addExistingJobToFavorites, resetFavoriteCheck, resetAppliedCheck, applyToExistingJob, applyToNewJob} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -10,20 +9,18 @@ import shareIcon from '../pictures/shareIcon.png'
 
 const JobCard = (props) => {
 
-    const {userJobs, currentJob, loggedIn, user_id, appliedCheck, favoriteCheck} = props
+    const {userJobs, currentJob, loggedIn, user_id, favoriteCheck, appliedCheck} = props
 
     const handleUserApply = () => {
         let userJobsUSAJobsIDs = userJobs.map(job => job.usaJobs_job_id)
         if(userJobsUSAJobsIDs.includes(currentJob.usaJobs_job_id)){
-            // setCurrentJob(currentJob, props)
             let job = userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id)
-            // applyToExistingJob(job, props)
+            applyToExistingJob(job, props)
         }else{
-            // setCurrentJob(currentJob, props)
             let job = currentJob
             job.user_id = user_id
             job.applied_key = true
-            // applyToNewJob(job, props)
+            applyToNewJob(job, props)
         }
     }
 
@@ -31,20 +28,25 @@ const JobCard = (props) => {
             let userJobsUSAJobsIDs = userJobs.map(job => job.usaJobs_job_id)
         if(userJobsUSAJobsIDs.includes(currentJob.usaJobs_job_id)){
             let job = userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id)
-            // addExistingJobToFavorites(job, props)
+            addExistingJobToFavorites(job, props)
         }else{
             let job = currentJob
             job.user_id = user_id
             job.favorite_key = true
-            // addNewJobToFavorites(job, props)
+            addNewJobToFavorites(job, props)
         }
+    }
+
+    const handleBackToSearchResultButton = () => {
+        resetFavoriteCheck(props.dispatch)
+        resetAppliedCheck(props.dispatch)
+        props.history.push('/jobs-search-results')
     }
 
     const handleClick = () => {
 
         console.log('clicked')
     }
-
 
     return (
         <div className='job-card-div'>
@@ -62,86 +64,63 @@ const JobCard = (props) => {
             </div>
 
             <div className='row' >
-                <div className='column job-card-row'>
-                    <p> <strong>Min. pay:</strong> ${currentJob.minimum_pay}</p>
-                </div>
-                <div className='column job-card-row'>
-                    <p> <strong>Max. pay:</strong> ${currentJob.maximum_pay}</p>
-                </div>
-                <div className='column job-card-row'>
-                    <p> <strong>Pay period:</strong> ${currentJob.pay_period}</p>
-                </div>
+                <p> <strong>Min. pay:</strong> ${currentJob.minimum_pay}::
+                <strong>Max. pay:</strong> ${currentJob.maximum_pay}::
+                <strong>Pay period:</strong> ${currentJob.pay_period}</p>
             </div>
 
             <div className='row'>
-                <div className='column job-card-row'>
-                    <p><strong>Job Type:</strong> {currentJob.job_type}</p>
-                </div>
-                <div className='column job-card-row'>
-                    <p><strong>Hiring path: </strong> {currentJob.hiring_path}</p>
-                </div>
-                <div className='column job-card-row'>
-                    <p><strong>Job posting date:</strong> {currentJob.job_posting_date}</p>
-                </div>
-                <div className='column job-card-row'>
-                    <p><strong>Applications close date:</strong> {currentJob.application_close_date}</p>
-                </div>
+                <p><strong>Job Type:</strong> {currentJob.job_type}::
+                <strong>Hiring path: </strong> {currentJob.hiring_path}</p>
+            </div>
+
+            <div className='row'>
+                <p><strong>Job posting date:</strong> {currentJob.job_posting_date}::
+                <strong>Applications close date:</strong> {currentJob.application_close_date}</p>
             </div>
 
             <div className='row' >
-                <div className='column job-card-row'>
-                    <p><strong>Schedule:</strong></p>
-                </div>
-                <div className='column'>
-                    <p>{currentJob.schedule}</p>
-                </div>
+                    <p><strong>Schedule:</strong>::
+                    {currentJob.schedule}</p>
             </div>
 
-            <div className='row job-card-row'>
+            {/* <div className='row job-card-row'>
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
                 <p>{currentJob.employer_strongpoints}</p>
-            </div>
+            </div> */}
 
             <div className='row job-card-row'>
                 <strong>Description:</strong>
             </div>
+
             <div className='row'>
                 <p>{currentJob.description}</p> 
             </div>
         
-            <div className='row job-card-row'>
+            {/* <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
                 <p>{currentJob.requirement}</p>
-            </div>
+            </div> */}
+            
 
             <div className='row'>
             {loggedIn ? 
             <div className='row'>
-                {/* {userJobs.map(job => job.usaJobs_job_id).includes((currentJob.usaJobs_job_id)) && userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id).favorite_key ?  */}
                 {favoriteCheck ? 
-                    <div className='column job-card-row'>
-                        <button className='job-card-button'> <img src={favoriteIcon} alt='add to favorites'/>Job already in favorites</button>
-                    </div>
+                        <button className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job already in favorites</button>
                     :
-                    <div className='column job-card-row'>
-                        <button onClick={handleFavoriting} className='job-card-button'> <img src={favoriteIcon} alt='add to favorites'/> Add to favorites </button>
-                    </div>
+                        <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/> Add to favorites </button>
                 }
 
-                {/* {userJobs.map(job => job.usaJobs_job_id).includes((currentJob.usaJobs_job_id)) && userJobs.find(job => job.usaJobs_job_id === currentJob.usaJobs_job_id).applied_key ?  */}
                 {appliedCheck ? 
 
-                    <div className='column job-card-row'>
-                        <button className='job-card-button'> <img src={applyIcon} alt='add to favorites'/>Job already applied to</button>
-                    </div>  
+                        <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to</button>
                     :
-                    <div className='column job-card-row'>
-                        <button  onClick={handleUserApply}   className='job-card-button'> <img src={applyIcon} alt='apply'/> Apply</button> 
-                    </div>
+                        <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
                 }
 
                 {/**use a conditional to show notes and Todo only if from dashboard (and then either favorites or applied
@@ -149,7 +128,7 @@ const JobCard = (props) => {
 
                 {/* notes and todos should only show in jobs viewed from dashboard
                 <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='job-card-button'> Notes</button> 
+                    <button  onClick={handleClick}   className='page-buttons'> Notes</button> 
                         <select>
                             <option value="add">Add</option>
                             <option value="delete">Delete</option>
@@ -158,7 +137,7 @@ const JobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='job-card-button'> ToDo</button> 
+                    <button  onClick={handleClick}   className='page-buttons'> ToDo</button> 
                     <select>
                         <option value="add">Add</option>
                         <option value="delete">Delete</option>
@@ -166,33 +145,25 @@ const JobCard = (props) => {
                     </select>
                 </div> */}
 
-                <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='job-card-button'> <img src={shareIcon} alt='apply'/> Share</button> 
-                </div> 
+                    <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
             </div>
             :
-            <div className='row'>
-                <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='job-card-button'> <img src={applyIcon} alt='apply'/> Apply</button> 
-                </div>  
-                <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='job-card-button'> <img src={shareIcon} alt='apply'/> Share</button> 
-                </div> 
-            </div>
+            <>
+                <button  onClick={handleClick}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
+                <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+            </>
         }
     
             </div>
 
-            <div className='row'>
                 {loggedIn ?
                 <>
-                    <button onClick = {() => props.history.push('/my-dashboard')} className='button'>Back to Dashboard</button>
-                    <button onClick={props.history.push('/search-jobs-results')} className='button'>Back to search results</button>
+                    <button onClick = {() => props.history.push('/my-dashboard')} className='page-buttons'>Back to Dashboard</button>
+                    <button onClick={handleBackToSearchResultButton} className='page-buttons'>Back to search results</button>
                 </>
                 :
-                    <button onClick={() => props.history.push('/search-jobs-results')} className='button'>Back to search results</button>
+                    <button  className='page-buttons'>Back to search results</button>
                 }
-            </div>
         </div>
     )
 }
@@ -204,8 +175,8 @@ const mapStateToProps = (state) =>{
         userJobs: state.allUserInfo.userJobs,
         token: state.allUserInfo.token,
         currentJob: state.allJobInfo.currentJob,
-        appliedCheck: state.allJobInfo.appliedCheck,
-        favoriteCheck: state.allJobInfo.favoriteCheck
+        favoriteCheck: state.allJobInfo.favoriteCheck,
+        appliedCheck: state.allJobInfo.appliedCheck
     }
 }
 

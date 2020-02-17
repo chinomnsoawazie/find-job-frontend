@@ -48,7 +48,7 @@
 .nav-buttons:hover {
   zoom: 120%;
   opacity: 1;
-  transition: 0.3s;
+  /* transition: 0.3s; */
   background-color: #FFA333;
 }
 
@@ -119,7 +119,7 @@
     padding-right: 1vw;
   }
   .job-card-row {
-    margin-right: 20px;
+    margin-right: 2vw;
     text-align: left;
   }
 

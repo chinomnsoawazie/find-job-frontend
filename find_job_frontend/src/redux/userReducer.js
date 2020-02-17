@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT } from './actionTypes'
+import { SET_USER, LOGOUT, SET_USER_JOBS } from './actionTypes'
 
 const initialState = {
     user_id: '',
@@ -83,10 +83,18 @@ const userReducer = (state = initialState, action) => {
             token: ''
         }
 
+        case SET_USER_JOBS:
+        return{
+            ...state,
+            userJobs: action.payload
+        }
 
 
-            default:
-                return state
+
+
+
+        default:
+        return state
     }
 
 }
