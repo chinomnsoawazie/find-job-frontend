@@ -158,7 +158,7 @@ const JobCard = (props) => {
 
                 {loggedIn ?
                 <>
-                    <button onClick = {() => props.history.push('/my-dashboard')} className='page-buttons'>Back to Dashboard</button>
+                    <button onClick = {() => props.history.push('/dashboard')} className='page-buttons'>Go to Dashboard</button>
                     <button onClick={handleBackToSearchResultButton} className='page-buttons'>Back to search results</button>
                 </>
                 :

@@ -30,13 +30,13 @@ const NavBar = (props) => {
                 </div>
 
                 <div  className='column'>
-                    <button onClick={() => props.history.push('/search-for-jobs')} className="nav-buttons"><img src={searchJob} height='15' width='15'  alt="search"/>Search for jobs</button>
+                    <button onClick={() => props.history.push('/search-for-jobs')} className="nav-buttons"><img src={searchJob} height='15' width='15'  alt="search"/>Find Jobs</button>
                 </div>
 
                {loggedIn ?
                <>
                 <div className='column'>
-                    <button onClick={() => props.history.push('/my-dashboard')} className="nav-buttons">My Dashboard</button>
+                    <button onClick={() => props.history.push('/dashboard')} className="nav-buttons">Dashboard</button>
                 </div>
 
                 <div className='column'>
@@ -44,7 +44,7 @@ const NavBar = (props) => {
                 </div>
 
                 <div className='column'>
-                    <button onClick={() => props.history.push('/my-dashboard')} className="nav-buttons">View profile</button>
+                    <button onClick={() => props.history.push('/my-dashboard')} className="nav-buttons">Profile</button>
                 </div>
 
                 <div className='column'>

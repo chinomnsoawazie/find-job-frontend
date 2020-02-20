@@ -71,15 +71,10 @@
 .main-page{
   display: grid;
   grid-template-columns: 15vw 70vw;
-  /* top: 0; */
-  /* left: 0; */
-  /* width: 100%; */
-  /* height: 100%; */
 }
 
 .entry-page{
   padding-top: 2vh;
-  /* padding-left: 0vw; */
   text-align: center;
 }
 
@@ -107,7 +102,6 @@
   .main-container {
     display: grid;
     grid-template-columns: 38vw 38vw;
-    /* grid-template-rows: 100%; */
     grid-gap: 1vw;
     grid-column-gap: 1vw;
     grid-row-gap: 1vh;
@@ -125,4 +119,50 @@
 
   .location-select{
     width: 14vw;
+  }
+
+  .dashboard {
+    display: grid;
+    grid-template-columns: 38vw 38vw;
+    grid-gap: 1vw;
+    grid-column-gap: 1vw;
+    grid-row-gap: 1vh;
+    grid-auto-flow: row;
+    width: 100vw;
+    text-align: center;
+    padding-top: 5vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+
+  .dashboard-buttons {
+    background-color: #2465b9;
+    color: white;
+    vertical-align: middle;
+    min-height: 7vh;
+    min-width: 20vw;
+    margin-bottom: 1vh;
+    border-radius: 12px;
+    font-size: x-large;
+  }
+  
+  .dashboard-buttons:hover {
+    zoom: 120%;
+    opacity: 1;
+    transition: 0.3s;
+    background-color: #FFA333;
+  }
+
+  .columned-row {
+    display: flex;
+  }
+
+  .forms{
+    padding-top: 4vh;
+    text-align: left;
+  }
+
+  .note{
+    min-width: 30vw;
+    min-height: 10vh;
   }

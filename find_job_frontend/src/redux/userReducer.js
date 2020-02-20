@@ -30,6 +30,7 @@ const userReducer = (state = initialState, action) => {
         case SET_USER:
         let user = action.payload.user
         let token = action.payload.token
+        console.log(user.jobs)
         return{
             ...state,
             user_id: user.id,
@@ -88,10 +89,6 @@ const userReducer = (state = initialState, action) => {
             ...state,
             userJobs: action.payload
         }
-
-
-
-
 
         default:
         return state

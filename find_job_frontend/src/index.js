@@ -9,10 +9,14 @@ import thunk from 'redux-thunk'
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux'
 import jobsReducer from './redux/jobsReducer'
 import userReducer from './redux/userReducer'
+import notesReducer from './redux/notesReducer';
+import todoReducer from './redux/todoReducer';
 
 const rootReducer = combineReducers({
     allJobInfo: jobsReducer,
-    allUserInfo: userReducer
+    allUserInfo: userReducer,
+    allNoteInfo: notesReducer,
+    allToDoInfo: todoReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -13,7 +13,7 @@ const LoggedInOptions = (props) => {
                 </div> <br/>
 
                 <div className='row'>
-                    <button className='page-buttons' onClick={() => push('/my-dashboard')}>View dashboard</button>
+                    <button className='page-buttons' onClick={() => push('/dashboard')}>View dashboard</button>
                 </div><br/>
 
                 <div className='row '>

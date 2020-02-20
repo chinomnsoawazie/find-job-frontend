@@ -20,7 +20,6 @@ const SearchResultsJobCard = (props) => {
                 setAppliedCheck(props.dispatch)
             }
                 job.location = event.target.children[0].value
-                // console.log(job)
                 setCurrentJob(job, props)
         }
     }
