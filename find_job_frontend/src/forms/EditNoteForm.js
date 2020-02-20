@@ -7,7 +7,7 @@ export class EditNoteForm extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({text: event.target.value})
+        this.setState({newText: event.target.value})
     }
 
     handleSubmit = (event) => {
@@ -21,7 +21,6 @@ export class EditNoteForm extends Component {
 
         editNote(note, this.props)
     }
-
 
     render() {
         console.log(this.props.currentNote)

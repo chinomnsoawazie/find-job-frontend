@@ -1,16 +1,17 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {resetAppliedCheck, applyToExistingJob, removeJobFromFavorites, setViewNote, resetViewNote} from '../redux/actions'
+import {resetAppliedCheck, applyToExistingJob, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
 import NoteCard from './NoteCard'
+import ToDoCard from './ToDoCard'
 
 
 const UserJobCard = (props) => {
 
-    const {currentFavoriteJob, appliedCheck, notes, viewNote} = props
+    const {currentFavoriteJob, appliedCheck, notes, viewNote, toDos, viewToDo} = props
 
     const handleUserApply = () => {
         applyToExistingJob(currentFavoriteJob, props)
@@ -27,11 +28,14 @@ const UserJobCard = (props) => {
     }
 
     const handleView = (event) => {
-        console.log(event.target.value)
         if(event.target.value === 'view-notes'){
             setViewNote(props.dispatch)
         }else if(event.target.value === 'hide-notes'){
             resetViewNote(props.dispatch)
+        }else if(event.target.value === 'view-todos'){
+            setViewToDo(props.dispatch)
+        }else if(event.target.value === 'hide-todos'){
+            resetViewToDo(props.dispatch)
         }
     }
 
@@ -42,7 +46,7 @@ const UserJobCard = (props) => {
 
     const jobNotes = notes.filter(note => note.job_id === currentFavoriteJob.id)
 
-    console.log(jobNotes)
+    const jobToDos = toDos.filter(todo => todo.job_id === currentFavoriteJob.id)
 
     return (
         <div className='job-card-div'>
@@ -149,12 +153,11 @@ const UserJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row'>
-                    <button className='page-buttons'> Add ToDo</button>
-                    {/*change below to viewTodo */}
-                    { viewNote ?
-                        <button className='page-buttons'> Hide ToDos</button>
+                    <button onClick={() => props.history.push('/create-todo')}className='page-buttons'> Add ToDo</button>
+                    { viewToDo ?
+                        <button onClick={handleView} className='page-buttons' value='hide-todos'> Hide ToDos</button>
                         :
-                        <button className='page-buttons'> View ToDos</button>
+                        <button onClick={handleView} className='page-buttons' value='view-todos'> View ToDos</button>
                     }
                 </div>
 
@@ -172,21 +175,17 @@ const UserJobCard = (props) => {
             null
             }
 
-            <div className='rows'>
-                        {/* <option value="delete">Delete</option>
-                        <option value="update">Update</option> */}
-
+            { viewToDo ?
+            <div className='row columned-row'>
+                { jobToDos.length <= 0 ? 
+                'This job has no ToDos yet. Add ToDos to it'
+                :
+                jobToDos.map(todo => <ToDoCard key={todo.id} todo={todo} user_id={props.user_id} token={props.token} dispatch={props.dispatch} push={props.history.push}/>)
+                }
             </div>
-
-            <div className='rows'>
-                move delete and update to individual todos here
-                        {/* <option value="delete">Delete</option>
-                        <option value="update">Update</option> */}
-                        {/* <option value="delete">Delete</option>
-                        <option value="update">Update</option> */}
-                map through notes here and pass it to NotesCard component
-
-            </div>
+            :
+            null
+            }
 
              <div className='row'>
                 <button onClick = {() => props.history.push('/favorite-jobs')} className='page-buttons'>Back to Favorite jobs</button>
@@ -204,8 +203,8 @@ const mapStateToProps = (state) =>{
         appliedCheck: state.allJobInfo.appliedCheck,
         notes: state.allNoteInfo.notes,
         viewNote: state.allNoteInfo.viewNote,
-        viewToDo: state.all
-    
+        toDos: state.allToDoInfo.toDos,
+        viewToDo: state.allToDoInfo.viewToDo
     }
 }
 

@@ -13,6 +13,8 @@ import FavoriteJobs from './FavoriteJobs'
 import UserJobCard from '../cards/UserJobCard'
 import { CreateNote } from '../forms/CreateNote'
 import EditNoteForm from '../forms/EditNoteForm'
+import CreateToDo from '../forms/CreateToDo'
+import EditToDoForm from '../forms/EditToDo'
 
 const MainContainer = (props) => {
     return (
@@ -36,6 +38,10 @@ const MainContainer = (props) => {
             <Route exact path='/create-note' render = { () => <CreateNote user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentFavoriteJobID={props.currentFavoriteJob.id}/>} />
             <Route exact path='/edit-note' render = { () => <EditNoteForm user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentNote={props.currentNote}/>} />
 
+            {/*TODO STUFF */}
+            <Route exact path='/create-todo' render = { () => <CreateToDo user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentFavoriteJobID={props.currentFavoriteJob.id}/>} />
+            <Route exact path='/edit-todo' render = { () => <EditToDoForm user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentToDo={props.currentToDo}/>} />
+
 
         </Switch>
         </>
@@ -48,7 +54,8 @@ const mapStateToProps = (state) => {
         myEmail: state.allJobInfo.myEmail,
         USAJobsAPIKey: state.allJobInfo.USAJobsAPIKey,
         currentFavoriteJob: state.allJobInfo.currentFavoriteJob,
-        currentNote: state.allNoteInfo.currentNote
+        currentNote: state.allNoteInfo.currentNote,
+        currentToDo: state.allToDoInfo.currentToDo
     }
 }
 

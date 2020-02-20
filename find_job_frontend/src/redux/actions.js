@@ -1,12 +1,13 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS } from './actionTypes'
 import axios from 'axios'
 
 //USER STUFF
 export const login = (user, push, dispatch) =>{
     axios.post('http://localhost:3000/login', user)
         .then(r => {
-            // console.log(r.data.user.notes)
+            console.log(r.data.user)
             dispatch({type: SET_NOTES, payload: r.data.user.notes})
+            dispatch({type: SET_TODOS, payload: r.data.user.tasks})
             dispatch({type: SET_USER, payload: r.data})
             push('/logged-in-options')
         })
@@ -248,3 +249,76 @@ export const editNote = (note, props) => {
         console.log('Error', error)
     })
 }
+
+//TODO STUFF
+export const setViewToDo = (dispatch) => {
+    dispatch({type: SET_VIEW_TODO})
+}
+
+export const resetViewToDo = (dispatch) => {
+    dispatch({type: RESET_VIEW_TODO})
+}
+
+export const setNewToDoJobID = (jobID, dispatch) => {
+    dispatch({type: SET_NEW_TODO_JOB_ID, payload: jobID})
+}
+
+export const setCurrentToDo = (todo, props) =>{
+    props.dispatch({type: SET_CURRENT_TODO, payload: todo})
+}
+
+export const createToDo = (todo, props) => {
+    console.log(todo, props)
+    axios.post('http://localhost:3000/tasks', todo)
+    .then(returnedToDos => {
+        props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
+        alert('ToDo successfully created.')
+        props.push('/individual-favorite-job')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })    
+}
+
+export const deleteToDo = (todo, props) => {
+    console.log(props)
+    let config = { data:{
+        user_id: props.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/tasks/${todo.id}`, config)
+    .then(returnedToDos => {
+        console.log(returnedToDos.data)
+        props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
+        alert('ToDo successfully deleted.')
+        props.push('/individual-favorite-job')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const editToDo = (todo, props) => {
+    console.log(todo, props)
+    
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    let bodyParameters = {
+        user_id: todo.user_id,
+        description: todo.description,
+        job_id: todo.job_id,
+        due_date: todo.due_date,
+        done_status: todo.done_status
+    }
+    axios.patch(`http://localhost:3000/tasks/${todo.id}`, bodyParameters, config)
+    .then(returnedToDos => {
+        props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
+        alert('ToDo successfully updated.')
+        props.push('/individual-favorite-job')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+

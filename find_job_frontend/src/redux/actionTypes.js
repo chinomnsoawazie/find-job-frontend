@@ -29,3 +29,5 @@ export const SET_TODOS = 'SET_TODOS'
 export const SET_VIEW_TODO = 'SET_VIEW_TODO'
 export const RESET_VIEW_TODO = 'RESET_VIEW_TODO'
 export const SET_NEW_TODO_JOB_ID = 'SET_NEW_TODO_JOB_ID'
+export const SET_CURRENT_TODO = 'SET_CURRENT_TODO'
+

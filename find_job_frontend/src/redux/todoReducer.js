@@ -1,5 +1,5 @@
 
-import { LOGOUT, SET_TODOS, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID } from './actionTypes'
+import { LOGOUT, SET_TODOS, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO } from './actionTypes'
 
 const initialState = {
    toDos: '',
@@ -38,9 +38,15 @@ const todoReducer = (state = initialState, action) => {
         }
 
         case SET_NEW_TODO_JOB_ID:
-            return{
-                newToDoJobID: action.payload
-            }
+        return{
+            newToDoJobID: action.payload
+        }
+
+        case SET_CURRENT_TODO:
+        return {
+            ...state,
+            currentToDo: action.payload
+        }
 
 
         default:
