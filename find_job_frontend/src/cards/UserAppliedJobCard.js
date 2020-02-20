@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {applyToExistingJob, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo} from '../redux/actions'
+import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -9,17 +9,20 @@ import NoteCard from './NoteCard'
 import ToDoCard from './ToDoCard'
 
 
-const UserJobCard = (props) => {
+const UserAppliedJobCard = (props) => {
 
-    const {currentFavoriteJob, appliedCheck, notes, viewNote, toDos, viewToDo} = props
+    const {currentAppliedJob, favoriteCheck, notes, viewNote, toDos, viewToDo} = props
 
-    const handleUserApply = () => {
-        applyToExistingJob(currentFavoriteJob, props)
-    }
+    //need to handle both handleUnFavoriting and handleFavoriting because job could come in favorited or not
 
     const handleUnfavoriting = () => {
-        removeJobFromFavorites(currentFavoriteJob, props)
+        removeJobFromFavorites(currentAppliedJob, props)
     }
+
+    const handleFavoriting = () => {
+        addExistingJobToFavorites(currentAppliedJob, props)
+    }
+
 
     const handleView = (event) => {
         if(event.target.value === 'view-notes'){
@@ -33,10 +36,10 @@ const UserJobCard = (props) => {
         }
     }
 
-    const handleBackToFavoriteJobs = (event) => {
+    const handleBackToAppliedJobs = (event) => {
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
-        props.history.push('/favorite-jobs')
+        props.history.push('/applied-jobs')
     }
 
     const handleBackToDashboard = (event) => {
@@ -50,66 +53,66 @@ const UserJobCard = (props) => {
         console.log('clicked')
     }
 
-    const jobNotes = notes.filter(note => note.job_id === currentFavoriteJob.id)
+    const jobNotes = notes.filter(note => note.job_id === currentAppliedJob.id)
 
-    const jobToDos = toDos.filter(todo => todo.job_id === currentFavoriteJob.id)
+    const jobToDos = toDos.filter(todo => todo.job_id === currentAppliedJob.id)
 
     return (
         <div className='job-card-div'>
             <div className='row'>
-                 <h4><strong>Job Title: </strong>{currentFavoriteJob.job_title}</h4>
+                 <h4><strong>Job Title: </strong>{currentAppliedJob.job_title}</h4>
             </div>
 
             <div className='row columned-row' >
                 <div className='column job-card-row' >
-                    <p><strong>Organization:</strong> {currentFavoriteJob.organization_name}</p> 
+                    <p><strong>Organization:</strong> {currentAppliedJob.organization_name}</p> 
                 </div>
                 <div className='column job-card-row'>
-                    <p><strong>Location: </strong>{currentFavoriteJob.location}</p>
+                    <p><strong>Location: </strong>{currentAppliedJob.location}</p>
                 </div>
             </div>
 
             <div className='row columned-row' >
                 <div className='column job-card-row' >
-                    <strong>Min. pay:</strong> ${currentFavoriteJob.minimum_pay}
+                    <strong>Min. pay:</strong> ${currentAppliedJob.minimum_pay}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Max. pay:</strong> ${currentFavoriteJob.maximum_pay}
+                    <strong>Max. pay:</strong> ${currentAppliedJob.maximum_pay}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Pay period:</strong> ${currentFavoriteJob.pay_period}
+                    <strong>Pay period:</strong> ${currentAppliedJob.pay_period}
                 </div>
             </div><br/>
 
             <div className='row columned-row'>
                 <div className='column job-card-row' >
-                    <strong>Job Type:</strong> {currentFavoriteJob.job_type}
+                    <strong>Job Type:</strong> {currentAppliedJob.job_type}
                 </div>
                 <div className='column job-card-row' >
-                    <strong>Hiring path: </strong> {currentFavoriteJob.hiring_path}
+                    <strong>Hiring path: </strong> {currentAppliedJob.hiring_path}
                 </div>
             </div><br/>
 
             <div className='row columned-row'>
                 <div className='column job-card-row' >
-                    <strong>Job posting date:</strong> {currentFavoriteJob.job_posting_date}
+                    <strong>Job posting date:</strong> {currentAppliedJob.job_posting_date}
                 </div>
                 <div className='column job-card-row' >
-                    <strong>Applications close date:</strong> {currentFavoriteJob.application_close_date}
+                    <strong>Applications close date:</strong> {currentAppliedJob.application_close_date}
                 </div>
             </div>
 
             <div className='row' >
-                <p><strong>Schedule:</strong> {currentFavoriteJob.schedule}</p>
+                <p><strong>Schedule:</strong> {currentAppliedJob.schedule}</p>
             </div>
 
             {/* <div className='row job-card-row'>
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
-                <p>{currentFavoriteJob.employer_strongpoints}</p>
+                <p>{currentAppliedJob.employer_strongpoints}</p>
             </div> */}
 
             <div className='row job-card-row'>
@@ -117,28 +120,30 @@ const UserJobCard = (props) => {
             </div>
 
             <div className='row'>
-                <p>{currentFavoriteJob.description}</p> 
+                <p>{currentAppliedJob.description}</p> 
             </div>
         
             {/* <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
-                <p>{currentFavoriteJob.requirement}</p>
+                <p>{currentAppliedJob.requirement}</p>
             </div> */}
             
 
             <div className='row columned-row'>
                 <div className='column job-card-row' >
-                    <button onClick={handleUnfavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Remove from favorites</button>
+
+                {favoriteCheck ? 
+                        <button onClick={handleUnfavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job in favorite jobs. Remove from favorites?</button>
+                    :
+                        <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/>Add to favorites </button>
+                }
+
                 </div>
 
                 <div className='column job-card-row' >
-                {appliedCheck ? 
                     <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to</button>
-                    :
-                    <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
-                }
                 </div>
 
                 <div className='column job-card-row' >
@@ -194,7 +199,7 @@ const UserJobCard = (props) => {
             }
 
              <div className='row'>
-                <button onClick = {handleBackToFavoriteJobs} className='page-buttons'>Back to Favorite jobs</button>
+                <button onClick = {handleBackToAppliedJobs} className='page-buttons'>Back to Applied jobs</button>
                 <button onClick={handleBackToDashboard} className='page-buttons'>Back to dashboard</button>
             </div>
         </div>
@@ -205,8 +210,8 @@ const mapStateToProps = (state) =>{
     return {
         token: state.allUserInfo.token,
         user_id: state.allUserInfo.user_id,
-        currentFavoriteJob: state.allJobInfo.currentFavoriteJob,
-        appliedCheck: state.allJobInfo.appliedCheck,
+        currentAppliedJob: state.allJobInfo.currentAppliedJob,
+        favoriteCheck: state.allJobInfo.favoriteCheck,
         notes: state.allNoteInfo.notes,
         viewNote: state.allNoteInfo.viewNote,
         toDos: state.allToDoInfo.toDos,
@@ -214,4 +219,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(withRouter(UserJobCard))
+export default connect(mapStateToProps)(withRouter(UserAppliedJobCard))

@@ -7,7 +7,7 @@ export class EditNoteForm extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({newText: event.target.value})
+        this.setState({[event.target.name]: event.target.value})
     }
 
     handleSubmit = (event) => {
@@ -18,19 +18,18 @@ export class EditNoteForm extends Component {
             job_id: this.props.currentNote.job_id,
             text: this.state.text
         }
-
         editNote(note, this.props)
     }
 
     render() {
-        console.log(this.props.currentNote)
         return (
             <div className='forms'>
                  <form onSubmit={this.handleSubmit}>
                         <h2><strong>Edit note</strong></h2>
-                        <textarea className='note' defaultValue={this.props.currentNote.text} value={this.state.text} onChange={this.handleChange} /><br/>
+                        <textarea className='note' name='newText' defaultValue={this.props.currentNote.text}  onChange={this.handleChange} /><br/>
                     <input className='page-buttons' type="submit" value="Edit note" />
                 </form>
+                <button onClick = {() => this.props.push('/favorite-jobs')} className='page-buttons'>Back to favorite jobs</button>
             </div>
         )
     }

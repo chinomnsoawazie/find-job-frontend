@@ -15,6 +15,8 @@ import { CreateNote } from '../forms/CreateNote'
 import EditNoteForm from '../forms/EditNoteForm'
 import CreateToDo from '../forms/CreateToDo'
 import EditToDoForm from '../forms/EditToDo'
+import AppliedJobs from './AppliedJobs'
+import UserAppliedJobCard from '../cards/UserAppliedJobCard'
 
 const MainContainer = (props) => {
     return (
@@ -32,7 +34,9 @@ const MainContainer = (props) => {
             <Route exact path='/individual-job' render = { () => <JobCard  />} />
             <Route exact path='/jobs-search-results' render = { () => <JobsSearchResults push={props.history.push}  />} />
             <Route exact path='/favorite-jobs' render = {() => <FavoriteJobs />} />
-            <Route exact path='/individual-favorite-job' render = { () => <UserJobCard />} />
+            <Route exact path='/applied-jobs' render = { () => <AppliedJobs />} />
+            <Route exact path='/individual-favorite-job' render = { () => <UserJobCard fromFavoriteJobs={true} />} />
+            <Route exact path='/individual-applied-job' render = { () => <UserAppliedJobCard  fromAppliedJobs={true} />} />
 
             {/*NOTES STUFF */}
             <Route exact path='/create-note' render = { () => <CreateNote user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentFavoriteJobID={props.currentFavoriteJob.id}/>} />

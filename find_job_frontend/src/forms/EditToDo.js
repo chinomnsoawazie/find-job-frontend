@@ -9,15 +9,7 @@ export class EditToDoForm extends Component {
     }
 
     handleChange = (event) => {
-        // event.preventDefault()
-        console.log(event.target.value)
         this.setState({[event.target.name]: event.target.value})
-    }
-
-    handleDescriptionChange =(event) => {
-        this.setState({newDescription: event.target.value})
-
-
     }
 
     handleSubmit = (event) => {
@@ -47,9 +39,6 @@ export class EditToDoForm extends Component {
 
     render() {
         const todaysDate = new Date().toJSON().slice(0,10).replace(/-/g,'-');
-        console.log(this.state.newDoneStatus)
-        console.log(this.props.currentToDo)
-        console.log(this.state.newDescription)
         return (
             <div className='forms'>
                  <form onSubmit={this.handleSubmit}>
@@ -79,10 +68,10 @@ export class EditToDoForm extends Component {
                             <option  value='true'>Yes</option>
                             <option value='false'>No</option>
                         </select>  
-                </div>
-
+                    </div>
                     <input className='page-buttons' type="submit" value="Edit ToDo" />
                 </form>
+                <button onClick = {() => this.props.push('/individual-favorite-job')} className='page-buttons'>Back to job</button>
             </div>
         )
     }

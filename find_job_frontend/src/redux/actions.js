@@ -1,4 +1,4 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB } from './actionTypes'
 import axios from 'axios'
 
 //USER STUFF
@@ -69,6 +69,11 @@ export const setCurrentFavoriteJob = (job, props) =>{
     props.history.push('/individual-favorite-job')
 }
 
+export const setCurrentAppliedJob = (job, props) =>{
+    props.dispatch({type: SET_CURRENT_APPLIED_JOB, payload: job})
+    props.history.push('/individual-applied-job')
+}
+
 export const setFavoriteCheck = (dispatch) =>{
     console.log('here')
     dispatch({type: SET_FAVORITE_CHECK})
@@ -112,7 +117,7 @@ export const addExistingJobToFavorites = (job, props) => {
         props.dispatch({type: SET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been added to your favorites`)
-        props.history.push('/individual-job')
+        {props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')}
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -135,14 +140,12 @@ export const removeJobFromFavorites = (job, props) => {
         props.dispatch({type: RESET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been removed from your favorites and you'll be taken back to favorite jobs`)
-        props.history.push('/favorite-jobs')
+        {props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')}
     })
     .catch((error) =>{
         console.log('Error', error)
     })
 }
-
-
 
 export const applyToNewJob = (job, props) => {
     axios.post('http://localhost:3000/jobs', job)
@@ -159,6 +162,7 @@ export const applyToNewJob = (job, props) => {
 }
 
 export const applyToExistingJob = (job, props) => {
+    console.log(props)
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -172,7 +176,7 @@ export const applyToExistingJob = (job, props) => {
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`You have started applying to ${returnedJobs.data.job.job_title}. Please continue the application on the employer website that will open in new tab`)
         window.open(job.url)
-        props.history.push('/individual-job')
+        {props.fromFavoriteJobs ?  props.history.push('/individual-favorite-job') : props.history.push('/individual-job')}
     })
     .catch((error) =>{
         console.log('Error', error)

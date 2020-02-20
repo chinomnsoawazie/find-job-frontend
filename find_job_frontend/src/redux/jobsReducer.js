@@ -1,4 +1,4 @@
-import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB } from './actionTypes'
+import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB } from './actionTypes'
 
 const initialState = {
     USAJobsAPIKey: '',
@@ -8,7 +8,8 @@ const initialState = {
     currentJob: '',
     favoriteCheck: '',
     appliedCheck: '',
-    currentFavoriteJob: ''
+    currentFavoriteJob: '',
+    currentAppliedJob: ''
 }
 
 const jobsReducer = (state = initialState, action) => {
@@ -79,9 +80,15 @@ const jobsReducer = (state = initialState, action) => {
         }
 
         case SET_CURRENT_FAVORITE_JOB:
+        return{
+            ...state,
+            currentFavoriteJob: action.payload
+        }
+
+        case SET_CURRENT_APPLIED_JOB:
             return{
                 ...state,
-                currentFavoriteJob: action.payload
+                currentAppliedJob: action.payload
             }
 
         case SET_FAVORITE_CHECK:
