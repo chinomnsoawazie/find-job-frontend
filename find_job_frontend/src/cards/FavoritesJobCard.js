@@ -24,6 +24,7 @@ const FavoritesJobCard = (props) => {
             <div  className='row job-card-row'><strong>Location: </strong> {job.location} </div>
             <div className='row job-card-row'>
                 <button onClick={viewJob} className='page-buttons'>View Job</button>
+                <button onClick={() => props.history.push('/dashboard')} className='page-buttons'>Back to dashboard</button>
             </div> 
         </div>
     )

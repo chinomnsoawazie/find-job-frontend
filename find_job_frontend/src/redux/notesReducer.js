@@ -38,19 +38,19 @@ const notesReducer = (state = initialState, action) => {
 
         case SET_NEW_NOTE_JOB_ID:
         return{
+            ...state,
             newNoteJobID: action.payload
         }
 
         case SET_CURRENT_NOTE:
         return {
+            ...state,
             currentNote: action.payload
         }
-
 
         default:
         return state
     }
-
 }
 
 export default notesReducer

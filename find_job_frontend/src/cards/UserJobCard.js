@@ -8,9 +8,7 @@ import shareIcon from '../pictures/shareIcon.png'
 import NoteCard from './NoteCard'
 import ToDoCard from './ToDoCard'
 
-
 const UserJobCard = (props) => {
-
     const {currentFavoriteJob, appliedCheck, notes, viewNote, toDos, viewToDo} = props
 
     const handleUserApply = () => {
@@ -45,7 +43,7 @@ const UserJobCard = (props) => {
         props.history.push('/dashboard')
     }
 
-    const handleClick = () => {
+    const handleShare = () => {
 
         console.log('clicked')
     }
@@ -105,12 +103,12 @@ const UserJobCard = (props) => {
                 <p><strong>Schedule:</strong> {currentFavoriteJob.schedule}</p>
             </div>
 
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
                 <p>{currentFavoriteJob.employer_strongpoints}</p>
-            </div> */}
+            </div>
 
             <div className='row job-card-row'>
                 <strong>Description:</strong>
@@ -120,12 +118,12 @@ const UserJobCard = (props) => {
                 <p>{currentFavoriteJob.description}</p> 
             </div>
         
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
                 <p>{currentFavoriteJob.requirement}</p>
-            </div> */}
+            </div>
             
 
             <div className='row columned-row'>
@@ -142,10 +140,9 @@ const UserJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row' >
-                    <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button>
+                    <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button>
                 </div>
             </div>
-
 
             <div className='row columned-row'>
                 <div className='column job-card-row'>
@@ -166,7 +163,6 @@ const UserJobCard = (props) => {
                         <button onClick={handleView} className='page-buttons' value='view-todos'> View ToDos</button>
                     }
                 </div>
-
             </div>
 
             { viewNote ?

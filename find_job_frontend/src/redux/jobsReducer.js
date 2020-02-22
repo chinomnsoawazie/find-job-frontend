@@ -15,7 +15,6 @@ const initialState = {
 const jobsReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_API_KEYS:
-        // console.log(action.payload)
         return{
             ...state,
             USAJobsAPIKey: action.payload.USAJobsAPIKey,
@@ -33,7 +32,8 @@ const jobsReducer = (state = initialState, action) => {
             currentJob: '',
             favoriteCheck: '',
             appliedCheck: '',
-            currentFavoriteJob: ''
+            currentFavoriteJob: '',
+            currentAppliedJob: ''
         }
 
         case SET_JOBS_RETURNED_FROM_SEARCH:
@@ -115,12 +115,9 @@ const jobsReducer = (state = initialState, action) => {
             appliedCheck: false
         }
 
-
-
         default:
         return state
     }
-
 }
 
 export default jobsReducer

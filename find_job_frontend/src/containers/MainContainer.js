@@ -17,6 +17,10 @@ import CreateToDo from '../forms/CreateToDo'
 import EditToDoForm from '../forms/EditToDo'
 import AppliedJobs from './AppliedJobs'
 import UserAppliedJobCard from '../cards/UserAppliedJobCard'
+import AllPreferences from './AllPreferences'
+import PreferenceCard from '../cards/PreferenceCard'
+import { EditPreference } from '../forms/EditPreference'
+import CreatePreference from '../forms/CreatePreference'
 
 const MainContainer = (props) => {
     return (
@@ -46,6 +50,12 @@ const MainContainer = (props) => {
             <Route exact path='/create-todo' render = { () => <CreateToDo user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentFavoriteJobID={props.currentFavoriteJob.id}/>} />
             <Route exact path='/edit-todo' render = { () => <EditToDoForm user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentToDo={props.currentToDo}/>} />
 
+            {/*PREFERENCES STUFF */}
+            <Route exact path='/all-preferences' render = { () => <AllPreferences push={props.history.push}/>} />
+            <Route exact path='/individual-preference' render = { () => <PreferenceCard  push={props.history.push} dispatch={props.dispatch} currentPreference={props.currentPreference}/>} />
+            <Route exact path='/edit-preference' render = { () => <EditPreference push={props.history.push}  currentPreference={props.currentPreference} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
+            <Route exact path='/create-preference' render = { () => <CreatePreference user_id={props.user_id}  push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
+
 
         </Switch>
         </>
@@ -59,7 +69,14 @@ const mapStateToProps = (state) => {
         USAJobsAPIKey: state.allJobInfo.USAJobsAPIKey,
         currentFavoriteJob: state.allJobInfo.currentFavoriteJob,
         currentNote: state.allNoteInfo.currentNote,
-        currentToDo: state.allToDoInfo.currentToDo
+        currentToDo: state.allToDoInfo.currentToDo,
+        currentPreference: state.allPreferenceInfo.currentPreference,
+        currentCountryID: state.allPreferenceInfo.currentCountryID,
+        currentStateID: state.allPreferenceInfo.currentStateID,
+        currentCityID: state.allPreferenceInfo.currentCityID
+
+
+
     }
 }
 

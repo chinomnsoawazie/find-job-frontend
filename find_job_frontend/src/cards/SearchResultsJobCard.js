@@ -49,15 +49,7 @@ const SearchResultsJobCard = (props) => {
                 <input type="submit" className='page-buttons' value="View job" />
             </form>
 
-
-
-                {/* <button onClick={this.viewJob} className='side-bar-button'>View Job</button>
-            <select value={this.state.location} onChange={this.handleChange} className='location-select'>
-                <option defaultValue=''>Select a location</option>
-                {locations.map(location => <option key={uuid()} value={location.name}>{location.name}</option>)}
-            </select>
-                 */}
-                </div> 
+    </div> 
         </div>
     )
 }

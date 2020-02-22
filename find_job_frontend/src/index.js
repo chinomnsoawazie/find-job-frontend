@@ -11,12 +11,14 @@ import jobsReducer from './redux/jobsReducer'
 import userReducer from './redux/userReducer'
 import notesReducer from './redux/notesReducer';
 import todoReducer from './redux/todoReducer';
+import preferencesReducer from './redux/preferencesReducer';
 
 const rootReducer = combineReducers({
     allJobInfo: jobsReducer,
     allUserInfo: userReducer,
     allNoteInfo: notesReducer,
-    allToDoInfo: todoReducer
+    allToDoInfo: todoReducer,
+    allPreferenceInfo: preferencesReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

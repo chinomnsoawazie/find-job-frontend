@@ -6,7 +6,6 @@ import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
 
-
 const JobCard = (props) => {
 
     const {userJobs, currentJob, loggedIn, user_id, favoriteCheck, appliedCheck} = props
@@ -43,8 +42,11 @@ const JobCard = (props) => {
         props.history.push('/jobs-search-results')
     }
 
-    const handleClick = () => {
+    const handleShare = () => {
+        console.log('clicked')
+    }
 
+    const handleNonUserApply = () => {
         console.log('clicked')
     }
 
@@ -84,12 +86,12 @@ const JobCard = (props) => {
                     {currentJob.schedule}</p>
             </div>
 
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
                 <p>{currentJob.employer_strongpoints}</p>
-            </div> */}
+            </div>
 
             <div className='row job-card-row'>
                 <strong>Description:</strong>
@@ -99,71 +101,46 @@ const JobCard = (props) => {
                 <p>{currentJob.description}</p> 
             </div>
         
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
                 <p>{currentJob.requirement}</p>
-            </div> */}
+            </div>
             
 
             <div className='row'>
-            {loggedIn ? 
-            <div className='row'>
-                {favoriteCheck ? 
-                        <button className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job already in favorites</button>
+                {loggedIn ? 
+                    <div className='row'>
+                        {favoriteCheck ? 
+                            <button className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job already in favorites</button>
+                            :
+                            <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/> Add to favorites </button>
+                        }
+
+                        {appliedCheck ? 
+                            <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to. View in Dashboard</button>
+                            :
+                            <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
+                        }
+                        <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+                    </div>
                     :
-                        <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/> Add to favorites </button>
+                    <>
+                        <button  onClick={handleNonUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
+                        <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+                    </>
                 }
-
-                {appliedCheck ? 
-
-                        <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to</button>
-                    :
-                        <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
-                }
-
-                {/**use a conditional to show notes and Todo only if from dashboard (and then either favorites or applied
-                 * ) do the switching of the 'from dashboard' while handling 'view job' from either favorites or applied jobs*/}
-
-                {/* notes and todos should only show in jobs viewed from dashboard
-                <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='page-buttons'> Notes</button> 
-                        <select>
-                            <option value="add">Add</option>
-                            <option value="delete">Delete</option>
-                            <option value="update">Update</option>
-                        </select>
-                </div>
-
-                <div className='column job-card-row'>
-                    <button  onClick={handleClick}   className='page-buttons'> ToDo</button> 
-                    <select>
-                        <option value="add">Add</option>
-                        <option value="delete">Delete</option>
-                        <option value="update">Update</option>
-                    </select>
-                </div> */}
-
-                    <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
-            </div>
-            :
-            <>
-                <button  onClick={handleClick}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
-                <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
-            </>
-        }
-    
             </div>
 
-                {loggedIn ?
+            {loggedIn ?
                 <>
                     <button onClick = {() => props.history.push('/dashboard')} className='page-buttons'>Go to Dashboard</button>
                     <button onClick={handleBackToSearchResultButton} className='page-buttons'>Back to search results</button>
                 </>
                 :
-                    <button  className='page-buttons'>Back to search results</button>
-                }
+                <button  className='page-buttons'>Back to search results</button>
+            }
         </div>
     )
 }
@@ -181,4 +158,3 @@ const mapStateToProps = (state) =>{
 }
 
 export default connect(mapStateToProps)(withRouter(JobCard))
-

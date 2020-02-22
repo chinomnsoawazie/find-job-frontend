@@ -24,7 +24,7 @@ class App extends Component {
         <div className='row main-page'>
           <div className='column'>
               {this.props.loggedIn ?
-              <PageLeftSideBar />
+              <PageLeftSideBar preferences={this.props.preferences} dispatch={this.props.dispatch}/>
               :
               null
               }
@@ -39,10 +39,10 @@ class App extends Component {
   }
 }
 
-
 const mapStateToProps = (state) =>{
   return {
-    loggedIn: state.allUserInfo.loggedIn
+    loggedIn: state.allUserInfo.loggedIn,
+    preferences: state.allPreferenceInfo.preferences
   }
 }
 

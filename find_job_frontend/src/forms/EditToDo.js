@@ -14,27 +14,15 @@ export class EditToDoForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        if(this.state.newDueDate){
             let task = {
                 id: this.props.currentToDo.id,
                 job_id: this.props.currentToDo.job_id,
                 user_id: this.props.user_id,
                 description: this.state.newDescription,
-                due_date: this.state.newDueDate,
+                due_date: this.state.newDueDate || this.props.currentToDo.due_date,
                 done_status: this.state.newDoneStatus
             }
             editToDo(task, this.props)
-        }else{
-            let task = {
-                id: this.props.currentToDo.id,
-                job_id: this.props.currentToDo.job_id,
-                user_id: this.props.user_id,
-                description: this.state.newDescription,
-                due_date: this.props.currentToDo.due_date,
-                done_status: this.state.newDoneStatus
-            }
-            editToDo(task, this.props)
-        }
     }
 
     render() {
@@ -63,7 +51,7 @@ export class EditToDoForm extends Component {
                         <label>
                             <strong>Done status:</strong>
                         </label>
-                        <select name='newDoneStatus' onChange={this.handleChange}className='location-select'>
+                        <select name='newDoneStatus' onChange={this.handleChange} className='location-select'>
                             <option defaultValue='select'>Select</option>
                             <option  value='true'>Yes</option>
                             <option value='false'>No</option>

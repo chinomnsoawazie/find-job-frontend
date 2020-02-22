@@ -1,4 +1,4 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS } from './actionTypes'
 import axios from 'axios'
 
 //USER STUFF
@@ -8,6 +8,7 @@ export const login = (user, push, dispatch) =>{
             console.log(r.data.user)
             dispatch({type: SET_NOTES, payload: r.data.user.notes})
             dispatch({type: SET_TODOS, payload: r.data.user.tasks})
+            dispatch({type: SET_PREFERENCES, payload: r.data.user.preferences})
             dispatch({type: SET_USER, payload: r.data})
             push('/logged-in-options')
         })
@@ -34,7 +35,6 @@ export const setAPIKeys = (dispatch) =>{
 }
 
 export const searchJobsByTP = (title, minimumPay, location, props) =>{
-    // console.log(props)
     let host = 'data.usajobs.gov'
     let userAgent = props.myEmail
     let authKey = props.USAJobsAPIKey
@@ -49,7 +49,6 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
     })
     .then(response => response.json())
     .then(json => {
-        // console.log(json)
         props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
         props.push('/jobs-search-results')
     })
@@ -75,7 +74,6 @@ export const setCurrentAppliedJob = (job, props) =>{
 }
 
 export const setFavoriteCheck = (dispatch) =>{
-    console.log('here')
     dispatch({type: SET_FAVORITE_CHECK})
 }
 
@@ -117,7 +115,7 @@ export const addExistingJobToFavorites = (job, props) => {
         props.dispatch({type: SET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been added to your favorites`)
-        {props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')}
+        props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -125,9 +123,6 @@ export const addExistingJobToFavorites = (job, props) => {
 }
 
 export const removeJobFromFavorites = (job, props) => {
-    console.log(props)
-
-    console.log(props)
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -140,7 +135,7 @@ export const removeJobFromFavorites = (job, props) => {
         props.dispatch({type: RESET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been removed from your favorites and you'll be taken back to favorite jobs`)
-        {props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')}
+        props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -162,7 +157,6 @@ export const applyToNewJob = (job, props) => {
 }
 
 export const applyToExistingJob = (job, props) => {
-    console.log(props)
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -176,7 +170,7 @@ export const applyToExistingJob = (job, props) => {
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`You have started applying to ${returnedJobs.data.job.job_title}. Please continue the application on the employer website that will open in new tab`)
         window.open(job.url)
-        {props.fromFavoriteJobs ?  props.history.push('/individual-favorite-job') : props.history.push('/individual-job')}
+        props.fromFavoriteJobs ?  props.history.push('/individual-favorite-job') : props.history.push('/individual-job')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -204,7 +198,6 @@ export const setCurrentNote = (note, props) =>{
 export const createNote = (note, props) => {
     axios.post('http://localhost:3000/notes', note)
     .then(returnedNotes => {
-        console.log(returnedNotes)
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully created.')
         props.push('/individual-favorite-job')
@@ -215,14 +208,12 @@ export const createNote = (note, props) => {
 }
 
 export const deleteNote = (note, props) => {
-    console.log(props)
     let config = { data:{
         user_id: props.user_id
         }
     }
     axios.delete(`http://localhost:3000/notes/${note.id}`, config)
     .then(returnedNotes => {
-        console.log(returnedNotes)
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully deleted.')
         props.push('/individual-favorite-job')
@@ -232,9 +223,7 @@ export const deleteNote = (note, props) => {
     })
 }
 
-export const editNote = (note, props) => {
-    console.log(note, props)
-    
+export const editNote = (note, props) => {    
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -272,7 +261,6 @@ export const setCurrentToDo = (todo, props) =>{
 }
 
 export const createToDo = (todo, props) => {
-    console.log(todo, props)
     axios.post('http://localhost:3000/tasks', todo)
     .then(returnedToDos => {
         props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
@@ -285,14 +273,12 @@ export const createToDo = (todo, props) => {
 }
 
 export const deleteToDo = (todo, props) => {
-    console.log(props)
     let config = { data:{
         user_id: props.user_id
         }
     }
     axios.delete(`http://localhost:3000/tasks/${todo.id}`, config)
     .then(returnedToDos => {
-        console.log(returnedToDos.data)
         props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
         alert('ToDo successfully deleted.')
         props.push('/individual-favorite-job')
@@ -302,9 +288,7 @@ export const deleteToDo = (todo, props) => {
     })
 }
 
-export const editToDo = (todo, props) => {
-    console.log(todo, props)
-    
+export const editToDo = (todo, props) => {    
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -326,3 +310,82 @@ export const editToDo = (todo, props) => {
     })
 }
 
+//PREFERENCES STUFF
+export const setCurrentPreference = (preference, dispatch) =>{
+    dispatch({type: SET_CURRENT_PREFERENCE, payload: preference})
+}
+
+export const setCurrentCountryID = (countryID, dispatch) =>{
+    dispatch({type: SET_CURRENT_COUNTRY_ID, payload: countryID})
+}
+
+export const setCurrentStateID = (stateID, dispatch) => {
+    dispatch({type: SET_CURRENT_STATE_ID, payload: stateID})
+}
+
+export const setCurrentCityID = (cityID, dispatch) => {
+    dispatch({type: SET_CURRENT_CITY_ID, payload: cityID})
+}
+
+export const createPreference = (preference, props) => {
+    console.log('preference to be created', preference, 'props', props) 
+    axios.post('http://localhost:3000/preferences', preference)
+    .then(returnedPreferences => {
+        props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
+        alert('Preference successfully created.')
+        props.dispatch({type: RESET_LOCATION_IDS})
+        props.push('/all-preferences')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editPreference = (preference, props) => {   
+    console.log('preference to be edited', preference, 'props', props) 
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    let bodyParameters = {
+        user_id: preference.user_id,
+        name: preference.name,
+        country:preference.country,
+        state: preference.state,
+        city: preference.city,
+        city_population: preference.city_population,
+        min_pay: preference.min_pay,
+        job_title: preference.job_title,
+        industry: preference.industry,
+        posting_date_start: preference.posting_date_start,
+        application_closing_date: preference.application_closing_date,
+    }
+    axios.patch(`http://localhost:3000/preferences/${preference.id}`, bodyParameters, config)
+    .then(returnedPreferences => {
+        props.dispatch({type: SET_CURRENT_PREFERENCE, payload: preference})
+        props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
+        alert('Preference successfully updated.')
+        props.dispatch({type: RESET_LOCATION_IDS})
+        props.push('/individual-preference')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deletePreference = (preference, props) => {
+    console.log(props)
+    let config = { data:{
+        user_id: preference.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/preferences/${preference.id}`, config)
+    .then(returnedPreferences => {
+        props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
+        alert('Preference successfully deleted.')
+        props.push('/all-preferences')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}

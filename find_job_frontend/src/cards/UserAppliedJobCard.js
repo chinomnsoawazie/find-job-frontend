@@ -8,12 +8,9 @@ import shareIcon from '../pictures/shareIcon.png'
 import NoteCard from './NoteCard'
 import ToDoCard from './ToDoCard'
 
-
 const UserAppliedJobCard = (props) => {
 
     const {currentAppliedJob, favoriteCheck, notes, viewNote, toDos, viewToDo} = props
-
-    //need to handle both handleUnFavoriting and handleFavoriting because job could come in favorited or not
 
     const handleUnfavoriting = () => {
         removeJobFromFavorites(currentAppliedJob, props)
@@ -22,7 +19,6 @@ const UserAppliedJobCard = (props) => {
     const handleFavoriting = () => {
         addExistingJobToFavorites(currentAppliedJob, props)
     }
-
 
     const handleView = (event) => {
         if(event.target.value === 'view-notes'){
@@ -48,7 +44,7 @@ const UserAppliedJobCard = (props) => {
         props.history.push('/dashboard')
     }
 
-    const handleClick = () => {
+    const handleShare = () => {
 
         console.log('clicked')
     }
@@ -108,12 +104,12 @@ const UserAppliedJobCard = (props) => {
                 <p><strong>Schedule:</strong> {currentAppliedJob.schedule}</p>
             </div>
 
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
                 <p>{currentAppliedJob.employer_strongpoints}</p>
-            </div> */}
+            </div>
 
             <div className='row job-card-row'>
                 <strong>Description:</strong>
@@ -123,12 +119,12 @@ const UserAppliedJobCard = (props) => {
                 <p>{currentAppliedJob.description}</p> 
             </div>
         
-            {/* <div className='row job-card-row'>
+            <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
                 <p>{currentAppliedJob.requirement}</p>
-            </div> */}
+            </div>
             
 
             <div className='row columned-row'>
@@ -147,7 +143,7 @@ const UserAppliedJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row' >
-                    <button  onClick={handleClick}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button>
+                    <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button>
                 </div>
             </div>
 

@@ -39,6 +39,7 @@ const todoReducer = (state = initialState, action) => {
 
         case SET_NEW_TODO_JOB_ID:
         return{
+            ...state,
             newToDoJobID: action.payload
         }
 
@@ -48,11 +49,9 @@ const todoReducer = (state = initialState, action) => {
             currentToDo: action.payload
         }
 
-
         default:
         return state
     }
-
 }
 
 export default todoReducer

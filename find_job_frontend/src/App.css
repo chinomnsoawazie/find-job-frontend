@@ -160,9 +160,15 @@
   .forms{
     padding-top: 4vh;
     text-align: left;
+    padding-left: 4vw;
   }
 
   .note{
     min-width: 30vw;
     min-height: 10vh;
+  }
+
+  .side-bar-list{
+    list-style-type: none;
+    margin: 0;
   }
