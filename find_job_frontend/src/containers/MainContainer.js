@@ -21,6 +21,7 @@ import AllPreferences from './AllPreferences'
 import PreferenceCard from '../cards/PreferenceCard'
 import { EditPreference } from '../forms/EditPreference'
 import CreatePreference from '../forms/CreatePreference'
+import UserProfile from './UserProfile'
 
 const MainContainer = (props) => {
     return (
@@ -31,6 +32,7 @@ const MainContainer = (props) => {
             <Route exact path='/login' render = { () => <Login push={props.history.push} dispatch={props.dispatch}/>}/>
             <Route exact path='/logged-in-options' render = {() => <LoggedInOptions />} />
             <Route exact path='/dashboard' render = { () => <DashBoard />} />
+            <Route exact path='/user-profile' render = { () => <UserProfile push={props.history.push}/>} />
 
             {/*JOB STUFF */}
             <Route exact path='/search-for-jobs' render = { () => <SearchEntryPoint push={props.history.push}/>} />

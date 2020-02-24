@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT, SET_USER_JOBS } from './actionTypes'
+import { SET_USER, LOGOUT, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO} from './actionTypes'
 
 const initialState = {
     user_id: '',
@@ -12,17 +12,10 @@ const initialState = {
     age: '',
     highest_education: '',
     years_of_experience: '',
-    userPreferences: [],
-    userSkills: [],
-    userMemberships: [],
-    userEmployments: [],
-    userEducations: [],
     userCertifications: [],
-    userJobs: [],
-    userNotes: [],
-    userTasks: [],
     loggedIn: '',
-    token: ''
+    token: '',
+    viewPersonalInfo: false
 }
 
 const userReducer = (state = initialState, action) => {
@@ -43,15 +36,7 @@ const userReducer = (state = initialState, action) => {
             age: user.age,
             highest_education: user.highest_education,
             years_of_experience: user.years_of_experience,
-            userPreferences: user.preferences,
-            userSkills: user.skills,
-            userMemberships: user.memberships,
-            userEmployments: user.employments,
-            userEducations: user.educations,
             userCertifications: user.certifications,
-            userJobs: user.jobs,
-            userNotes: user.notes,
-            userTasks: user.tasks,
             loggedIn: true,
             token: token
         }
@@ -70,23 +55,22 @@ const userReducer = (state = initialState, action) => {
             age: '',
             highest_education: '',
             years_of_experience: '',
-            userPreferences: [],
-            userSkills: [],
-            userMemberships: [],
-            userEmployments: [],
-            userEducations: [],
             userCertifications: [],
-            userJobs: [],
-            userNotes: [],
-            userTasks: [],
             loggedIn: '',
-            token: ''
+            token: '',
+            viewPersonaInfo: false
         }
 
-        case SET_USER_JOBS:
+        case SET_VIEW_PERSONAL_INFO:
         return{
             ...state,
-            userJobs: action.payload
+            viewPersonalInfo: true
+        }
+
+        case RESET_VIEW_PERSONAL_INFO:
+        return{
+            ...state,
+            viewPersonalInfo: false
         }
 
         default:

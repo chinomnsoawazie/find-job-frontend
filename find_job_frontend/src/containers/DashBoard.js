@@ -24,7 +24,7 @@ const DashBoard = (props) => {
                     <button onClick={handleClick} name='/all-preferences' className='dashboard-buttons'>My preferences </button>
                 </div><br/>
                 <div className='row'>
-                    <button className='dashboard-buttons'>My Profile</button>
+                    <button onClick={handleClick} name='/user-profile' className='dashboard-buttons'>My Profile</button>
                 </div>
             </div>
             

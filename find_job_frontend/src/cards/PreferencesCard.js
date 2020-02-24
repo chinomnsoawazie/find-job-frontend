@@ -2,7 +2,6 @@ import React from 'react'
 import { setCurrentPreference, deletePreference } from '../redux/actions'
 import {withRouter} from 'react-router-dom'
 
-
 function PreferencesCard(props) {
     const {preference, dispatch} = props
 
@@ -15,6 +14,11 @@ function PreferencesCard(props) {
         deletePreference(preference, props)
     }
 
+    const handleSearchPreferenceJobs = () => {
+        console.log('build out the search function here. just squash all them preference attributes together')
+
+    }
+
     return (
         <div>
             <div  className='row job-card-row'><strong>Name: </strong> {preference.name}</div>
@@ -25,6 +29,9 @@ function PreferencesCard(props) {
             Country: {preference.country}<br/> State: {preference.state}<br/>City: {preference.city}</div>
             <div className='row job-card-row'>
                 <button onClick={viewPreference} className='page-buttons'>View more details</button>
+                {/*use the  */}
+                <button onClick={handleSearchPreferenceJobs} className='page-buttons'>Get matching jobs</button>
+
                 <button onClick={handleDeletePreference} className='page-buttons'>Delete preference</button>
                 <button onClick={() => props.history.push('/dashboard')} className='page-buttons'>Back to dashboard</button>
             </div> 

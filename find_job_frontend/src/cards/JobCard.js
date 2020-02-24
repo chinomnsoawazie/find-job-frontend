@@ -149,7 +149,7 @@ const mapStateToProps = (state) =>{
     return {
         loggedIn: state.allUserInfo.loggedIn,
         user_id: state.allUserInfo.user_id,
-        userJobs: state.allUserInfo.userJobs,
+        userJobs: state.allJobInfo.userJobs,
         token: state.allUserInfo.token,
         currentJob: state.allJobInfo.currentJob,
         favoriteCheck: state.allJobInfo.favoriteCheck,

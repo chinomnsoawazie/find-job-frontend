@@ -44,7 +44,7 @@ const NavBar = (props) => {
                 </div>
 
                 <div className='column'>
-                    <button onClick={() => props.history.push('/my-dashboard')} className="nav-buttons">Profile</button>
+                    <button onClick={() => props.history.push('/user-profile')} className="nav-buttons">Profile</button>
                 </div>
 
                 <div className='column'>

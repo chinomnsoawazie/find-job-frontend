@@ -32,7 +32,7 @@ const FavoritesJobCard = (props) => {
 
 const mapStateToProps = (state) => {
     return{
-        userJobs: state.allUserInfo.userJobs,
+        userJobs: state.allJobInfo.userJobs,
     }
 }
 

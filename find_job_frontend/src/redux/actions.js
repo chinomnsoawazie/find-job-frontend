@@ -1,4 +1,4 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS } from './actionTypes'
 import axios from 'axios'
 
 //USER STUFF
@@ -6,6 +6,12 @@ export const login = (user, push, dispatch) =>{
     axios.post('http://localhost:3000/login', user)
         .then(r => {
             console.log(r.data.user)
+            dispatch({type: SET_USER_JOBS, payload: r.data.user.jobs})
+            dispatch({type: SET_SKILLS, payload: r.data.user.skills})
+            dispatch({type: SET_MEMBERSHIPS, payload: r.data.user.memberships})
+            dispatch({type: SET_EDUCATIONS, payload: r.data.user.educations})
+            dispatch({type: SET_EMPLOYMENTS, payload: r.data.user.employments})
+            dispatch({type: SET_CERTIFICATIONS, payload: r.data.user.certifications})
             dispatch({type: SET_NOTES, payload: r.data.user.notes})
             dispatch({type: SET_TODOS, payload: r.data.user.tasks})
             dispatch({type: SET_PREFERENCES, payload: r.data.user.preferences})
@@ -22,6 +28,14 @@ export const logout = (props) =>{
     props.history.push('/')
 }
 
+export const setViewPersonalInfo = (dispatch) => {
+    console.log(dispatch)
+    dispatch({type: SET_VIEW_PERSONAL_INFO})
+}
+
+export const resetViewPersonalInfo = (dispatch) => {
+    dispatch({type: RESET_VIEW_PERSONAL_INFO})
+}
 
 //JOBS STUFF
 export const setAPIKeys = (dispatch) =>{
@@ -56,7 +70,6 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
         console.log('Error:', error)
     })
 }
-
 
 export const setCurrentJob = (job, props) =>{
     props.dispatch({type: SET_CURRENT_JOB, payload: job})
@@ -388,4 +401,49 @@ export const deletePreference = (preference, props) => {
     .catch((error) =>{
         console.log('Error', error)
     })
+}
+
+//SKILLS STUFF
+export const setViewSkills = (dispatch) => {
+    dispatch({type: SET_VIEW_SKILLS})
+}
+
+export const resetViewSkills = (dispatch) => {
+    dispatch({type: RESET_VIEW_SKILLS})
+}
+
+//MEMBERSHIPS STUFF
+export const setViewMemberships = (dispatch) => {
+    dispatch({type: SET_VIEW_MEMBERSHIPS})
+}
+
+export const resetViewMemberships = (dispatch) => {
+    dispatch({type: RESET_VIEW_MEMBERSHIPS})
+}
+
+//EMPLOYMENTS STUFF
+export const setViewEmployments = (dispatch) => {
+    dispatch({type: SET_VIEW_EMPLOYMENTS})
+}
+
+export const resetViewEmployments = (dispatch) => {
+    dispatch({type: RESET_VIEW_EMPLOYMENTS})
+}
+
+//EDUCATIONS STUFF
+export const setViewEducations = (dispatch) => {
+    dispatch({type: SET_VIEW_EDUCATIONS})
+}
+
+export const resetViewEducations = (dispatch) => {
+    dispatch({type: RESET_VIEW_EDUCATIONS})
+}
+
+//CERTIFICATIONS STUFF
+export const setViewCertifications = (dispatch) => {
+    dispatch({type: SET_VIEW_CERTIFICATIONS})
+}
+
+export const resetViewCertifications =(dispatch) => {
+    dispatch({type: RESET_VIEW_CERTIFICATIONS})
 }

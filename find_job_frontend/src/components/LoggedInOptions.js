@@ -17,7 +17,7 @@ const LoggedInOptions = (props) => {
                 </div><br/>
 
                 <div className='row '>
-                    <button onClick={() => push('/profile-entry-point')} className='page-buttons'>View Profile</button>
+                    <button onClick={() => push('/user-profile')} className='page-buttons'>View Profile</button>
                 </div><br/>
 
                     <div className='row'>

@@ -12,13 +12,23 @@ import userReducer from './redux/userReducer'
 import notesReducer from './redux/notesReducer';
 import todoReducer from './redux/todoReducer';
 import preferencesReducer from './redux/preferencesReducer';
+import skillsReducer from './redux/skillsReducer';
+import membershipsReducer from './redux/membershipsReducer';
+import employmentsReducer from './redux/employmentsReducer';
+import educationsReducer from './redux/educationsReducer';
+import certificationsReducer from './redux/certificationsReducer';
 
 const rootReducer = combineReducers({
     allJobInfo: jobsReducer,
     allUserInfo: userReducer,
     allNoteInfo: notesReducer,
     allToDoInfo: todoReducer,
-    allPreferenceInfo: preferencesReducer
+    allPreferenceInfo: preferencesReducer,
+    allSkillInfo: skillsReducer,
+    allMembershipInfo: membershipsReducer,
+    allEmploymentInfo: employmentsReducer,
+    allEducationInfo: educationsReducer,
+    allCertificationInfo: certificationsReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
