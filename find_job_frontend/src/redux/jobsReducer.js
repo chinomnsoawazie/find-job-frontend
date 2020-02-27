@@ -1,4 +1,4 @@
-import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS } from './actionTypes'
+import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS } from './actionTypes'
 
 const initialState = {
     USAJobsAPIKey: '',
@@ -11,6 +11,7 @@ const initialState = {
     currentFavoriteJob: '',
     currentAppliedJob: '',
     userJobs: [],
+    showShareOptions: false
 }
 
 const jobsReducer = (state = initialState, action) => {
@@ -120,6 +121,18 @@ const jobsReducer = (state = initialState, action) => {
         return {
             ...state,
             appliedCheck: false
+        }
+
+        case SET_SHOW_SHARE_OPTIONS:
+        return {
+            ...state,
+            showShareOptions: true
+        }
+
+        case RESET_SHOW_SHARE_OPTIONS:
+        return {
+            ...state,
+            showShareOptions: false
         }
 
         default:

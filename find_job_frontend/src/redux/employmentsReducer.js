@@ -1,4 +1,4 @@
-import { LOGOUT, SET_EMPLOYMENTS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS} from './actionTypes'
+import { LOGOUT, SET_EMPLOYMENTS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_CURRENT_EMPLOYMENT} from './actionTypes'
 
 const initialState = {
    employments: '',
@@ -32,6 +32,12 @@ const employmentsReducer = (state = initialState, action) => {
         return{
             ...state,
             viewEmployments: false
+        }
+
+        case SET_CURRENT_EMPLOYMENT:
+        return {
+            ...state,
+            currentEmployment: action.payload
         }
 
         default:

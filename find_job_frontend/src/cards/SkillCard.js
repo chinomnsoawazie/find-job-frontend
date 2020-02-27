@@ -1,7 +1,18 @@
 import React from 'react'
+import { setCurrentSkill, deleteSkill } from '../redux/actions'
 
 const SkillCard = (props) => {
-    const {skill} = props
+    const {skill, dispatch, push} = props
+
+    const handleSkillEdit = () => {
+        setCurrentSkill(skill, dispatch)
+        push('/edit-skill')
+    }
+
+    const handleSkillDelete = () => {
+        deleteSkill(skill, props)
+    }
+
     return (
         <>
             <div className='row job-card-row'>
@@ -16,7 +27,8 @@ const SkillCard = (props) => {
                 </label>{skill.proficiency_level}
             </div>
 
-            <button className='page-buttons'>Edit skill</button>
+            <button onClick={handleSkillEdit} className='page-buttons'>Edit skill</button>
+            <button onClick={handleSkillDelete} className='page-buttons'>Delete skill</button>
         </>
     )
 }

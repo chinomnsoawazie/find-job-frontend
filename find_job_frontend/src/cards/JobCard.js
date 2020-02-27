@@ -1,14 +1,15 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addNewJobToFavorites, addExistingJobToFavorites, resetFavoriteCheck, resetAppliedCheck, applyToExistingJob, applyToNewJob} from '../redux/actions'
+import {addNewJobToFavorites, addExistingJobToFavorites, resetFavoriteCheck, resetAppliedCheck, applyToExistingJob, applyToNewJob, setShowShareOptions, resetShowShareOptions} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
+import {FacebookShareButton, FacebookIcon, LinkedinShareButton, LinkedinIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon} from 'react-share'
 
 const JobCard = (props) => {
 
-    const {userJobs, currentJob, loggedIn, user_id, favoriteCheck, appliedCheck} = props
+    const {userJobs, currentJob, loggedIn, user_id, favoriteCheck, appliedCheck, showShareOptions} = props
 
     const handleUserApply = () => {
         let userJobsUSAJobsIDs = userJobs.map(job => job.usaJobs_job_id)
@@ -42,12 +43,17 @@ const JobCard = (props) => {
         props.history.push('/jobs-search-results')
     }
 
-    const handleShare = () => {
-        console.log('clicked')
+    const handleShare = (event) => {
+        if(event.target.name === 'open-share'){
+            setShowShareOptions(props.dispatch)
+        }else{
+            resetShowShareOptions(props.dispatch)
+        }
     }
 
     const handleNonUserApply = () => {
-        console.log('clicked')
+        alert(`You have started applying to ${currentJob.job_title}. Please continue the application on the employer website that will open in new tab`)
+        window.open(currentJob.url)
     }
 
     return (
@@ -123,15 +129,49 @@ const JobCard = (props) => {
                             :
                             <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
                         }
-                        <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+
+                        {showShareOptions ?
+                            <>
+                           <div className='row'>
+                                <button onClick={handleShare} name='close-share' >Close share options</button>
+                            </div>        
+                            <div className='row'>
+                                <FacebookShareButton url={currentJob.url}><FacebookIcon size={25} round /></FacebookShareButton>
+                                <LinkedinShareButton url={currentJob.url} ><LinkedinIcon size={25} round /> </LinkedinShareButton>
+                                <TwitterShareButton url={currentJob.url} ><TwitterIcon size={25} round /> </TwitterShareButton>
+                                <WhatsappShareButton url={currentJob.url} ><WhatsappIcon size={25} round /> </WhatsappShareButton>
+                                <EmailShareButton url={currentJob.url} ><EmailIcon size={25} round/> </EmailShareButton>
+                            </div>                            
+                            </>
+                            :
+                            <button  onClick={handleShare} name='open-share'  className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+                        }
+
+                        {/* <FacebookShareButton url={currentJob.url} /> */}
                     </div>
                     :
-                    <>
+                    <div className='row'>
                         <button  onClick={handleNonUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
-                        <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
-                    </>
+                        {showShareOptions ?
+                            <>
+                            <div className='row'>
+                                <button onClick={handleShare} name='close-share' >Close share options</button>
+                            </div>        
+                            <div className='row'>
+                                <FacebookShareButton url={currentJob.url}><FacebookIcon size={25} round /></FacebookShareButton>
+                                <LinkedinShareButton url={currentJob.url} ><LinkedinIcon size={25} round /> </LinkedinShareButton>
+                                <TwitterShareButton url={currentJob.url} ><TwitterIcon size={25} round /> </TwitterShareButton>
+                                <WhatsappShareButton url={currentJob.url} ><WhatsappIcon size={25} round /> </WhatsappShareButton>
+                                <EmailShareButton url={currentJob.url} ><EmailIcon size={25} round/> </EmailShareButton>
+                            </div>                            
+                            </>
+                            :
+                            <button  onClick={handleShare}  name='open-share' className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+                        }
+                    </div>
                 }
-            </div>
+
+            </div><br/>
 
             {loggedIn ?
                 <>
@@ -148,12 +188,13 @@ const JobCard = (props) => {
 const mapStateToProps = (state) =>{
     return {
         loggedIn: state.allUserInfo.loggedIn,
+        showShareOptions: state.allJobInfo.showShareOptions,
         user_id: state.allUserInfo.user_id,
         userJobs: state.allJobInfo.userJobs,
         token: state.allUserInfo.token,
         currentJob: state.allJobInfo.currentJob,
         favoriteCheck: state.allJobInfo.favoriteCheck,
-        appliedCheck: state.allJobInfo.appliedCheck
+        appliedCheck: state.allJobInfo.appliedCheck,
     }
 }
 

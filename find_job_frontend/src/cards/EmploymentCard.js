@@ -1,7 +1,18 @@
 import React from 'react'
+import { setCurrentEmployment, deleteEmployment } from '../redux/actions'
 
 const EmploymentCard = (props) => {
-    const { employment } = props
+    const { employment, push, dispatch } = props
+
+    const handleEmploymentEdit = () => {
+        setCurrentEmployment(employment, dispatch)
+        push('/edit-employment')
+    }
+
+    const handleEmploymentDelete = () => {
+        deleteEmployment(employment, props)
+    }
+    
     return (
     <>
         <div className='row job-card-row'>
@@ -24,9 +35,19 @@ const EmploymentCard = (props) => {
 
         <div className='row job-card-row'>
             <label>
-                <strong>End date: </strong>
-            </label>{employment.end_date}
+                <strong>Currently work here?: </strong>
+            </label>{employment.currently_work_here ? 'Yes' : 'No'}
         </div>
+
+        {employment.currently_work_here ? 
+            null
+            :
+            <div className='row job-card-row'>
+                <label>
+                    <strong>End date: </strong>
+                </label>{employment.end_date}
+            </div>
+        }
 
         <div className='row job-card-row'>
             <label>
@@ -34,11 +55,6 @@ const EmploymentCard = (props) => {
             </label>{employment.duties}
         </div>
 
-        <div className='row job-card-row'>
-            <label>
-                <strong>Currently work here?: </strong>
-            </label>{employment.currently_work_here ? 'Yes' : 'No'}
-        </div>
 
         <div className='row columned-row' >
             <div className='column job-card-row'>
@@ -53,7 +69,13 @@ const EmploymentCard = (props) => {
             </div>
         </div>
 
-        <button className='page-buttons'>Edit Employment</button>
+        <div className='row' >
+            
+        </div>
+
+        <button onClick={handleEmploymentEdit} className='page-buttons'>Edit employment</button>
+        <button onClick={handleEmploymentDelete} className='page-buttons'>Delete employment</button>
+
     </>
     )
 }

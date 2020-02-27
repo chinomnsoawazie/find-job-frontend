@@ -41,7 +41,6 @@ const UserProfile = (props) => {
 
     }
 
-    console.log('view personal info', viewPersonalInfo, 'view skills', viewSkills)
 
     return (
         <div className='job-card-div'>
@@ -57,47 +56,68 @@ const UserProfile = (props) => {
         {viewSkills ?
         <>
         <button onClick={handleView}  name='hide-skills' className='page-buttons'>Hide skills</button>
-        {skills.map(skill => <SkillCard key={skill.id} skill={skill}/>)}
+        <button onClick={() => props.push('/create-skill')} className='page-buttons'>Add skill</button>
+        {skills.map(skill => <SkillCard key={skill.id} skill={skill} push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
+        <>
         <button onClick={handleView} name='view-skills' className='page-buttons'>View skills</button>
+        <button onClick={() => props.push('/create-skill')} className='page-buttons'>Add skill</button>
+        </>
         }<br/>
 
         {viewMemberships ?
         <>
         <button onClick={handleView}  name='hide-memberships' className='page-buttons'>Hide memberships</button>
-        {memberships.map(membership => <MembershipCard key={membership.id} membership={membership}/>)}
+        <button onClick={() => props.push('/create-membership')} className='page-buttons'>Add membership</button>
+        {memberships.map(membership => <MembershipCard key={membership.id} membership={membership} push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
+        <>
         <button onClick={handleView} name='view-memberships' className='page-buttons'>View memberships</button>
+        <button onClick={() => props.push('/create-membership')} className='page-buttons'>Add membership</button>
+        </>
         }<br/>
 
         {viewEmployments ?
         <>
         <button onClick={handleView}  name='hide-employments' className='page-buttons'>Hide employments</button>
-        {employments.map(employment => <EmploymentCard key={employment.id} employment={employment}/>)}
+        <button onClick={() => props.push('/create-employment')} className='page-buttons'>Add employment</button>
+        {employments.map(employment => <EmploymentCard key={employment.id} employment={employment}  push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
+        <>
         <button onClick={handleView} name='view-employments' className='page-buttons'>View employments</button>
+        <button onClick={() => props.push('/create-employment')} className='page-buttons'>Add employment</button>
+        </>
         }<br/>
 
         {viewEducations ?
         <>
         <button onClick={handleView}  name='hide-educations' className='page-buttons'>Hide educations</button>
-        {educations.map(education => <EducationCard key={education.id} education={education}/>)}
+        <button onClick={() => props.push('/create-education')} className='page-buttons'>Add education</button>
+        {educations.map(education => <EducationCard key={education.id} education={education} push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
+        <>
         <button onClick={handleView} name='view-educations' className='page-buttons'>View educations</button>
+        <button onClick={() => props.push('/create-education')} className='page-buttons'>Add education</button>
+        </>
         }<br/>
 
         {viewCertifications ?
         <>
         <button onClick={handleView}  name='hide-certifications' className='page-buttons'>Hide certifications</button>
-        {certifications.map(certification => <CertificationCard key={certification.id} certification={certification}/>)}
+        <button onClick={() => props.push('/create-certification')} className='page-buttons'>Add certification</button>
+
+        {certifications.map(certification => <CertificationCard key={certification.id} certification={certification} push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
+        <>
         <button onClick={handleView} name='view-certifications' className='page-buttons'>View certifications</button>
-        }<br/>
+        <button onClick={() => props.push('/create-certification')} className='page-buttons'>Add certification</button>
+        </>
+        }<br/><br/>
 
         <button className='page-buttons' onClick={() => props.push('/dashboard')}>Go to dashboard</button>
         </div>

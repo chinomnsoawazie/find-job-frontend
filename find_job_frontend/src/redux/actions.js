@@ -1,4 +1,4 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_CURRENT_SKILL, SET_CURRENT_MEMBERSHIP, SET_CURRENT_EMPLOYMENT, SET_CURRENT_EDUCATION, SET_CURRENT_CERTIFICATION } from './actionTypes'
 import axios from 'axios'
 
 //USER STUFF
@@ -52,7 +52,6 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
     let host = 'data.usajobs.gov'
     let userAgent = props.myEmail
     let authKey = props.USAJobsAPIKey
-
     fetch(`https://data.usajobs.gov/api/search?ResultsPerPage= 500&PositionTitle=${title}&LocationName=${location}&RemunerationMinimumAmount=${minimumPay}`, {
         method:'GET',
         headers: {
@@ -102,6 +101,14 @@ export const resetAppliedCheck = (dispatch) => {
     dispatch({type: RESET_APPLIED_CHECK})
 }
 
+export const setShowShareOptions = (dispatch) => {
+    dispatch({type: SET_SHOW_SHARE_OPTIONS})
+}
+
+export const resetShowShareOptions = (dispatch) => {
+    dispatch({type: RESET_SHOW_SHARE_OPTIONS})
+}
+
 export const addNewJobToFavorites = (job, props) => {
     axios.post('http://localhost:3000/jobs', job)
     .then(returnedJobs => {
@@ -140,7 +147,7 @@ export const removeJobFromFavorites = (job, props) => {
         headers: {'Authorization': "bearer " + props.token}
     }
     let bodyParameters = {
-        'favorite_key': true,
+        'favorite_key': false,
         user_id: job.user_id
         }
     axios.patch(`http://localhost:3000/jobs/${job.id}`, bodyParameters, config)
@@ -240,12 +247,7 @@ export const editNote = (note, props) => {
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
-    let bodyParameters = {
-        user_id: note.user_id,
-        text: note.text,
-        job_id: note.job_id
-    }
-    axios.patch(`http://localhost:3000/notes/${note.id}`, bodyParameters, config)
+    axios.patch(`http://localhost:3000/notes/${note.id}`, note, config)
     .then(returnedNotes => {
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully updated.')
@@ -305,14 +307,7 @@ export const editToDo = (todo, props) => {
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
-    let bodyParameters = {
-        user_id: todo.user_id,
-        description: todo.description,
-        job_id: todo.job_id,
-        due_date: todo.due_date,
-        done_status: todo.done_status
-    }
-    axios.patch(`http://localhost:3000/tasks/${todo.id}`, bodyParameters, config)
+    axios.patch(`http://localhost:3000/tasks/${todo.id}`, todo, config)
     .then(returnedToDos => {
         props.dispatch({type: SET_TODOS, payload: returnedToDos.data.userToDos})
         alert('ToDo successfully updated.')
@@ -340,8 +335,11 @@ export const setCurrentCityID = (cityID, dispatch) => {
     dispatch({type: SET_CURRENT_CITY_ID, payload: cityID})
 }
 
+export const resetLocations = (dispatch) => {
+    dispatch({type: RESET_LOCATION_IDS})
+}
+
 export const createPreference = (preference, props) => {
-    console.log('preference to be created', preference, 'props', props) 
     axios.post('http://localhost:3000/preferences', preference)
     .then(returnedPreferences => {
         props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
@@ -356,24 +354,11 @@ export const createPreference = (preference, props) => {
 }
 
 export const editPreference = (preference, props) => {   
-    console.log('preference to be edited', preference, 'props', props) 
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
-    let bodyParameters = {
-        user_id: preference.user_id,
-        name: preference.name,
-        country:preference.country,
-        state: preference.state,
-        city: preference.city,
-        city_population: preference.city_population,
-        min_pay: preference.min_pay,
-        job_title: preference.job_title,
-        industry: preference.industry,
-        posting_date_start: preference.posting_date_start,
-        application_closing_date: preference.application_closing_date,
-    }
-    axios.patch(`http://localhost:3000/preferences/${preference.id}`, bodyParameters, config)
+ 
+    axios.patch(`http://localhost:3000/preferences/${preference.id}`, preference, config)
     .then(returnedPreferences => {
         props.dispatch({type: SET_CURRENT_PREFERENCE, payload: preference})
         props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
@@ -387,7 +372,6 @@ export const editPreference = (preference, props) => {
 }
 
 export const deletePreference = (preference, props) => {
-    console.log(props)
     let config = { data:{
         user_id: preference.user_id
         }
@@ -412,6 +396,54 @@ export const resetViewSkills = (dispatch) => {
     dispatch({type: RESET_VIEW_SKILLS})
 }
 
+export const setCurrentSkill = (skill, dispatch) => {
+    dispatch({type: SET_CURRENT_SKILL, payload: skill})
+}
+
+export const createSkill = (skill, props) => {
+    axios.post('http://localhost:3000/skills', skill)
+    .then(returnedSkills => {
+        props.dispatch({type: SET_SKILLS, payload: returnedSkills.data})
+        alert('Skill successfully created.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editSkill = (skill, props) => {   
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    axios.patch(`http://localhost:3000/skills/${skill.id}`, skill, config)
+    .then(returnedSkills => {
+        props.dispatch({type: SET_SKILLS, payload: returnedSkills.data})
+        alert('Skill successfully updated.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteSkill = (skill, props) => {
+    let config = { data:{
+        user_id: skill.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/skills/${skill.id}`, config)
+    .then(returnedSkills => {
+        props.dispatch({type: SET_SKILLS, payload: returnedSkills.data})
+        alert('Skill successfully deleted.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
 //MEMBERSHIPS STUFF
 export const setViewMemberships = (dispatch) => {
     dispatch({type: SET_VIEW_MEMBERSHIPS})
@@ -421,6 +453,55 @@ export const resetViewMemberships = (dispatch) => {
     dispatch({type: RESET_VIEW_MEMBERSHIPS})
 }
 
+export const setCurrentMembership = (membership, dispatch) => {
+    dispatch({type: SET_CURRENT_MEMBERSHIP, payload: membership})
+}
+
+export const createMembership = (membership, props) => {
+    axios.post('http://localhost:3000/memberships', membership)
+    .then(returnedMemberships => {
+        props.dispatch({type: SET_MEMBERSHIPS, payload: returnedMemberships.data})
+        alert('Membership successfully created.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editMembership = (membership, props) => {  
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    axios.patch(`http://localhost:3000/memberships/${membership.id}`, membership, config)
+    .then(returnedMemberships => {
+        props.dispatch({type: SET_MEMBERSHIPS, payload: returnedMemberships.data})
+        alert('Membership successfully updated.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteMembership = (membership, props) => {
+    let config = { data:{
+        user_id: membership.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/memberships/${membership.id}`, config)
+    .then(returnedMemberships => {
+        props.dispatch({type: SET_MEMBERSHIPS, payload: returnedMemberships.data})
+        alert('Membership successfully deleted.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+
 //EMPLOYMENTS STUFF
 export const setViewEmployments = (dispatch) => {
     dispatch({type: SET_VIEW_EMPLOYMENTS})
@@ -428,6 +509,56 @@ export const setViewEmployments = (dispatch) => {
 
 export const resetViewEmployments = (dispatch) => {
     dispatch({type: RESET_VIEW_EMPLOYMENTS})
+}
+
+export const setCurrentEmployment = (employment, dispatch) => {
+    dispatch({type: SET_CURRENT_EMPLOYMENT, payload: employment})
+}
+
+export const createEmployment = (employment, props) => {
+    axios.post('http://localhost:3000/employments', employment)
+    .then(returnedEmployments => {
+        props.dispatch({type: SET_EMPLOYMENTS, payload: returnedEmployments.data})
+        props.dispatch({type: RESET_LOCATION_IDS})
+        alert('Employment successfully created.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editEmployment = (employment, props) => {  
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    axios.patch(`http://localhost:3000/employments/${employment.id}`, employment, config)
+    .then(returnedEmployments => {
+        props.dispatch({type: SET_EMPLOYMENTS, payload: returnedEmployments.data})
+        props.dispatch({type: RESET_LOCATION_IDS})
+        alert('Employment successfully updated.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteEmployment = (employment, props) => {
+    let config = { data:{
+        user_id: employment.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/employments/${employment.id}`, config)
+    .then(returnedEmployments => {
+        props.dispatch({type: SET_EMPLOYMENTS, payload: returnedEmployments.data})
+        alert('Employment successfully deleted.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
 }
 
 //EDUCATIONS STUFF
@@ -439,6 +570,56 @@ export const resetViewEducations = (dispatch) => {
     dispatch({type: RESET_VIEW_EDUCATIONS})
 }
 
+export const setCurrentEducation = (education, dispatch) => {
+    dispatch({type: SET_CURRENT_EDUCATION, payload: education})
+}
+
+export const createEducation = (education, props) => {
+    axios.post('http://localhost:3000/educations', education)
+    .then(returnedEducations => {
+        props.dispatch({type: SET_EDUCATIONS, payload: returnedEducations.data})
+        props.dispatch({type: RESET_LOCATION_IDS})
+        alert('Education successfully created.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editEducation = (education, props) => {  
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    axios.patch(`http://localhost:3000/educations/${education.id}`, education, config)
+    .then(returnedEducations => {
+        props.dispatch({type: SET_EDUCATIONS, payload: returnedEducations.data})
+        props.dispatch({type: RESET_LOCATION_IDS})
+        alert('Education successfully updated.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteEducation = (education, props) => {
+    let config = { data:{
+        user_id: education.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/educations/${education.id}`, config)
+    .then(returnedEducations => {
+        props.dispatch({type: SET_EDUCATIONS, payload: returnedEducations.data})
+        alert('Education item successfully deleted.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
 //CERTIFICATIONS STUFF
 export const setViewCertifications = (dispatch) => {
     dispatch({type: SET_VIEW_CERTIFICATIONS})
@@ -446,4 +627,52 @@ export const setViewCertifications = (dispatch) => {
 
 export const resetViewCertifications =(dispatch) => {
     dispatch({type: RESET_VIEW_CERTIFICATIONS})
+}
+
+export const setCurrentCertification = (certification, dispatch) => {
+    dispatch({type: SET_CURRENT_CERTIFICATION, payload: certification})
+}
+
+export const createCertification = (certification, props) => {
+    axios.post('http://localhost:3000/certifications', certification)
+    .then(returnedCertifications => {
+        props.dispatch({type: SET_CERTIFICATIONS, payload: returnedCertifications.data})
+        alert('Certification successfully created.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    }) 
+
+}
+
+export const editCertification = (certification, props) => {  
+    let config ={
+        headers: {'Authorization': "bearer " + props.token}
+    }
+    axios.patch(`http://localhost:3000/certifications/${certification.id}`, certification, config)
+    .then(returnedCertifications => {
+        props.dispatch({type: SET_CERTIFICATIONS, payload: returnedCertifications.data})
+        alert('Certification successfully updated.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteCertification = (certification, props) => {
+    let config = { data:{
+        user_id: certification.user_id
+        }
+    }
+    axios.delete(`http://localhost:3000/certifications/${certification.id}`, config)
+    .then(returnedCertifications => {
+        props.dispatch({type: SET_CERTIFICATIONS, payload: returnedCertifications.data})
+        alert('Certification item successfully deleted.')
+        props.push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
 }

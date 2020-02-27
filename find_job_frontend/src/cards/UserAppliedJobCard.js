@@ -1,16 +1,17 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo} from '../redux/actions'
+import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
 import NoteCard from './NoteCard'
 import ToDoCard from './ToDoCard'
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton, EmailShareButton, FacebookIcon, LinkedinIcon, TwitterIcon, WhatsappIcon, EmailIcon } from 'react-share'
 
 const UserAppliedJobCard = (props) => {
 
-    const {currentAppliedJob, favoriteCheck, notes, viewNote, toDos, viewToDo} = props
+    const {currentAppliedJob, favoriteCheck, notes, viewNote, toDos, viewToDo, showShareOptions} = props
 
     const handleUnfavoriting = () => {
         removeJobFromFavorites(currentAppliedJob, props)
@@ -44,9 +45,12 @@ const UserAppliedJobCard = (props) => {
         props.history.push('/dashboard')
     }
 
-    const handleShare = () => {
-
-        console.log('clicked')
+    const handleShare = (event) => {
+        if(event.target.name === 'open-share'){
+            setShowShareOptions(props.dispatch)
+        }else{
+            resetShowShareOptions(props.dispatch)
+        }
     }
 
     const jobNotes = notes.filter(note => note.job_id === currentAppliedJob.id)
@@ -143,7 +147,22 @@ const UserAppliedJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row' >
-                    <button  onClick={handleShare}   className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button>
+                    {showShareOptions ?
+                        <>
+                        <div className='row'>
+                            <button onClick={handleShare} className='page-buttons' name='close-share' >Close share options</button>
+                        </div>        
+                        <div className='row'>
+                            <FacebookShareButton url={currentAppliedJob.url}><FacebookIcon size={25} round /></FacebookShareButton>
+                            <LinkedinShareButton url={currentAppliedJob.url} ><LinkedinIcon  size={25} round /> </LinkedinShareButton>
+                            <TwitterShareButton url={currentAppliedJob.url} ><TwitterIcon size={25} round /> </TwitterShareButton>
+                            <WhatsappShareButton url={currentAppliedJob.url} ><WhatsappIcon size={25} round /> </WhatsappShareButton>
+                            <EmailShareButton url={currentAppliedJob.url} ><EmailIcon size={25} round/> </EmailShareButton>
+                        </div>                            
+                        </>
+                        :
+                        <button  onClick={handleShare} name='open-share'  className='page-buttons'> <img src={shareIcon} height='11vh' alt='share'/> Share</button> 
+                    }                
                 </div>
             </div>
 
@@ -211,7 +230,8 @@ const mapStateToProps = (state) =>{
         notes: state.allNoteInfo.notes,
         viewNote: state.allNoteInfo.viewNote,
         toDos: state.allToDoInfo.toDos,
-        viewToDo: state.allToDoInfo.viewToDo
+        viewToDo: state.allToDoInfo.viewToDo,
+        showShareOptions: state.allJobInfo.showShareOptions,
     }
 }
 

@@ -22,6 +22,16 @@ import PreferenceCard from '../cards/PreferenceCard'
 import { EditPreference } from '../forms/EditPreference'
 import CreatePreference from '../forms/CreatePreference'
 import UserProfile from './UserProfile'
+import CreateSkill from '../forms/CreateSkill'
+import EditSkill from '../forms/EditSkill'
+import CreateMembership from '../forms/CreateMembership'
+import EditMembership from '../forms/EditMembership'
+import CreateEmployment from '../forms/CreateEmployment'
+import EditEmployment from '../forms/EditEmployment'
+import CreateEducation from '../forms/CreateEducation'
+import EditEducation from '../forms/EditEducation'
+import CreateCertification from '../forms/CreateCertification'
+import EditCertification from '../forms/EditCertification'
 
 const MainContainer = (props) => {
     return (
@@ -58,7 +68,25 @@ const MainContainer = (props) => {
             <Route exact path='/edit-preference' render = { () => <EditPreference push={props.history.push}  currentPreference={props.currentPreference} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
             <Route exact path='/create-preference' render = { () => <CreatePreference user_id={props.user_id}  push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
 
+            {/*SKILLS STUFF */}
+            <Route exact path='/create-skill' render = { () => <CreateSkill user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} />} />
+            <Route exact path='/edit-skill' render = { () => <EditSkill push={props.history.push} dispatch={props.dispatch} currentSkill={props.currentSkill}/>} />
 
+            {/*MEMBERSHIPS STUFF */}
+            <Route exact path='/create-membership' render = { () => <CreateMembership user_id={props.user_id} dispatch={props.dispatch} push={props.history.push}/>} />
+            <Route exact path='/edit-membership' render = { () => <EditMembership push={props.history.push} dispatch={props.dispatch} currentMembership={props.currentMembership}/>} />
+
+            {/*EMPLOYMENTS STUFF */}
+            <Route exact path='/create-employment' render = {() => <CreateEmployment user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID}/>} />
+            <Route exact path='/edit-employment' render = { () => <EditEmployment push={props.history.push} dispatch={props.dispatch} currentEmployment={props.currentEmployment} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} />} />
+
+            {/*EDUCATIONS STUFF */}
+            <Route exact path='/create-education' render = { () => <CreateEducation user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID}/>} />
+            <Route exact path='/edit-education' render = { () => <EditEducation  push={props.history.push} dispatch={props.dispatch} currentEducation={props.currentEducation} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} />} />
+
+            {/*CERTIFICATIONS STUFF */}
+            <Route exact path='/create-certification' render = { () => <CreateCertification  user_id={props.user_id} dispatch={props.dispatch} push={props.history.push}  />} />
+            <Route exact path='/edit-certification' render = { () => <EditCertification push={props.history.push} dispatch={props.dispatch} currentCertification={props.currentCertification} /> } />
         </Switch>
         </>
     )
@@ -75,10 +103,12 @@ const mapStateToProps = (state) => {
         currentPreference: state.allPreferenceInfo.currentPreference,
         currentCountryID: state.allPreferenceInfo.currentCountryID,
         currentStateID: state.allPreferenceInfo.currentStateID,
-        currentCityID: state.allPreferenceInfo.currentCityID
-
-
-
+        currentCityID: state.allPreferenceInfo.currentCityID,
+        currentSkill: state.allSkillInfo.currentSkill,
+        currentMembership: state.allMembershipInfo.currentMembership,
+        currentEmployment: state.allEmploymentInfo.currentEmployment,
+        currentEducation: state.allEducationInfo.currentEducation,
+        currentCertification: state.allCertificationInfo.currentCertification
     }
 }
 

@@ -10,7 +10,6 @@ export class EditPreference extends Component {
         newMinPay: '',
         newPostStartDate: '',
         newApplicationClosingDate: '',
-        newCountry: '',
         newCityPopulation: '',
         newIndustry: ''
     }
@@ -52,7 +51,11 @@ export class EditPreference extends Component {
     displayNewCity = (event) => {
         let newCity = citiesList.find(({id}) => id.toString() === this.props.currentCityID)        
         if(this.props.currentCityID){
-            return newCity.name
+            if(newCity){
+                return newCity.name
+            }else{
+                return 'State has no city'
+            }
         }else{
             return 'No new city selected'
         }
@@ -67,9 +70,9 @@ export class EditPreference extends Component {
                 id: this.props.currentPreference.id,
                 user_id: this.props.currentPreference.user_id,
                 name: this.state.newName || this.props.currentPreference.name,
-                country: newCountry,
-                state: newState,
-                city: newCity,
+                country: newCountry || this.props.currentPreference.country,
+                state: newState || this.props.currentPreference.state,
+                city: newCity || this.props.currentPreference.city,
                 city_population: this.state.newCityPopulation || this.props.currentPreference.city_population,
                 min_pay: this.state.newMinPay || this.props.currentPreference.min_pay,
                 job_title: this.state.newJobTitle || this.props.currentPreference.job_title,
@@ -88,67 +91,65 @@ export class EditPreference extends Component {
             <div className='forms'>
                 <form onSubmit={this.handleSubmit}>
                     <h2><strong>Edit preference</strong></h2>
-                    You can leave old values, or change them
+                    <p>You can <strong><u>leave old values</u></strong>, or <strong><u>change</u> </strong>them</p>
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Name:</strong>
+                            <strong>Name: </strong>
                         </label>
                         <input type='text'  defaultValue={preference.name} name='newName' onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job Title:</strong>
+                            <strong>Job Title: </strong>
                         </label>
                         <input type='text' defaultValue={preference.job_title} name='newJobTitle' onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Industry:</strong>
+                            <strong>Industry: </strong>
                         </label>
                         <input type='text' defaultValue={preference.industry} name='newIndustry' onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Min. Pay:</strong>
+                            <strong>Min. Pay: </strong>
                         </label>
                         <input type='number' defaultValue={preference.min_pay} name='newMinPay' onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job posting start date:</strong>
+                            <strong>Job posting start date: </strong>
                         </label>
                         <input type='date' defaultValue={preference.posting_date_start} name='newPostStartDate' max={todaysDate}  onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job application closing date:</strong>
+                            <strong>Job application closing date: </strong>
                         </label>
-                    </div>
-                    <div className='row job-card-row'>
                         <input type='date' defaultValue={preference.application_closing_date} min={todaysDate} name='newApplicationClosingDate'  onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>City population:</strong>
+                            <strong>City population: </strong>
                         </label>
                         <input type='number' defaultValue={preference.city_population} name='newCityPopulation' onChange={this.handleChange} /><br/>
-                    </div>
+                    </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Current preference country:</strong>
+                            <strong>Current preference country: </strong>
                         </label>{preference.country}
                     </div>
                     <div className='row job-card-row'>
                         <label>
-                            <strong>New selected country:</strong>
-                        </label>{this.displayNewCountry()}
+                            <strong>New selected country: </strong>
+                        </label>{this.displayNewCountry()} 
                         <select onChange={this.handleChangeCountry} className='location-select'>
                             <option defaultValue='Select country'>change country</option>
                             {countriesList.map(country =>  <option key={uuid()} value={country.id} name={country.id}> {country.name}</option>)}
@@ -157,13 +158,13 @@ export class EditPreference extends Component {
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Current preference state:</strong>
+                            <strong>Current preference state: </strong>
                         </label>{preference.state}
                     </div>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>New selected state:</strong>
+                            <strong>New selected state: </strong>
                         </label>
                         {this.displayNewState()}
                         <select onChange={this.handleChangeState} className='location-select'>
@@ -174,18 +175,22 @@ export class EditPreference extends Component {
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Current preference city:</strong>
+                            <strong>Current preference city: </strong>
                         </label>{preference.city}
                     </div>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>New selected city:</strong>
+                            <strong>New selected city: </strong>
                         </label>
                         {this.displayNewCity()}
                         <select onChange={this.handleChangeCity} className='location-select'>
                             <option defaultValue='Select city'>change city</option>
-                            {cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)}
+                            {cities.length <= 0 ?
+                                <option key={uuid()} value={'State has no city'}>State has no cities</option>
+                                :
+                                cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
+                            }
                         </select>
                     </div><br/>
                     <input className='page-buttons' type="submit" value="Edit Preference" />

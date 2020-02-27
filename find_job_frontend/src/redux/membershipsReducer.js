@@ -1,4 +1,4 @@
-import { LOGOUT, SET_MEMBERSHIPS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS} from './actionTypes'
+import { LOGOUT, SET_MEMBERSHIPS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_CURRENT_MEMBERSHIP} from './actionTypes'
 
 const initialState = {
    memberships: '',
@@ -29,9 +29,15 @@ const membershipsReducer = (state = initialState, action) => {
         }
 
         case RESET_VIEW_MEMBERSHIPS:
-        return{
+        return {
             ...state,
             viewMemberships: false
+        }
+
+        case SET_CURRENT_MEMBERSHIP:
+        return {
+            ...state,
+            currentMembership: action.payload
         }
 
         default:

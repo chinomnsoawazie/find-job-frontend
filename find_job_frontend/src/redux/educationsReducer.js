@@ -1,4 +1,4 @@
-import { LOGOUT, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS} from './actionTypes'
+import { LOGOUT, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_CURRENT_EDUCATION} from './actionTypes'
 
 const initialState = {
    educations: '',
@@ -32,6 +32,12 @@ const educationsReducer = (state = initialState, action) => {
         return{
             ...state,
             viewEducations: false
+        }
+
+        case SET_CURRENT_EDUCATION:
+        return{
+            ...state,
+            currentEducation: action.payload
         }
 
         default:

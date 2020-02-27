@@ -1,7 +1,17 @@
 import React from 'react'
+import { setCurrentCertification, deleteCertification } from '../redux/actions'
 
 const CertificationCard = (props) => {
-    const { certification } = props
+    const { certification, push, dispatch } = props
+
+    const handleEditCertification = () => {
+        setCurrentCertification(certification, dispatch)
+        push('/edit-certification')
+    }
+
+    const handleDeleteCertification = () => {
+        deleteCertification(certification, props)
+    }
     return (
     <>
         <div className='row job-card-row'>
@@ -27,13 +37,19 @@ const CertificationCard = (props) => {
             </label>{certification.renewable ? 'Yes' : 'No'}
         </div>
 
+
+        {certification.renewable ?
         <div className='row job-card-row'>
             <label>
                 <strong>Valid until: </strong>
             </label>{certification.valid_until}
         </div>
+        :
+        null
+        }
 
-        <button className='page-buttons'>Edit certification</button>
+        <button onClick={handleEditCertification} className='page-buttons'>Edit certification</button>
+        <button onClick={handleDeleteCertification} className='page-buttons'>Delete certification</button>
     </>
     )
 }

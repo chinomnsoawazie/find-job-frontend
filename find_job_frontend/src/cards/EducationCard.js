@@ -1,7 +1,19 @@
 import React from 'react'
+import { setCurrentEducation, deleteEducation } from '../redux/actions'
 
 const EducationCard = (props) => {
-    const { education } = props
+    const { education, push, dispatch} = props
+
+    const handleEducationEdit = () => {
+        setCurrentEducation(education, dispatch)
+        push('/edit-education')
+    }
+
+    const handleEducationDelete = () => {
+        deleteEducation(education, props)
+    }
+
+
     return (
     <>
         <div className='row job-card-row'>
@@ -12,7 +24,7 @@ const EducationCard = (props) => {
 
         <div className='row job-card-row'>
             <label>
-                <strong>Degree/Certificate obtained: </strong>
+                <strong>Degree/Certificate: </strong>
             </label>{education.degree_or_certificate}
         </div>
 
@@ -22,11 +34,20 @@ const EducationCard = (props) => {
             </label>{education.start_date}
         </div>
 
-        <div className='row job-card-row'>
+        {education.complete_status ?
+            <div className='row job-card-row'>
+                <label>
+                    <strong>End date: </strong>
+                </label>{education.end_date}
+            </div>
+            :
+            <div className='row job-card-row'>
             <label>
-                <strong>End date: </strong>
-            </label>{education.end_date}
-        </div>
+                <strong>Completion status: </strong>
+                </label> Not completed
+            </div>
+        }
+
 
         <div className='row job-card-row'>
             <label>
@@ -58,7 +79,9 @@ const EducationCard = (props) => {
             </div>
         </div>
 
-        <button className='page-buttons'>Edit education</button>
+        <button onClick={handleEducationEdit} className='page-buttons'>Edit education</button>
+        <button onClick={handleEducationDelete} className='page-buttons'>Delete education</button>
+
     </>
     )
 }

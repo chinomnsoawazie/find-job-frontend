@@ -1,4 +1,4 @@
-import { LOGOUT, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, } from './actionTypes'
+import { LOGOUT, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_CURRENT_SKILL, } from './actionTypes'
 
 const initialState = {
    skills: '',
@@ -32,6 +32,12 @@ const skillsReducer = (state = initialState, action) => {
         return{
             ...state,
             viewSkills: false
+        }
+
+        case SET_CURRENT_SKILL:
+        return {
+            ...state,
+            currentSkill: action.payload
         }
 
        

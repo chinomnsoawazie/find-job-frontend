@@ -1,4 +1,4 @@
-import { LOGOUT, SET_CERTIFICATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS} from './actionTypes'
+import { LOGOUT, SET_CERTIFICATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CURRENT_CERTIFICATION} from './actionTypes'
 
 const initialState = {
    certifications: '',
@@ -32,6 +32,12 @@ const certificationsReducer = (state = initialState, action) => {
         return{
             ...state,
             viewCertifications: false
+        }
+
+        case SET_CURRENT_CERTIFICATION:
+        return {
+            ...state,
+            currentCertification: action.payload
         }
 
         default:
