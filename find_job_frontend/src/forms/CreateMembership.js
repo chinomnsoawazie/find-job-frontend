@@ -61,6 +61,8 @@ export class CreateMembership extends Component {
 
                     <input className='page-buttons' type="submit" value="Create membership" />
                 </form>
+                <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>
+                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
             </div>
         )
     }

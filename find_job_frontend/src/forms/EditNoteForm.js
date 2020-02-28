@@ -29,7 +29,7 @@ export class EditNoteForm extends Component {
                         <textarea className='note' name='newText' defaultValue={this.props.currentNote.text}  onChange={this.handleChange} /><br/>
                     <input className='page-buttons' type="submit" value="Edit note" />
                 </form>
-                <button onClick = {() => this.props.push('/favorite-jobs')} className='page-buttons'>Back to favorite jobs</button>
+                <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back dashboard</button>
             </div>
         )
     }

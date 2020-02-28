@@ -9,7 +9,14 @@ function AllPreferences(props) {
         <div  className='job-card-div'>
             <button onClick={() => props.push('/create-preference')} className='page-buttons'>Create new preference</button>
             <div className='main-container'>
-                {preferences.map(preference => <PreferencesCard key={preference.id} dispatch={props.dispatch} preference={preference}/>)}    
+                {preferences.length < 1 ?
+                    <>
+                    <p>You currently do not have preferences. Use the 'Create new preference' button to add preferences</p><br/>
+                    <button className='page-buttons' onClick={() => props.push('/dashboard')}>Back to dashboard</button>
+                    </>
+                    :
+                    preferences.map(preference => <PreferencesCard key={preference.id} dispatch={props.dispatch} preference={preference}/>)   
+                }
             </div>
         </div>
     )

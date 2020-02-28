@@ -41,13 +41,12 @@ const UserProfile = (props) => {
 
     }
 
-
     return (
         <div className='job-card-div'>
         {viewPersonalInfo ?
         <>
         <button onClick={handleView}  name='hide-personal-info' className='page-buttons'>Hide Personal info</button>
-        <PersonalInfoCard />
+        <PersonalInfoCard dispatch={props.dispatch} push={props.push}/>
         </>
         :
         <button onClick={handleView} name='view-personal-info' className='page-buttons'>View Personal info</button>
@@ -57,7 +56,11 @@ const UserProfile = (props) => {
         <>
         <button onClick={handleView}  name='hide-skills' className='page-buttons'>Hide skills</button>
         <button onClick={() => props.push('/create-skill')} className='page-buttons'>Add skill</button>
-        {skills.map(skill => <SkillCard key={skill.id} skill={skill} push={props.push} dispatch={props.dispatch}/>)}
+        {skills.length < 1 ?
+            <p>You currently have no skills. You can add skills using the 'Add skill' button.</p>
+            :
+            skills.map(skill => <SkillCard key={skill.id} skill={skill} push={props.push} dispatch={props.dispatch}/>)
+        }
         </>
         :
         <>
@@ -70,7 +73,11 @@ const UserProfile = (props) => {
         <>
         <button onClick={handleView}  name='hide-memberships' className='page-buttons'>Hide memberships</button>
         <button onClick={() => props.push('/create-membership')} className='page-buttons'>Add membership</button>
-        {memberships.map(membership => <MembershipCard key={membership.id} membership={membership} push={props.push} dispatch={props.dispatch}/>)}
+        {memberships.length < 1 ?
+            <p>You currently have no memberships. You can add memberships using the 'Add membership' button</p>
+            :
+            memberships.map(membership => <MembershipCard key={membership.id} membership={membership} push={props.push} dispatch={props.dispatch}/>)
+        }
         </>
         :
         <>
@@ -83,7 +90,11 @@ const UserProfile = (props) => {
         <>
         <button onClick={handleView}  name='hide-employments' className='page-buttons'>Hide employments</button>
         <button onClick={() => props.push('/create-employment')} className='page-buttons'>Add employment</button>
-        {employments.map(employment => <EmploymentCard key={employment.id} employment={employment}  push={props.push} dispatch={props.dispatch}/>)}
+        {employments.length < 1 ?
+            <p>You currently have no employment history. You can add employments using the 'Add employment' button</p>
+            :
+            employments.map(employment => <EmploymentCard key={employment.id} employment={employment}  push={props.push} dispatch={props.dispatch}/>)
+        }
         </>
         :
         <>
@@ -96,7 +107,11 @@ const UserProfile = (props) => {
         <>
         <button onClick={handleView}  name='hide-educations' className='page-buttons'>Hide educations</button>
         <button onClick={() => props.push('/create-education')} className='page-buttons'>Add education</button>
-        {educations.map(education => <EducationCard key={education.id} education={education} push={props.push} dispatch={props.dispatch}/>)}
+        {educations.length < 1 ?
+            <p>You currently have no education. You can add educations using the 'Add education' button</p>
+            :
+            educations.map(education => <EducationCard key={education.id} education={education} push={props.push} dispatch={props.dispatch}/>)
+        }
         </>
         :
         <>
@@ -109,8 +124,12 @@ const UserProfile = (props) => {
         <>
         <button onClick={handleView}  name='hide-certifications' className='page-buttons'>Hide certifications</button>
         <button onClick={() => props.push('/create-certification')} className='page-buttons'>Add certification</button>
+        {certifications.length < 1 ?
+            <p>You currently have no certification. You can add certifications using the 'Add certification' button</p>
+            :
+            certifications.map(certification => <CertificationCard key={certification.id} certification={certification} push={props.push} dispatch={props.dispatch}/>)
+        }
 
-        {certifications.map(certification => <CertificationCard key={certification.id} certification={certification} push={props.push} dispatch={props.dispatch}/>)}
         </>
         :
         <>

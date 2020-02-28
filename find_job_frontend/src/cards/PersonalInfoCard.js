@@ -1,14 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { deleteUser } from '../redux/actions'
 
 const PersonalInfoCard = (props) => {
+    const {first_name, last_name, username, email, country, state, city, age, highest_education, years_of_experience, user_id} = props
 
-    const {first_name, last_name, username, email, country, state, city, age, highest_education, years_of_experience} = props
+    const handleDeleteUser = () => {
+        deleteUser(user_id, props.dispatch, props.push)
+    }
     return (
-        <div>
-        {/* <div className='job-card-row'> */}
-
-
+        <>
             <div className='row job-card-row'>
                 <label>
                     <strong>First name: </strong>
@@ -68,8 +69,9 @@ const PersonalInfoCard = (props) => {
                     <strong>Years of experience: </strong>
                 </label>{years_of_experience}
             </div>
-            <button className='page-buttons'>Edit personal info</button>
-        </div>
+            <button onClick={() => props.push('/edit-user')} className='page-buttons'>Edit personal info</button>
+            <button onClick={handleDeleteUser} className='page-buttons'>Delete account</button>
+        </>
     )
 }
 
@@ -84,7 +86,8 @@ const mapStateToProps = (state) => {
         city: state.allUserInfo.city,
         age: state.allUserInfo.age,
         highest_education: state.allUserInfo.highest_education,
-        years_of_experience: state.allUserInfo.years_of_experience
+        years_of_experience: state.allUserInfo.years_of_experience,
+        user_id: state.allUserInfo.user_id
     }
 }
 

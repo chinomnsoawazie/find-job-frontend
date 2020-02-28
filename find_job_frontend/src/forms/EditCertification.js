@@ -84,6 +84,8 @@ export class EditCertification extends Component {
                     }<br/><br/>
                     <input className='page-buttons' type="submit" value="Edit certification" />
                 </form>
+                <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>
+                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
             </div>
         )
     }

@@ -32,6 +32,9 @@ import CreateEducation from '../forms/CreateEducation'
 import EditEducation from '../forms/EditEducation'
 import CreateCertification from '../forms/CreateCertification'
 import EditCertification from '../forms/EditCertification'
+import CreateUser from '../forms/CreateUser'
+import { EditUser } from '../forms/EditUser'
+import SearchByV100 from '../forms/SearchByV100'
 
 const MainContainer = (props) => {
     return (
@@ -43,16 +46,23 @@ const MainContainer = (props) => {
             <Route exact path='/logged-in-options' render = {() => <LoggedInOptions />} />
             <Route exact path='/dashboard' render = { () => <DashBoard />} />
             <Route exact path='/user-profile' render = { () => <UserProfile push={props.history.push}/>} />
+            <Route exact path='/create-user' render = { () => <CreateUser dispatch={props.dispatch} push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID}/>} />
+            <Route exact path='/edit-user' render = { () => <EditUser token={props.token} currentUser={props.user} dispatch={props.dispatch} push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID}/>} />
 
             {/*JOB STUFF */}
-            <Route exact path='/search-for-jobs' render = { () => <SearchEntryPoint push={props.history.push}/>} />
-            <Route exact path='/search-by-tp' render = { () => <SearchByTP push={props.history.push} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
-            <Route exact path='/individual-job' render = { () => <JobCard  />} />
-            <Route exact path='/jobs-search-results' render = { () => <JobsSearchResults push={props.history.push}  />} />
-            <Route exact path='/favorite-jobs' render = {() => <FavoriteJobs />} />
-            <Route exact path='/applied-jobs' render = { () => <AppliedJobs />} />
+            <Route exact path='/favorite-jobs' render = {() => <FavoriteJobs push={props.history.push} />} />
+            <Route exact path='/applied-jobs' render = { () => <AppliedJobs push={props.history.push} />} />
             <Route exact path='/individual-favorite-job' render = { () => <UserJobCard fromFavoriteJobs={true} />} />
             <Route exact path='/individual-applied-job' render = { () => <UserAppliedJobCard  fromAppliedJobs={true} />} />
+            <Route exact path='/individual-job' render = { () => <JobCard  />} />
+            <Route exact path='/search-for-jobs' render = { () => <SearchEntryPoint push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} />} />
+            <Route exact path='/search-by-tp' render = { () => <SearchByTP push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
+            <Route exact path='/search-by-vet100' render = { () => <SearchByV100 appUserLocation={props.appUserLocation} push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
+
+
+
+
+            <Route exact path='/jobs-search-results' render = { () => <JobsSearchResults push={props.history.push}  />} />
 
             {/*NOTES STUFF */}
             <Route exact path='/create-note' render = { () => <CreateNote user_id={props.user_id} dispatch={props.dispatch} push={props.history.push} currentFavoriteJobID={props.currentFavoriteJob.id}/>} />
@@ -64,7 +74,7 @@ const MainContainer = (props) => {
 
             {/*PREFERENCES STUFF */}
             <Route exact path='/all-preferences' render = { () => <AllPreferences push={props.history.push}/>} />
-            <Route exact path='/individual-preference' render = { () => <PreferenceCard  push={props.history.push} dispatch={props.dispatch} currentPreference={props.currentPreference}/>} />
+            <Route exact path='/individual-preference' render = { () => <PreferenceCard  dispatch={props.dispatch} currentPreference={props.currentPreference}/>} />
             <Route exact path='/edit-preference' render = { () => <EditPreference push={props.history.push}  currentPreference={props.currentPreference} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
             <Route exact path='/create-preference' render = { () => <CreatePreference user_id={props.user_id}  push={props.history.push} currentCountryID={props.currentCountryID} currentStateID={props.currentStateID} currentCityID={props.currentCityID} dispatch={props.dispatch}/>} />
 
@@ -108,7 +118,11 @@ const mapStateToProps = (state) => {
         currentMembership: state.allMembershipInfo.currentMembership,
         currentEmployment: state.allEmploymentInfo.currentEmployment,
         currentEducation: state.allEducationInfo.currentEducation,
-        currentCertification: state.allCertificationInfo.currentCertification
+        currentCertification: state.allCertificationInfo.currentCertification,
+        user: state.allUserInfo.user,
+        token: state.allUserInfo.token,
+        Google_mapsAPIKey: state.allJobInfo.Google_mapsAPIKey,
+        appUserLocation: state.allJobInfo.appUserLocation
     }
 }
 

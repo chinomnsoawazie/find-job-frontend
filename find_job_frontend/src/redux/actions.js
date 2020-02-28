@@ -1,5 +1,43 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_CURRENT_SKILL, SET_CURRENT_MEMBERSHIP, SET_CURRENT_EMPLOYMENT, SET_CURRENT_EDUCATION, SET_CURRENT_CERTIFICATION } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_CURRENT_SKILL, SET_CURRENT_MEMBERSHIP, SET_CURRENT_EMPLOYMENT, SET_CURRENT_EDUCATION, SET_CURRENT_CERTIFICATION, SET_APP_USER_LOCATION } from './actionTypes'
 import axios from 'axios'
+import Geocode from 'react-geocode'
+
+//APP-WIDE STUFF
+export const setAppUserLocation = (dispatch, Google_mapsAPIKey, push) => {
+    console.log(dispatch, Google_mapsAPIKey)
+    const queryConditions= { considerIp: true };
+
+    fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${Google_mapsAPIKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(queryConditions),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          let lat= data.location.lat
+          let lng = data.location.lng
+          Geocode.setApiKey(Google_mapsAPIKey)
+          Geocode.fromLatLng(lat, lng).then(
+            response => {
+              let responseCity = response.results[0].address_components[2].long_name
+              let responseState = response.results[0].address_components[5].long_name
+            //   console.log(response, city, state)
+              let userLocation = {city: responseCity, state: responseState}
+              console.log(userLocation)
+              dispatch({type: SET_APP_USER_LOCATION, payload: userLocation})
+              push('/search-for-jobs')
+            },
+            error => {
+              console.error(error);
+            }
+          )
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+}
 
 //USER STUFF
 export const login = (user, push, dispatch) =>{
@@ -20,7 +58,59 @@ export const login = (user, push, dispatch) =>{
         })
         .catch((error) =>{
             console.log('Error:', error)
+            alert('')
         })
+}
+
+export const createUser = (user, push, dispatch) => {
+    axios.post('http://localhost:3000/users', user)
+    .then(r => {
+        console.log(r.data)
+        dispatch({type: SET_USER_JOBS, payload: r.data.user.jobs})
+        dispatch({type: SET_SKILLS, payload: r.data.user.skills})
+        dispatch({type: SET_MEMBERSHIPS, payload: r.data.user.memberships})
+        dispatch({type: SET_EDUCATIONS, payload: r.data.user.educations})
+        dispatch({type: SET_EMPLOYMENTS, payload: r.data.user.employments})
+        dispatch({type: SET_CERTIFICATIONS, payload: r.data.user.certifications})
+        dispatch({type: SET_NOTES, payload: r.data.user.notes})
+        dispatch({type: SET_TODOS, payload: r.data.user.tasks})
+        dispatch({type: SET_PREFERENCES, payload: r.data.user.preferences})
+        dispatch({type: SET_USER, payload: r.data})
+        alert(`Welcome ${r.data.user.first_name}! Account was successfully created.`)
+        push('/logged-in-options')        
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })    
+}
+
+export const editUser = (user, push, dispatch, token) => {
+    let config ={
+        headers: {'Authorization': "bearer " + token}
+    }
+    axios.patch(`http://localhost:3000/users/${user.id}`, user, config)
+    .then(returnedUser=> {
+        dispatch({type: RESET_LOCATION_IDS})
+        dispatch({type: SET_USER, payload: returnedUser.data})
+        alert(`User details have been updated`)
+        push('/user-profile')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
+}
+
+export const deleteUser = (user_id, dispatch, push) => {
+    console.log(user_id)
+    axios.delete(`http://localhost:3000/users/${user_id}`)
+    .then(r => {
+        alert('Account successfully deleted. Sorry to see you go.')
+        dispatch({type: LOGOUT})
+        push('/')
+    })
+    .catch((error) =>{
+        console.log('Error', error)
+    })
 }
 
 export const logout = (props) =>{
@@ -29,7 +119,6 @@ export const logout = (props) =>{
 }
 
 export const setViewPersonalInfo = (dispatch) => {
-    console.log(dispatch)
     dispatch({type: SET_VIEW_PERSONAL_INFO})
 }
 
@@ -52,7 +141,7 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
     let host = 'data.usajobs.gov'
     let userAgent = props.myEmail
     let authKey = props.USAJobsAPIKey
-    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage= 500&PositionTitle=${title}&LocationName=${location}&RemunerationMinimumAmount=${minimumPay}`, {
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&PositionTitle=${title}&LocationName=${location}&RemunerationMinimumAmount=${minimumPay}`, {
         method:'GET',
         headers: {
             "Host": host,
@@ -62,6 +151,78 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
     })
     .then(response => response.json())
     .then(json => {
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
+export const searchJobsByPreference = (title, minimumPay, location, props, days) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&PositionTitle=${title}&LocationName=${location.city},%20${location.state}&RemunerationMinimumAmount=${minimumPay}&DatePosted=${days}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.history.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
+export const searchVetJobsNationwide = (props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=60`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.history.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
+export const searchNearestVetJobs = (radius, state, days, city, props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=${days}&Radius=${radius}&LocationName=${city},%20${state}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
         props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
         props.push('/jobs-search-results')
     })
@@ -196,7 +357,6 @@ export const applyToExistingJob = (job, props) => {
         console.log('Error', error)
     })
 }
-
 
 //NOTES STUFF
 export const setViewNote = (dispatch) => {
@@ -360,6 +520,7 @@ export const editPreference = (preference, props) => {
  
     axios.patch(`http://localhost:3000/preferences/${preference.id}`, preference, config)
     .then(returnedPreferences => {
+        console.log(returnedPreferences)
         props.dispatch({type: SET_CURRENT_PREFERENCE, payload: preference})
         props.dispatch({type: SET_PREFERENCES, payload: returnedPreferences.data.userPreferences})
         alert('Preference successfully updated.')
@@ -372,6 +533,7 @@ export const editPreference = (preference, props) => {
 }
 
 export const deletePreference = (preference, props) => {
+    console.log(preference)
     let config = { data:{
         user_id: preference.user_id
         }

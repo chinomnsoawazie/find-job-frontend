@@ -15,7 +15,8 @@ const initialState = {
     userCertifications: [],
     loggedIn: '',
     token: '',
-    viewPersonalInfo: false
+    viewPersonalInfo: false,
+    user: ''
 }
 
 const userReducer = (state = initialState, action) => {
@@ -38,7 +39,8 @@ const userReducer = (state = initialState, action) => {
             years_of_experience: user.years_of_experience,
             userCertifications: user.certifications,
             loggedIn: true,
-            token: token
+            token: token,
+            user: user
         }
 
         case LOGOUT:
@@ -58,7 +60,8 @@ const userReducer = (state = initialState, action) => {
             userCertifications: [],
             loggedIn: '',
             token: '',
-            viewPersonaInfo: false
+            viewPersonaInfo: false,
+            user: ''
         }
 
         case SET_VIEW_PERSONAL_INFO:

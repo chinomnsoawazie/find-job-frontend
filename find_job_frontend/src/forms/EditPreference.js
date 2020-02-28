@@ -70,9 +70,9 @@ export class EditPreference extends Component {
                 id: this.props.currentPreference.id,
                 user_id: this.props.currentPreference.user_id,
                 name: this.state.newName || this.props.currentPreference.name,
-                country: newCountry || this.props.currentPreference.country,
-                state: newState || this.props.currentPreference.state,
-                city: newCity || this.props.currentPreference.city,
+                country: newCountry,
+                state: newState,
+                city: newCity,
                 city_population: this.state.newCityPopulation || this.props.currentPreference.city_population,
                 min_pay: this.state.newMinPay || this.props.currentPreference.min_pay,
                 job_title: this.state.newJobTitle || this.props.currentPreference.job_title,
@@ -156,43 +156,46 @@ export class EditPreference extends Component {
                         </select>
                     </div><br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current preference state: </strong>
-                        </label>{preference.state}
-                    </div>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>New selected state: </strong>
-                        </label>
-                        {this.displayNewState()}
-                        <select onChange={this.handleChangeState} className='location-select'>
-                            <option defaultValue='Select state'>change state</option>
-                            {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
-                        </select>
-                    </div><br/>
+                    {this.props.currentCountryID ?
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current preference state: </strong>
+                            </label>{preference.state}<br/>
+                            <label>
+                                <strong>New selected state: </strong>
+                            </label>
+                            {this.displayNewState()}
+                            <select onChange={this.handleChangeState} className='location-select'>
+                                <option defaultValue='Select state'>change state</option>
+                                {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current preference city: </strong>
-                        </label>{preference.city}
-                    </div>
-
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>New selected city: </strong>
-                        </label>
-                        {this.displayNewCity()}
-                        <select onChange={this.handleChangeCity} className='location-select'>
-                            <option defaultValue='Select city'>change city</option>
-                            {cities.length <= 0 ?
-                                <option key={uuid()} value={'State has no city'}>State has no cities</option>
-                                :
-                                cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
-                            }
-                        </select>
-                    </div><br/>
+                    {this.props.currentCountryID ?
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current preference city: </strong>
+                            </label>{preference.city}<br/>
+                            <label>
+                                <strong>New selected city: </strong>
+                            </label>
+                            {this.displayNewCity()}
+                            <select onChange={this.handleChangeCity} className='location-select'>
+                                <option defaultValue='Select city'>change city</option>
+                                {cities.length <= 0 ?
+                                    <option key={uuid()} value={'State has no city'}>State has no cities</option>
+                                    :
+                                    cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
+                                }
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
                     <input className='page-buttons' type="submit" value="Edit Preference" />
                 </form>
                 <button onClick = {() => this.props.push('/individual-preference')} className='page-buttons'>Back to preference</button>

@@ -21,7 +21,7 @@ const AppEntryPoint = (props) => {
                 </div>
                 
                 <div className='row '>
-                    <button onClick={() => props.history.push('signup')} className='page-buttons'>Sign up</button>
+                    <button onClick={() => props.history.push('/create-user')} className='page-buttons'>Sign up</button>
                 </div><br/>
 
                 <div className='row'>

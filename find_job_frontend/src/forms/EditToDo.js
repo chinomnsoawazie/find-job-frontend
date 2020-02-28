@@ -59,7 +59,7 @@ export class EditToDoForm extends Component {
                     </div>
                     <input className='page-buttons' type="submit" value="Edit ToDo" />
                 </form>
-                <button onClick = {() => this.props.push('/individual-favorite-job')} className='page-buttons'>Back to job</button>
+                <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back dashboard</button>
             </div>
         )
     }

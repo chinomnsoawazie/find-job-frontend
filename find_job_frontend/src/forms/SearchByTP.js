@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
 import { searchJobsByTP} from '../redux/actions'
-import Geocode from 'react-geocode'
 
 export class SearchByTP extends Component {
 
     state ={
         minimumPay: '',
         title: '',
-        location: ''
+        location: '',
     }
 
     handleChange = (event) =>{
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        this.setState({[event.target.name]: event.target.value})
     }
 
     handleSubmit = (event) => {
@@ -24,23 +21,9 @@ export class SearchByTP extends Component {
         searchJobsByTP(title, minimumPay, location, this.props)
     }
 
-    getAddress = () =>{
-        Geocode.setApiKey("get address from backend");
-        Geocode.fromLatLng("39.4135", "-77.97927").then(
-            response => {
-              const address = response.results[0].address_components[7].long_name;
-              console.log(address);
-            },
-            error => {
-              console.error(error);
-            }
-          );
-
-    }
     render() {
         return (
             <div className='logged-in-page'>
-                {/* <button onClick={this.getAddress}>Get address</button> */}
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
                         <label>

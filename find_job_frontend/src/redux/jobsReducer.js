@@ -1,4 +1,4 @@
-import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS } from './actionTypes'
+import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_APP_USER_LOCATION } from './actionTypes'
 
 const initialState = {
     USAJobsAPIKey: '',
@@ -11,7 +11,8 @@ const initialState = {
     currentFavoriteJob: '',
     currentAppliedJob: '',
     userJobs: [],
-    showShareOptions: false
+    showShareOptions: false,
+    appUserLocation: ''
 }
 
 const jobsReducer = (state = initialState, action) => {
@@ -37,6 +38,8 @@ const jobsReducer = (state = initialState, action) => {
             currentFavoriteJob: '',
             currentAppliedJob: '',
             userJobs: [],
+            showShareOptions: false,
+            appUserLocation: ''
         }
 
         case SET_JOBS_RETURNED_FROM_SEARCH:
@@ -134,6 +137,15 @@ const jobsReducer = (state = initialState, action) => {
             ...state,
             showShareOptions: false
         }
+
+        case SET_APP_USER_LOCATION:
+            console.log(action.payload)
+        return {
+            ...state,
+            appUserLocation: action.payload
+        }
+
+
 
         default:
         return state

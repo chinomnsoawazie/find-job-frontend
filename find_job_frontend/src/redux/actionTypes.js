@@ -1,3 +1,6 @@
+//APP-WIDE STUFF
+export const SET_APP_USER_LOCATION = 'SET_APP_USER_LOCATION'
+
 //USER STUFF
 export const SET_USER = "SET_USER"
 export const LOGOUT = "LOGOUT"

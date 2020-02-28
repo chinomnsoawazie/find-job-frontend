@@ -1,11 +1,28 @@
 import React from 'react'
-import { deletePreference } from '../redux/actions'
+import { deletePreference, searchJobsByPreference } from '../redux/actions'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 function PreferenceCard(props) {
     const {currentPreference} = props
 
     const handleDeletePreference = () => {
         deletePreference(currentPreference, props)
+    }
+
+    const handleSearchPreferenceJobs = () => {
+        let location = {
+                        state: currentPreference.state,
+                        city: currentPreference.city
+                        }
+        let title = currentPreference.job_title
+        let minimumPay = currentPreference.min_pay
+        let date1 = new Date(currentPreference.posting_date_start)
+        let todaysDate =  new Date().toJSON().slice(0,10).replace(/-/g,'-')
+        let date2 = new Date(todaysDate)
+        let Difference_In_Time = date2.getTime() -  date1.getTime()
+        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+        searchJobsByPreference(title, minimumPay, location, props, Difference_In_Days)
     }
 
     return (
@@ -49,17 +66,20 @@ function PreferenceCard(props) {
                     <strong>Applications closing date start:</strong><br/>{currentPreference.application_closing_date}
                 </div>
             </div>
-            {/*no need to set currentPreference in edit preference below the current preference in this component is what you'll be dealing with in the editPreference form */}
-            <button onClick={() => props.push('/edit-preference')} className='page-buttons'>Edit preference</button>
+            <button onClick={() => props.history.push('/edit-preference')} className='page-buttons'>Edit preference</button>
             <button onClick={handleDeletePreference} className='page-buttons'>Delete preference</button>
-
-            <button onClick={() => props.push('/all-preferences')} className='page-buttons'>Back to all preferences</button>
-            <button onClick={() => props.push('/dashboard')} className='page-buttons'>Back to dashboard</button>
-
+            <button onClick={handleSearchPreferenceJobs} className='page-buttons'>Search matching jobs</button>
+            <button onClick={() => props.history.push('/all-preferences')} className='page-buttons'>Back to all preferences</button>
+            <button onClick={() => props.history.push('/dashboard')} className='page-buttons'>Back to dashboard</button>
         </div>
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        myEmail: state.allJobInfo.myEmail,
+        USAJobsAPIKey: state.allJobInfo.USAJobsAPIKey
+    }
+}
 
-
-export default PreferenceCard
+export default connect(mapStateToProps)(withRouter(PreferenceCard))

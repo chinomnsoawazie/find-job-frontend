@@ -6,12 +6,9 @@ import NavBar from './containers/NavBar'
 import PageLeftSideBar from './containers/PageLeftSideBar'
 import MainContainer from './containers/MainContainer'
 
-
-
-
 class App extends Component {
-  componentDidMount() {
-    setAPIKeys(this.props.dispatch)
+  async componentDidMount() {
+    await setAPIKeys(this.props.dispatch)
   }
   
   render() {
@@ -24,7 +21,7 @@ class App extends Component {
         <div className='row main-page'>
           <div className='column'>
               {this.props.loggedIn ?
-              <PageLeftSideBar preferences={this.props.preferences} dispatch={this.props.dispatch}/>
+              <PageLeftSideBar preferences={this.props.preferences} user={this.props.user} dispatch={this.props.dispatch}/>
               :
               null
               }
@@ -42,7 +39,9 @@ class App extends Component {
 const mapStateToProps = (state) =>{
   return {
     loggedIn: state.allUserInfo.loggedIn,
-    preferences: state.allPreferenceInfo.preferences
+    preferences: state.allPreferenceInfo.preferences,
+    user: state.allUserInfo.user,
+    Google_mapsAPIKey: state.allJobInfo.Google_mapsAPIKey
   }
 }
 

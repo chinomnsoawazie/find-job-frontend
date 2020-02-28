@@ -26,9 +26,7 @@ export class CreateCertification extends Component {
                 issuing_date: this.state.issuing_date,
                 valid_until: this.state.valid_until
             }
-
-            createCertification(certification, this.props)
-        
+             createCertification(certification, this.props)
     }
 
     render() {

@@ -29,6 +29,7 @@ export class CreateNote extends Component {
                         <textarea className='note' placeholder='Type new note here' value={this.state.text} onChange={this.handleChange} /><br/>
                     <input className='page-buttons' type="submit" value="Create note" />
                 </form>
+                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
             </div>
         )
     }

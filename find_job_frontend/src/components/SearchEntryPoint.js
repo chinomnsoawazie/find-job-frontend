@@ -14,6 +14,18 @@ const SearchEntryPoint = (props) => {
             </div><br/>
 
             <div className='row'>
+                <button onClick={() => push('/search-by-vet100')} className='page-buttons'> Nearby Vet Jobs</button><br/>
+            </div><br/>
+
+            <div className='row'>
+                <button onClick={() => push('/search-by-z')} className='page-buttons'> Vet jobs by cities</button><br/>
+            </div><br/>
+
+            <div className='row'>
+                <button onClick={() => push('/search-by-z')} className='page-buttons'> Vet jobs by states </button><br/>
+            </div><br/>
+
+            <div className='row'>
                 <button onClick={() => push('/search-by-z')} className='page-buttons'> Job title </button><br/>
             </div><br/>
 

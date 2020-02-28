@@ -3,10 +3,9 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import logo from '../pictures/logo.png'
 import searchJob from '../pictures/searchJob.png'
-import { logout } from '../redux/actions'
+import { logout, setAppUserLocation } from '../redux/actions'
 
 const NavBar = (props) => {
-
     const {loggedIn, first_name} = props
 
     const homeDisplay = () =>{
@@ -19,8 +18,12 @@ const NavBar = (props) => {
 
     const handleLogout = () => {
         logout(props)
-
     }
+
+    const handleSearchjobs = () => {
+        setAppUserLocation(props.dispatch, props.Google_mapsAPIKey, props.history.push)
+    }
+
     return (
         <header>
             <nav className='nav-bar-items row' style={{  borderTop: "solid", borderBottom: "solid", borderWidth: "2px", borderColor: "#929ca7", borderRadius: "30px"}}>
@@ -30,7 +33,7 @@ const NavBar = (props) => {
                 </div>
 
                 <div  className='column'>
-                    <button onClick={() => props.history.push('/search-for-jobs')} className="nav-buttons"><img src={searchJob} height='15' width='15'  alt="search"/>Find Jobs</button>
+                    <button onClick={handleSearchjobs} className="nav-buttons"><img src={searchJob} height='15' width='15'  alt="search"/>Find Jobs</button>
                 </div>
 
                {loggedIn ?
@@ -51,19 +54,17 @@ const NavBar = (props) => {
                     <button onClick={handleLogout} className="nav-buttons">logout</button>
                 </div>
                </>
-
                 :
                 <>
                 <div className='column'>
                     <button onClick={() => props.history.push('/login')} className="nav-buttons">Sign in</button>
                 </div>
-                            
+
                 <div className='column'>
-                    <button onClick={() => props.history.push('/my-dashboard')} className="nav-buttons">Sign up</button>
+                    <button onClick={() => props.history.push('/create-user')} className="nav-buttons">Sign up</button>
                 </div>
                 </>
             }
-
             </nav>
         </header>
     )
@@ -72,7 +73,8 @@ const NavBar = (props) => {
 const mapStateToProps = (state) => {
     return {
         loggedIn: state.allUserInfo.loggedIn,
-        first_name: state.allUserInfo.first_name
+        first_name: state.allUserInfo.first_name,
+        Google_mapsAPIKey: state.allJobInfo.Google_mapsAPIKey
     }
 }
 

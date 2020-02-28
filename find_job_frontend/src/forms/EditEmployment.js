@@ -93,7 +93,6 @@ export class EditEmployment extends Component {
         let cities = citiesList.filter(city => city.state_id === this.props.currentStateID)
         let employment = this.props.currentEmployment
         const todaysDate = new Date().toJSON().slice(0,10).replace(/-/g,'-')
-        console.log(this.state.newCurrentlyWorkHere)
         return (
             <div className='forms'>
                 <form onSubmit={this.handleSubmit}>
@@ -196,38 +195,46 @@ export class EditEmployment extends Component {
                         </select>
                     </div><br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current state: </strong>
-                        </label>{employment.state}
-                    </div>
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>State: </strong>
-                        </label>{this.displayNewState()}
-                        <select onChange={this.handleChangeState} className='location-select'>
-                            <option defaultValue='Select state'>change state</option> 
-                            {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
-                        </select>
-                    </div><br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current city: </strong>
-                        </label>{employment.city}
-                    </div>
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>City: </strong>
-                        </label>{this.displayNewCity()}
-                        <select onChange={this.handleChangeCity} className='location-select'>
-                            <option defaultValue='Select city'>change city</option>
-                            {cities.length <= 0 ?
-                                <option key={uuid()} value={'State has no city'}>State has no cities</option>
-                                :
-                                cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
-                            }                        </select>
-                    </div><br/>
+                    {this.props.currentCountryID ? 
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current state: </strong>
+                            </label>{employment.state}<br/>
+                            <label>
+                                <strong>State: </strong>
+                            </label>{this.displayNewState()}
+                            <select onChange={this.handleChangeState} className='location-select'>
+                                <option defaultValue='Select state'>change state</option> 
+                                {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
+
+
+
+                    {this.props.currentCountryID ?
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current city: </strong>
+                            </label>{employment.city}<br/>
+                            <label>
+                                <strong>City: </strong>
+                            </label>{this.displayNewCity()}
+                            <select onChange={this.handleChangeCity} className='location-select'>
+                                <option defaultValue='Select city'>change city</option>
+                                {cities.length <= 0 ?
+                                    <option key={uuid()} value={'State has no city'}>State has no cities</option>
+                                    :
+                                    cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
+                                }
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
                     <input className='page-buttons' type="submit" value="Edit employment" />
                 </form>
                 <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>

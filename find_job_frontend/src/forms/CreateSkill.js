@@ -54,6 +54,7 @@ export class CreateSkill extends Component {
 
                     <input className='page-buttons' type="submit" value="Create skill" />
                 </form>
+                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
             </div>
         )
     }

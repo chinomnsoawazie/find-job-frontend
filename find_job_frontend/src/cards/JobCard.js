@@ -62,33 +62,51 @@ const JobCard = (props) => {
                  <h4><strong>Job Title: </strong>{currentJob.job_title}</h4>
             </div>
 
-            <div className='row' >
+            <div className='row columned-row' >
                 <div className='column job-card-row' >
-                    <p><strong>Organization:</strong> {currentJob.organization_name}</p> 
+                    <strong>Organization:</strong> {currentJob.organization_name}
                 </div>
                 <div className='column job-card-row'>
-                    <p><strong>Location: </strong>{currentJob.location}</p>
+                    <strong>Location: </strong>{currentJob.location}
+                </div>
+            </div><br/>
+
+            <div className='row columned-row' >
+                <div className='column job-card-row'>
+                    <strong>Min. pay: </strong>{currentJob.minimum_pay}
+                </div>
+
+                <div className='column job-card-row'>
+                    <strong>Max. pay: </strong>{currentJob.maximum_pay}
+                </div>
+
+                <div className='column job-card-row'>
+                    <strong>Pay period: </strong>{currentJob.pay_period}
+                </div>
+            </div><br/>
+
+            <div className='row columned-row'>
+                <div className='column job-card-row'>
+                    <strong>Job type: </strong>{currentJob.job_type}
+                </div>
+
+                <div className='column job-card-row'>
+                    <strong>Hiring path: </strong>{currentJob.hiring_path}
+                </div>
+            </div><br/>
+
+            <div className='row columned-row'>
+                <div className='column job-card-row'>
+                    <strong>Job posting date: </strong>{currentJob.job_posting_date}
+                </div>
+
+                <div className='column job-card-row'>
+                    <strong>Applications close date: </strong>{currentJob.application_close_date}
                 </div>
             </div>
 
             <div className='row' >
-                <p> <strong>Min. pay:</strong> ${currentJob.minimum_pay}::
-                <strong>Max. pay:</strong> ${currentJob.maximum_pay}::
-                <strong>Pay period:</strong> ${currentJob.pay_period}</p>
-            </div>
-
-            <div className='row'>
-                <p><strong>Job Type:</strong> {currentJob.job_type}::
-                <strong>Hiring path: </strong> {currentJob.hiring_path}</p>
-            </div>
-
-            <div className='row'>
-                <p><strong>Job posting date:</strong> {currentJob.job_posting_date}::
-                <strong>Applications close date:</strong> {currentJob.application_close_date}</p>
-            </div>
-
-            <div className='row' >
-                    <p><strong>Schedule:</strong>::
+                    <p><strong>Schedule: </strong>
                     {currentJob.schedule}</p>
             </div>
 
@@ -96,22 +114,22 @@ const JobCard = (props) => {
                 <strong>Summary:</strong>
             </div>
             <div className='row'>
-                <p>{currentJob.employer_strongpoints}</p>
-            </div>
+                {currentJob.employer_strongpoints}
+            </div><br/>
 
             <div className='row job-card-row'>
                 <strong>Description:</strong>
             </div>
 
             <div className='row'>
-                <p>{currentJob.description}</p> 
-            </div>
+                {currentJob.description}
+            </div><br/>
         
             <div className='row job-card-row'>
                 <strong>Requirements:</strong>
             </div>
             <div className='row'>
-                <p>{currentJob.requirement}</p>
+                {currentJob.requirement}
             </div>
             
 
@@ -179,7 +197,7 @@ const JobCard = (props) => {
                     <button onClick={handleBackToSearchResultButton} className='page-buttons'>Back to search results</button>
                 </>
                 :
-                <button  className='page-buttons'>Back to search results</button>
+                <button onClick={() => props.history.push('/jobs-search-results')} className='page-buttons'>Back to search results</button>
             }
         </div>
     )

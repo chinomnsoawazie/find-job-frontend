@@ -197,35 +197,43 @@ export class EditEducation extends Component {
                         </select>
                     </div><br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current state </strong>
-                        </label>{education.state}<br/>
-                        <label>
-                            <strong>New state: </strong>
-                        </label>{this.displayNewState()}
-                        <select onChange={this.handleChangeState} className='location-select'>
-                            <option defaultValue='Select state'>change state</option> 
-                            {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
-                        </select>
-                    </div><br/>
+                    {this.props.currentCountryID ?
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current state </strong>
+                            </label>{education.state}<br/>
+                            <label>
+                                <strong>New state: </strong>
+                            </label>{this.displayNewState()}
+                            <select onChange={this.handleChangeState} className='location-select'>
+                                <option defaultValue='Select state'>change state</option> 
+                                {states.map(state => <option key={uuid()} value={state.id}>{state.name}</option>)}
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
 
-                    <div className='row job-card-row'>
-                        <label>
-                            <strong>Current city </strong>
-                        </label>{education.city}<br/>
-                        <label>
-                            <strong>New city: </strong>
-                        </label>{this.displayNewCity()}
-                        <select onChange={this.handleChangeCity} className='location-select'>
-                            <option defaultValue='Select city'>change city</option>
-                            {cities.length <= 0 ?
-                                <option key={uuid()} value={'State has no city'}>State has no cities</option>
-                                :
-                                cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
-                            }
-                        </select>
-                    </div><br/>
+                    {this.props.currentCountryID ?
+                        <div className='row job-card-row'>
+                            <label>
+                                <strong>Current city </strong>
+                            </label>{education.city}<br/>
+                            <label>
+                                <strong>New city: </strong>
+                            </label>{this.displayNewCity()}
+                            <select onChange={this.handleChangeCity} className='location-select'>
+                                <option defaultValue='Select city'>change city</option>
+                                {cities.length <= 0 ?
+                                    <option key={uuid()} value={'State has no city'}>State has no cities</option>
+                                    :
+                                    cities.map(city => <option key={uuid()} value={city.id}>{city.name}</option>)
+                                }
+                            </select>
+                        </div>
+                        :
+                        null
+                    }<br/>
                     <input className='page-buttons' type="submit" value="Edit education" />
                 </form>
                 <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>
