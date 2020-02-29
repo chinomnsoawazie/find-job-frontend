@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions} from '../redux/actions'
+import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions, resetFavoriteCheck} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -36,12 +36,14 @@ const UserAppliedJobCard = (props) => {
     const handleBackToAppliedJobs = (event) => {
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
+        resetShowShareOptions(props.dispatch)
         props.history.push('/applied-jobs')
     }
 
     const handleBackToDashboard = (event) => {
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
+        resetShowShareOptions(props.dispatch)
         props.history.push('/dashboard')
     }
 
@@ -74,15 +76,15 @@ const UserAppliedJobCard = (props) => {
 
             <div className='row columned-row' >
                 <div className='column job-card-row' >
-                    <strong>Min. pay:</strong> ${currentAppliedJob.minimum_pay}
+                    <strong>Min. pay:</strong> ${parseFloat(currentAppliedJob.minimum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Max. pay:</strong> ${currentAppliedJob.maximum_pay}
+                    <strong>Max. pay:</strong> ${parseFloat(currentAppliedJob.maximum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Pay period:</strong> ${currentAppliedJob.pay_period}
+                    <strong>Pay period:</strong> {currentAppliedJob.pay_period}
                 </div>
             </div><br/>
 
@@ -134,7 +136,7 @@ const UserAppliedJobCard = (props) => {
             <div className='row columned-row'>
                 <div className='column job-card-row' >
 
-                {favoriteCheck ? 
+                {currentAppliedJob.favorite_key ? 
                         <button onClick={handleUnfavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job in favorite jobs. Remove from favorites?</button>
                     :
                         <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/>Add to favorites </button>
@@ -214,6 +216,7 @@ const UserAppliedJobCard = (props) => {
             }
 
              <div className='row'>
+                <button onClick = {() => window.open(currentAppliedJob.url)} className='page-buttons'>View job on employer website</button>
                 <button onClick = {handleBackToAppliedJobs} className='page-buttons'>Back to Applied jobs</button>
                 <button onClick={handleBackToDashboard} className='page-buttons'>Back to dashboard</button>
             </div>
@@ -226,7 +229,6 @@ const mapStateToProps = (state) =>{
         token: state.allUserInfo.token,
         user_id: state.allUserInfo.user_id,
         currentAppliedJob: state.allJobInfo.currentAppliedJob,
-        favoriteCheck: state.allJobInfo.favoriteCheck,
         notes: state.allNoteInfo.notes,
         viewNote: state.allNoteInfo.viewNote,
         toDos: state.allToDoInfo.toDos,

@@ -36,7 +36,7 @@ function PreferencesCard(props) {
         <div>
             <div  className='row job-card-row'><strong>Name: </strong> {preference.name}</div>
             <div  className='row job-card-row'><strong>Job Title: </strong> {preference.job_title}</div>
-            <div  className='row job-card-row'><strong>Min. pay: </strong> ${preference.min_pay}</div> 
+            <div  className='row job-card-row'><strong>Min. pay: </strong> ${parseFloat(preference.min_pay).toLocaleString()}</div> 
             <div  className='row job-card-row'><strong>Location: </strong><br/>
             Country: {preference.country}<br/> State: {preference.state}<br/>City: {preference.city}</div>
             <div className='row job-card-row'>

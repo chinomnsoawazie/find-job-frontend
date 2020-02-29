@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { searchJobsByTP} from '../redux/actions'
+import { searchJobsByTCS } from '../redux/actions'
 
-export class SearchByTP extends Component {
-
+export class SearchByTL extends Component {
     state ={
-        minimumPay: '',
         title: '',
-        location: '',
+        city: '',
+        state: ''
     }
 
     handleChange = (event) =>{
@@ -15,36 +14,36 @@ export class SearchByTP extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        let minimumPay = this.state.minimumPay
         let title = this.state.title
-        let location = this.state.location
-        searchJobsByTP(title, minimumPay, location, this.props)
+        let city = this.state.city
+        let state = this.state.state
+        searchJobsByTCS(title, city, state, this.props)
     }
 
     render() {
         return (
             <div className='logged-in-page'>
-                <h2>Search jobs by title and minimum pay</h2>
+                <h2>Find jobs by title and location</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
                         <label>
-                            <strong>Title: </strong>
+                            <strong>Title:</strong>
                         </label>
                         <input type="text" name='title' placeholder='Eg. Clerk, Engineer' value={this.state.title} onChange={this.handleChange} />
-                    </div><br/>
-                    
-                    <div className='row'>
-                        <label>
-                            <strong>Minimum pay: </strong>
-                        </label>
-                        $<input name='minimumPay' type='number' placeholder='numbers only' value={this.state.minimumPay} onChange={this.handleChange} />
                     </div><br/>
 
                     <div className='row'>
                         <label>
                             <strong>City:</strong>
                         </label>
-                        <input type="text" name='location' className='location' placeholder='Eg. New York' value={this.state.location} onChange={this.handleChange} />
+                        <input type="text" name='city' className='location' placeholder='Eg. Country, and/or State and/or City' value={this.state.city} onChange={this.handleChange} />
+                    </div><br/>
+
+                    <div className='row'>
+                        <label>
+                            <strong>State:</strong>
+                        </label>
+                        <input type="text" name='state' className='location' placeholder='Eg. Country, and/or State and/or City' value={this.state.state} onChange={this.handleChange} />
                     </div><br/>
 
                     <div className='row'>
@@ -56,4 +55,4 @@ export class SearchByTP extends Component {
     }
 }
 
-export default SearchByTP
+export default SearchByTL

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { searchNearestVetJobs } from '../redux/actions'
+import { searchNearestJobs } from '../redux/actions'
 
-export class SearchByV100 extends Component {
+export class SearchByCurrentLocationAllJobs extends Component {
 
     state = {
         radius: '',
@@ -18,14 +18,14 @@ export class SearchByV100 extends Component {
         let city = this.props.appUserLocation.city
         let state =this.props.appUserLocation.state
         let days = this.state.days
-        searchNearestVetJobs(radius, state, days, city, this.props)
+        searchNearestJobs(radius, state, days, city, this.props)
     }
 
     render() {
         console.log(this.props)
         return (
             <div className='logged-in-page'>
-                <h2><strong>Find Nearest Vets-eligible jobs</strong></h2>
+                <h2><strong>Find Nearest jobs</strong></h2>
 
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
@@ -49,4 +49,4 @@ export class SearchByV100 extends Component {
     }
 }
 
-export default SearchByV100
+export default SearchByCurrentLocationAllJobs

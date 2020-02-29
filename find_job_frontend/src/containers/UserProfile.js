@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PersonalInfoCard from '../cards/PersonalInfoCard'
-import { resetViewPersonalInfo, setViewPersonalInfo, resetViewSkills, setViewSkills, resetViewMemberships, setViewMemberships, setViewEmployments, resetViewEmployments, resetViewEducations, setViewEducations, resetViewCertifications, setViewCertifications } from '../redux/actions'
+import { resetViewPersonalInfo, setViewPersonalInfo, resetViewSkills, setViewSkills, resetViewMemberships, setViewMemberships, setViewEmployments, resetViewEmployments, resetViewEducations, setViewEducations, resetViewCertifications, setViewCertifications, resetAllView } from '../redux/actions'
 import SkillCard from '../cards/SkillCard'
 import MembershipCard from '../cards/MembershipCard'
 import EmploymentCard from '../cards/EmploymentCard'
@@ -38,7 +38,11 @@ const UserProfile = (props) => {
         }else if(event.target.name === 'view-certifications'){
             setViewCertifications(props.dispatch)
         }
+    }
 
+    const handleBackToDashboard = () => {
+        resetAllView(props.dispatch)
+        props.push('/dashboard')
     }
 
     return (
@@ -138,7 +142,7 @@ const UserProfile = (props) => {
         </>
         }<br/><br/>
 
-        <button className='page-buttons' onClick={() => props.push('/dashboard')}>Go to dashboard</button>
+        <button className='page-buttons' onClick={handleBackToDashboard}>Go to dashboard</button>
         </div>
     )
 }

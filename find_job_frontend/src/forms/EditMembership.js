@@ -33,23 +33,32 @@ export class EditMembership extends Component {
                     <h2><strong>Edit membership</strong></h2>
                     <div className='row'>
                         <label>
+                            <strong>Current Organization: </strong>
+                        </label>{this.props.currentMembership.organization}<br/>
+                        <label>
                             <strong>New Organization: </strong>
                         </label>
-                        <input type='text'  defaultValue={this.props.currentMembership.organization} name='newOrganization' onChange={this.handleChange} /><br/>
+                        <input type='text'  value={this.state.newOrganization} name='newOrganization' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row'>
+                        <label>
+                            <strong>Current start date: </strong>
+                        </label>{this.props.currentMembership.start_date}<br/>
                         <label>
                             <strong>New start date: </strong>
                         </label>
-                        <input type='date'  defaultValue={this.props.currentMembership.start_date} name='newStartDate' max={todaysDate}  onChange={this.handleChange} /><br/>
+                        <input type='date'  value={this.state.newStartDate} name='newStartDate' max={todaysDate}  onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row'>
                         <label>
+                            <strong>Current end date: </strong>
+                        </label>{this.props.currentMembership.end_date}<br/>
+                        <label>
                             <strong>New end date: </strong>
                         </label>
-                        <input type='date'   defaultValue={this.props.currentMembership.end_date} name='newEndDate' max={todaysDate}  onChange={this.handleChange} /><br/>
+                        <input type='date'  value={this.state.newEndDate} name='newEndDate' max={todaysDate}  onChange={this.handleChange} /><br/>
                     </div> <br/>
 
                     <input className='page-buttons' type="submit" value="Edit membership" />

@@ -19,8 +19,8 @@ const AppliedJobCard = (props) => {
         <div>
         {/*add filters */}
             <div  className='row job-card-row'><strong>Title: </strong> {job.job_title}</div>
-            <div  className='row job-card-row'><strong>Min. pay: </strong> ${job.minimum_pay}</div> 
-            <div  className='row job-card-row'><strong>Max. pay: </strong> ${job.maximum_pay}</div> 
+            <div  className='row job-card-row'><strong>Min. pay: </strong> ${parseFloat(job.minimum_pay).toLocaleString()}</div> 
+            <div  className='row job-card-row'><strong>Max. pay: </strong> ${parseFloat(job.maximum_pay).toLocaleString()}</div> 
             <div  className='row job-card-row'><strong>Location: </strong> {job.location} </div>
             <div className='row job-card-row'>
                 <button onClick={viewJob} className='page-buttons'>View Job</button>

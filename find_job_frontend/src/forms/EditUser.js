@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {countriesList, statesList, citiesList} from '../components/CountriesStatesAndCities'
 import uuid from 'react-uuid'
-import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editUser} from '../redux/actions'
+import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editUser, resetLocations} from '../redux/actions'
 
 export class EditUser extends Component {
     state = {
@@ -80,6 +80,16 @@ export class EditUser extends Component {
                 city: newCity
             }
             editUser(newUser, this.props.push, this.props.dispatch, this.props.token )
+    }
+
+    handleBackToProfile = () =>{
+        resetLocations(this.props.dispatch)
+        this.props.push('/user-profile')
+    }
+
+    handleBackToDashboard = () => {
+        resetLocations(this.props.dispatch)
+        this.props.push('/dashboard')
     }
 
     render() {
@@ -220,7 +230,8 @@ export class EditUser extends Component {
 
                     <input className='page-buttons' type="submit" value="Edit account" />
                 </form>
-                <button className='page-buttons' onClick={() => this.props.push('/user-profile')}>Go to profile</button>
+                <button onClick = {this.handleBackToProfile} className='page-buttons'>Back to profile</button>
+                <button onClick = {this.handleBackToDashboard} className='page-buttons'>Back dashboard</button>
             </div>
         )
     }

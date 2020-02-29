@@ -10,7 +10,7 @@ import ToDoCard from './ToDoCard'
 import { FacebookShareButton, FacebookIcon, LinkedinShareButton, LinkedinIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'react-share'
 
 const UserJobCard = (props) => {
-    const {currentFavoriteJob, appliedCheck, notes, viewNote, toDos, viewToDo, showShareOptions} = props
+    const {currentFavoriteJob, appliedCheck, notes, viewNote, toDos, viewToDo, fromFavoriteJobs, showShareOptions} = props
 
     const handleUserApply = () => {
         applyToExistingJob(currentFavoriteJob, props)
@@ -35,12 +35,14 @@ const UserJobCard = (props) => {
     const handleBackToFavoriteJobs = (event) => {
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
+        resetShowShareOptions(props.dispatch)
         props.history.push('/favorite-jobs')
     }
 
     const handleBackToDashboard = (event) => {
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
+        resetShowShareOptions(props.dispatch)
         props.history.push('/dashboard')
     }
 
@@ -55,6 +57,7 @@ const UserJobCard = (props) => {
     const jobNotes = notes.filter(note => note.job_id === currentFavoriteJob.id)
 
     const jobToDos = toDos.filter(todo => todo.job_id === currentFavoriteJob.id)
+
 
     return (
         <div className='job-card-div'>
@@ -72,16 +75,16 @@ const UserJobCard = (props) => {
             </div>
 
             <div className='row columned-row' >
-                <div className='column job-card-row' >
-                    <strong>Min. pay:</strong> ${currentFavoriteJob.minimum_pay}
+                <div className='column job-card-row' > 
+                    <strong>Min. pay:</strong> ${parseFloat(currentFavoriteJob.minimum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Max. pay:</strong> ${currentFavoriteJob.maximum_pay}
+                    <strong>Max. pay:</strong> ${parseFloat(currentFavoriteJob.maximum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row' >
-                    <strong>Pay period:</strong> ${currentFavoriteJob.pay_period}
+                    <strong>Pay period:</strong> {currentFavoriteJob.pay_period}
                 </div>
             </div><br/>
 
@@ -136,7 +139,7 @@ const UserJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row' >
-                {appliedCheck ? 
+                {currentFavoriteJob.applied_key ? 
                     <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to</button>
                     :
                     <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
@@ -182,12 +185,12 @@ const UserJobCard = (props) => {
                 </div>
             </div>
 
-            { viewNote ?
+            { viewNote ? 
             <div className='row columned-row'>
                 { jobNotes.length <= 0 ? 
                 'This job has no notes yet. Add notes to it'
                 :
-                jobNotes.map(note => <NoteCard key={note.id} note={note} user_id={props.user_id} token={props.token} dispatch={props.dispatch} push={props.history.push}/>)
+                jobNotes.map(note => <NoteCard key={note.id} fromFavoriteJobs={fromFavoriteJobs} note={note} user_id={props.user_id} token={props.token} dispatch={props.dispatch} push={props.history.push}/>)
                 }
             </div>
             :
@@ -199,7 +202,7 @@ const UserJobCard = (props) => {
                 { jobToDos.length <= 0 ? 
                 'This job has no ToDos yet. Add ToDos to it'
                 :
-                jobToDos.map(todo => <ToDoCard key={todo.id} todo={todo} user_id={props.user_id} token={props.token} dispatch={props.dispatch} push={props.history.push}/>)
+                jobToDos.map(todo => <ToDoCard key={todo.id} todo={todo} fromFavoriteJobs={fromFavoriteJobs} user_id={props.user_id} token={props.token} dispatch={props.dispatch} push={props.history.push}/>)
                 }
             </div>
             :
@@ -207,6 +210,7 @@ const UserJobCard = (props) => {
             }
 
              <div className='row'>
+                <button onClick = {() => window.open(currentFavoriteJob.url)} className='page-buttons'>View job on employer website</button>
                 <button onClick = {handleBackToFavoriteJobs} className='page-buttons'>Back to Favorite jobs</button>
                 <button onClick={handleBackToDashboard} className='page-buttons'>Back to dashboard</button>
             </div>
@@ -219,7 +223,6 @@ const mapStateToProps = (state) =>{
         token: state.allUserInfo.token,
         user_id: state.allUserInfo.user_id,
         currentFavoriteJob: state.allJobInfo.currentFavoriteJob,
-        appliedCheck: state.allJobInfo.appliedCheck,
         notes: state.allNoteInfo.notes,
         viewNote: state.allNoteInfo.viewNote,
         toDos: state.allToDoInfo.toDos,

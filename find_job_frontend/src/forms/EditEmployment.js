@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {countriesList, statesList, citiesList} from '../components/CountriesStatesAndCities'
 import uuid from 'react-uuid'
-import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editEmployment} from '../redux/actions'
+import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editEmployment, resetLocations} from '../redux/actions'
 
 export class EditEmployment extends Component {
     state = {
@@ -13,10 +13,6 @@ export class EditEmployment extends Component {
         newDuties: '',
         newCurrentlyWorkHere: 'true'
     }
-
-    // componentDidMount() {
-    //     this.setState({newCurrentlyWorkHere: this.props.currentEmployment.currently_work_here})
-    // }
 
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value})
@@ -79,14 +75,23 @@ export class EditEmployment extends Component {
                 start_date: this.state.newStartDate || this.props.currentEmployment.start_date,
                 end_date: this.state.newEndDate || this.props.currentEmployment.end_date,
                 duties: this.state.newDuties || this.props.currentEmployment.duties,
-                country: newCountry || this.props.currentEmployment.country,
-                state: newState || this.props.currentEmployment.state,
-                city: newCity || this.props.currentEmployment.city,
+                country: newCountry,
+                state: newState,
+                city: newCity,
                 currently_work_here: this.state.newCurrentlyWorkHere ? finalNewCurrentlyWorkHere : null || this.props.currentEmployment.currently_work_here,
             }
             editEmployment(changedEmployment, this.props)
     }
 
+    handleBackToProfile = () =>{
+        resetLocations(this.props.dispatch)
+        this.props.push('/user-profile')
+    }
+
+    handleBackToDashboard = () => {
+        resetLocations(this.props.dispatch)
+        this.props.push('/dashboard')
+    }
 
     render() {
         let states = statesList.filter(state => state.country_id === this.props.currentCountryID)
@@ -237,8 +242,8 @@ export class EditEmployment extends Component {
                     }<br/>
                     <input className='page-buttons' type="submit" value="Edit employment" />
                 </form>
-                <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>
-                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
+                <button onClick = {this.handleBackToProfile} className='page-buttons'>Back to profile</button>
+                <button className='page-buttons' onClick={this.handleBackToDashboard}>Go to dashboard</button>
             </div>
         )
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {countriesList, statesList, citiesList} from '../components/CountriesStatesAndCities'
 import uuid from 'react-uuid'
-import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editEducation, } from '../redux/actions'
+import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editEducation, resetLocations, } from '../redux/actions'
 
 export class EditEducation extends Component {
     state = {
@@ -14,7 +14,6 @@ export class EditEducation extends Component {
         newCompleteStatus: '',
         newMinor: ''
     }
-
 
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value})
@@ -85,6 +84,16 @@ export class EditEducation extends Component {
                 complete_status: this.state.newCompleteStatus ? finalNewCompleteStatus : null || this.props.currentEducation.currently_work_here,
             }
             editEducation(changedEducation, this.props)
+    }
+
+    handleBackToProfile = () =>{
+        resetLocations(this.props.dispatch)
+        this.props.push('/user-profile')
+    }
+
+    handleBackToDashboard = () => {
+        resetLocations(this.props.dispatch)
+        this.props.push('/dashboard')
     }
 
 
@@ -236,8 +245,8 @@ export class EditEducation extends Component {
                     }<br/>
                     <input className='page-buttons' type="submit" value="Edit education" />
                 </form>
-                <button onClick = {() => this.props.push('/user-profile')} className='page-buttons'>Back to profile</button>
-                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
+                <button onClick = {this.handleBackToProfile} className='page-buttons'>Back to profile</button>
+                <button className='page-buttons' onClick={this.handleBackToDashboard}>Go to dashboard</button>
             </div>
         )
     }

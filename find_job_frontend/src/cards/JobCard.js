@@ -40,6 +40,19 @@ const JobCard = (props) => {
     const handleBackToSearchResultButton = () => {
         resetFavoriteCheck(props.dispatch)
         resetAppliedCheck(props.dispatch)
+        resetShowShareOptions(props.dispatch)
+        props.history.push('/jobs-search-results')
+    }
+
+    const handleBackToDashboard = () => {
+        resetFavoriteCheck(props.dispatch)
+        resetAppliedCheck(props.dispatch)
+        resetShowShareOptions(props.dispatch)
+        props.history.push('/dashboard')
+    }
+
+    const handleNonUserBackToSearchResultButton = () => {
+        resetShowShareOptions(props.dispatch)
         props.history.push('/jobs-search-results')
     }
 
@@ -73,11 +86,11 @@ const JobCard = (props) => {
 
             <div className='row columned-row' >
                 <div className='column job-card-row'>
-                    <strong>Min. pay: </strong>{currentJob.minimum_pay}
+                    <strong>Min. pay: </strong>${parseFloat(currentJob.minimum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row'>
-                    <strong>Max. pay: </strong>{currentJob.maximum_pay}
+                    <strong>Max. pay: </strong>${parseFloat(currentJob.maximum_pay).toLocaleString()}
                 </div>
 
                 <div className='column job-card-row'>
@@ -193,11 +206,11 @@ const JobCard = (props) => {
 
             {loggedIn ?
                 <>
-                    <button onClick = {() => props.history.push('/dashboard')} className='page-buttons'>Go to Dashboard</button>
+                    <button onClick = {handleBackToDashboard} className='page-buttons'>Go to Dashboard</button>
                     <button onClick={handleBackToSearchResultButton} className='page-buttons'>Back to search results</button>
                 </>
                 :
-                <button onClick={() => props.history.push('/jobs-search-results')} className='page-buttons'>Back to search results</button>
+                <button onClick={handleNonUserBackToSearchResultButton} className='page-buttons'>Back to search results</button>
             }
         </div>
     )

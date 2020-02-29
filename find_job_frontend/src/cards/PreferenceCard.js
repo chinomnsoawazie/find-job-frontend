@@ -38,7 +38,7 @@ function PreferenceCard(props) {
                 <p><strong>Industry:</strong> {currentPreference.industry}</p> 
             </div>
             <div className='row job-card-row' >
-                <p><strong>Minimum Pay:</strong> ${currentPreference.min_pay}</p> 
+                <p><strong>Minimum Pay:</strong> ${parseFloat(currentPreference.min_pay).toLocaleString()}</p> 
             </div>
 
             <div className='row columned-row' >

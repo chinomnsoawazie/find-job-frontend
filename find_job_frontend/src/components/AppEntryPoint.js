@@ -29,7 +29,7 @@ const AppEntryPoint = (props) => {
                 </div>
 
                 <div className='row'>
-                    <button onClick={() => props.history.push('search-jobs')} className='page-buttons'>Search for jobs</button>
+                    <button onClick={() => props.history.push('/search-for-jobs')} className='page-buttons'>Search for jobs</button>
                 </div>
         </div>
     )

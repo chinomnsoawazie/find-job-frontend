@@ -29,17 +29,23 @@ export class EditSkill extends Component {
                     <h2><strong>Edit skill</strong></h2>
                     <div className='row'>
                         <label>
-                            <strong>New Description(Old one in box by default): </strong>
-                        </label>
-                        <textarea className='note' defaultValue={this.props.currentSkill.description} name='newDescription' onChange={this.handleChange} /><br/>
+                            <strong>Current Description: </strong>
+                        </label>{this.props.currentSkill.description}<br/>
+                        <label>
+                            <strong>New Description: </strong>
+                        </label><br/>
+                        <textarea className='note' value={this.state.newDescription} name='newDescription' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row'>
                         <label>
-                            <strong>New proficiency level): </strong>
+                            <strong>Current proficiency: </strong>
+                        </label>{this.props.currentSkill.proficiency_level}<br/>
+                        <label>
+                            <strong>New proficiency: </strong>
                         </label>
                         <input className='page-buttons' type="number" min={0} max={5} name='newProficiencyLevel' value={this.state.newProficiencyLevel} onChange={this.handleChange} />
-                    </div>
+                    </div><br/>
 
                     <input className='page-buttons' type="submit" value="Edit skill" />
                 </form>

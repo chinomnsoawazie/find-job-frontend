@@ -13,7 +13,7 @@ const PageLeftSideBar = (props) => {
     }
 
     const handleSearchVetJobs = () => {
-        alert('N/B: This will get all vet jobs posted within the last 60 days')
+        alert('N/B: This will get all vet jobs posted within the last 30 days')
         searchVetJobsNationwide(props)
     }
 

@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
 const SearchResultsJobCard = (props) => {
-
     const {job, userJobs} = props
 
     const viewJob = (event) => {
@@ -19,8 +18,8 @@ const SearchResultsJobCard = (props) => {
         if(userJobs.map(userJob => userJob.usaJobs_job_id).includes((job.usaJobs_job_id)) && userJobs.find(foundJob => foundJob.usaJobs_job_id === job.usaJobs_job_id).applied_key){
                 setAppliedCheck(props.dispatch)
             }
-                job.location = event.target.children[0].value
-                setCurrentJob(job, props)
+        job.location = event.target.children[0].value
+        setCurrentJob(job, props)
         }
     }
     
@@ -33,12 +32,10 @@ const SearchResultsJobCard = (props) => {
         <div>
         {/*add filters */}
             <div  className='row job-card-row'><strong>Title: </strong> {job.job_title}</div>
-            <div  className='row job-card-row'><strong>Min. pay: </strong> ${job.minimum_pay}</div> 
-            <div  className='row job-card-row'><strong>Max. pay: </strong> ${job.maximum_pay}</div> 
+            <div  className='row job-card-row'><strong>Min. pay: </strong> ${parseFloat(job.minimum_pay).toLocaleString()}</div> 
+            <div  className='row job-card-row'><strong>Max. pay: </strong> ${parseFloat(job.maximum_pay).toLocaleString()}</div> 
             <div  className='row job-card-row'><strong>No of Locations: </strong> {job.locations.split('; ').length} </div>
             <div className='row job-card-row'>
-
-
             <form onSubmit={viewJob}>
 
                 <select className='location-select'>

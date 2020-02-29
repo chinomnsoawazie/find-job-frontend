@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {countriesList, statesList, citiesList} from '../components/CountriesStatesAndCities'
 import uuid from 'react-uuid'
-import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editPreference} from '../redux/actions'
+import { setCurrentCountryID, setCurrentStateID, setCurrentCityID, editPreference, resetLocations} from '../redux/actions'
 
 export class EditPreference extends Component {
     state = {
@@ -82,6 +82,17 @@ export class EditPreference extends Component {
             }
             editPreference(changedPreference, this.props)
     }
+
+    handleBackToPreferences = () => {
+        resetLocations(this.props.dispatch)
+        this.props.push('/individual-preference')
+    }
+
+    handleBackToDashboard = () => {
+        resetLocations(this.props.dispatch)
+        this.props.push('/dashboard')
+    }
+
     render() {
         let states = statesList.filter(state => state.country_id === this.props.currentCountryID)
         let cities = citiesList.filter(city => city.state_id === this.props.currentStateID)
@@ -91,54 +102,74 @@ export class EditPreference extends Component {
             <div className='forms'>
                 <form onSubmit={this.handleSubmit}>
                     <h2><strong>Edit preference</strong></h2>
-                    <p>You can <strong><u>leave old values</u></strong>, or <strong><u>change</u> </strong>them</p>
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Name: </strong>
+                            <strong>Current preference name: </strong>
+                        </label>{preference.name}<br/>
+                        <label>
+                            <strong>New preference name: </strong>
                         </label>
-                        <input type='text'  defaultValue={preference.name} name='newName' onChange={this.handleChange} /><br/>
+                        <input type='text'  value={this.state.newName} name='newName' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job Title: </strong>
+                            <strong>Current Job Title: </strong>
+                        </label>{preference.job_title}<br/>
+                        <label>
+                            <strong>New Job Title: </strong>
                         </label>
-                        <input type='text' defaultValue={preference.job_title} name='newJobTitle' onChange={this.handleChange} /><br/>
+                        <input type='text' value={this.state.newJobTitle} name='newJobTitle' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Industry: </strong>
+                            <strong>Current industry: </strong>
+                        </label>{preference.industry}<br/>
+                        <label>
+                            <strong>New industry: </strong>
                         </label>
-                        <input type='text' defaultValue={preference.industry} name='newIndustry' onChange={this.handleChange} /><br/>
+                        <input type='text' value={this.state.newIndustry} name='newIndustry' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Min. Pay: </strong>
+                            <strong>Current min. Pay: </strong>
+                        </label>${parseFloat(preference.min_pay).toLocaleString()}<br/>
+                        <label>
+                            <strong>New min. Pay: </strong>
                         </label>
-                        <input type='number' defaultValue={preference.min_pay} name='newMinPay' onChange={this.handleChange} /><br/>
+                        <input type='number' value={this.state.newMinPay} name='newMinPay' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job posting start date: </strong>
+                            <strong>Current jobs posting start date: </strong>
+                        </label>{preference.posting_date_start}<br/>
+                        <label>
+                            <strong>New jobs posting start date: </strong>
                         </label>
-                        <input type='date' defaultValue={preference.posting_date_start} name='newPostStartDate' max={todaysDate}  onChange={this.handleChange} /><br/>
+                        <input type='date' value={this.state.newPostStartDate} name='newPostStartDate' max={todaysDate}  onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>Job application closing date: </strong>
+                            <strong>Current jobs application closing date: </strong>
+                        </label>{preference.application_closing_date}<br/>
+                        <label>
+                            <strong>New jobs application closing date: </strong>
                         </label>
-                        <input type='date' defaultValue={preference.application_closing_date} min={todaysDate} name='newApplicationClosingDate'  onChange={this.handleChange} /><br/>
+                        <input type='date' value={this.state.newApplicationClosingDate} min={todaysDate} name='newApplicationClosingDate'  onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
                         <label>
-                            <strong>City population: </strong>
+                            <strong>Current city population: </strong>
+                        </label>{preference.city_population}<br/>
+                        <label>
+                            <strong>New city population: </strong>
                         </label>
-                        <input type='number' defaultValue={preference.city_population} name='newCityPopulation' onChange={this.handleChange} /><br/>
+                        <input type='number' value={this.state.newCityPopulation} name='newCityPopulation' onChange={this.handleChange} /><br/>
                     </div><br/>
 
                     <div className='row job-card-row'>
@@ -198,8 +229,8 @@ export class EditPreference extends Component {
                     }<br/>
                     <input className='page-buttons' type="submit" value="Edit Preference" />
                 </form>
-                <button onClick = {() => this.props.push('/individual-preference')} className='page-buttons'>Back to preference</button>
-                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
+                <button onClick = {this.handleBackToPreferences} className='page-buttons'>Back to preference</button>
+                <button className='page-buttons' onClick={this.handleBackToDashboard}>Go to dashboard</button>
             </div>
         )
     }

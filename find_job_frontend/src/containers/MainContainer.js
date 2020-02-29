@@ -35,6 +35,10 @@ import EditCertification from '../forms/EditCertification'
 import CreateUser from '../forms/CreateUser'
 import { EditUser } from '../forms/EditUser'
 import SearchByV100 from '../forms/SearchByV100'
+import SearchByTL from '../forms/SearchByTL'
+import SearchByVL from '../forms/SearchByVL'
+import SearchByKL from '../forms/SearchByKL'
+import SearchByCurrentLocationAllJobs from '../forms/SearchByCurrentLocationAllJobs'
 
 const MainContainer = (props) => {
     return (
@@ -58,10 +62,10 @@ const MainContainer = (props) => {
             <Route exact path='/search-for-jobs' render = { () => <SearchEntryPoint push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} />} />
             <Route exact path='/search-by-tp' render = { () => <SearchByTP push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
             <Route exact path='/search-by-vet100' render = { () => <SearchByV100 appUserLocation={props.appUserLocation} push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
-
-
-
-
+            <Route exact path='/search-by-tcs' render = { () => <SearchByTL push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
+            <Route exact path='/search-by-vetl' render = { () => <SearchByVL push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
+            <Route exact path='/search-by-kl' render = { () => <SearchByKL push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey} />} />
+            <Route exact path='/search-by-general-nearby' render = { () => <SearchByCurrentLocationAllJobs appUserLocation={props.appUserLocation} push={props.history.push} Google_mapsAPIKey={props.Google_mapsAPIKey} dispatch={props.dispatch} myEmail={props.myEmail} USAJobsAPIKey={props.USAJobsAPIKey}/>} />
             <Route exact path='/jobs-search-results' render = { () => <JobsSearchResults push={props.history.push}  />} />
 
             {/*NOTES STUFF */}

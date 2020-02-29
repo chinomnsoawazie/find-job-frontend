@@ -39,6 +39,31 @@ export const setAppUserLocation = (dispatch, Google_mapsAPIKey, push) => {
       })
 }
 
+export const resetLocations = (dispatch) => {
+    dispatch({type: RESET_LOCATION_IDS})
+}
+
+export const setCurrentCountryID = (countryID, dispatch) =>{
+    dispatch({type: SET_CURRENT_COUNTRY_ID, payload: countryID})
+}
+
+export const setCurrentStateID = (stateID, dispatch) => {
+    dispatch({type: SET_CURRENT_STATE_ID, payload: stateID})
+}
+
+export const setCurrentCityID = (cityID, dispatch) => {
+    dispatch({type: SET_CURRENT_CITY_ID, payload: cityID})
+}
+
+export const resetAllView = (dispatch) => {
+    dispatch({type: RESET_VIEW_CERTIFICATIONS})
+    dispatch({type: RESET_VIEW_EDUCATIONS})
+    dispatch({type: RESET_VIEW_EMPLOYMENTS})
+    dispatch({type: RESET_VIEW_MEMBERSHIPS})
+    dispatch({type: RESET_VIEW_SKILLS})
+    dispatch({type: RESET_VIEW_PERSONAL_INFO})
+}
+
 //USER STUFF
 export const login = (user, push, dispatch) =>{
     axios.post('http://localhost:3000/login', user)
@@ -159,6 +184,28 @@ export const searchJobsByTP = (title, minimumPay, location, props) =>{
     })
 }
 
+export const searchJobsByTCS = (title, city, state, props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&PositionTitle=${title}&LocationName=${city},%20${state}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
 export const searchJobsByPreference = (title, minimumPay, location, props, days) =>{
     let host = 'data.usajobs.gov'
     let userAgent = props.myEmail
@@ -183,11 +230,35 @@ export const searchJobsByPreference = (title, minimumPay, location, props, days)
     })
 }
 
+export const searchJobsByKeyword = (keyword, city, state, days, props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&DatePosted=${days}&LocationName=${city},%20${state}&Keyword=${keyword}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
 export const searchVetJobsNationwide = (props) =>{
     let host = 'data.usajobs.gov'
     let userAgent = props.myEmail
     let authKey = props.USAJobsAPIKey
-    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=60`, {
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=30`, {
         method:'GET',
         headers: {
             "Host": host,
@@ -212,6 +283,54 @@ export const searchNearestVetJobs = (radius, state, days, city, props) =>{
     let userAgent = props.myEmail
     let authKey = props.USAJobsAPIKey
     fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=${days}&Radius=${radius}&LocationName=${city},%20${state}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
+export const searchNearestJobs = (radius, state, days, city, props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&DatePosted=${days}&Radius=${radius}&LocationName=${city},%20${state}`, {
+        method:'GET',
+        headers: {
+            "Host": host,
+            "User-Agent": userAgent,
+            "Authorization-Key": authKey
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        console.log(json.SearchResult.SearchResultItems)
+        props.dispatch({type: SET_JOBS_RETURNED_FROM_SEARCH, payload: json.SearchResult.SearchResultItems})
+        props.push('/jobs-search-results')
+    })
+    .catch((error) =>{
+        console.log('Error:', error)
+    })
+}
+
+export const searchVetJobsByLocation = (state, days, city, props) =>{
+    let host = 'data.usajobs.gov'
+    let userAgent = props.myEmail
+    let authKey = props.USAJobsAPIKey
+    fetch(`https://data.usajobs.gov/api/search?ResultsPerPage=500&HiringPath=vet&DatePosted=${days}&LocationName=${city},%20${state}`, {
         method:'GET',
         headers: {
             "Host": host,
@@ -296,7 +415,7 @@ export const addExistingJobToFavorites = (job, props) => {
         props.dispatch({type: SET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been added to your favorites`)
-        props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')
+        props.fromAppliedJobs ? props.history.push('/applied-jobs') : props.history.push('/favorite-jobs')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -316,7 +435,7 @@ export const removeJobFromFavorites = (job, props) => {
         props.dispatch({type: RESET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
         alert(`${job.job_title} has been removed from your favorites and you'll be taken back to favorite jobs`)
-        props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')
+        props.fromAppliedJobs ? props.history.push('/applied-jobs') : props.history.push('/favorite-jobs')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -394,6 +513,8 @@ export const deleteNote = (note, props) => {
     }
     axios.delete(`http://localhost:3000/notes/${note.id}`, config)
     .then(returnedNotes => {
+        console.log(note)
+        console.log(returnedNotes)
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully deleted.')
         props.push('/individual-favorite-job')
@@ -403,7 +524,7 @@ export const deleteNote = (note, props) => {
     })
 }
 
-export const editNote = (note, props) => {    
+export const editNote = (note, props) => {  
     let config ={
         headers: {'Authorization': "bearer " + props.token}
     }
@@ -478,25 +599,10 @@ export const editToDo = (todo, props) => {
     })
 }
 
+
 //PREFERENCES STUFF
 export const setCurrentPreference = (preference, dispatch) =>{
     dispatch({type: SET_CURRENT_PREFERENCE, payload: preference})
-}
-
-export const setCurrentCountryID = (countryID, dispatch) =>{
-    dispatch({type: SET_CURRENT_COUNTRY_ID, payload: countryID})
-}
-
-export const setCurrentStateID = (stateID, dispatch) => {
-    dispatch({type: SET_CURRENT_STATE_ID, payload: stateID})
-}
-
-export const setCurrentCityID = (cityID, dispatch) => {
-    dispatch({type: SET_CURRENT_CITY_ID, payload: cityID})
-}
-
-export const resetLocations = (dispatch) => {
-    dispatch({type: RESET_LOCATION_IDS})
 }
 
 export const createPreference = (preference, props) => {
@@ -510,7 +616,6 @@ export const createPreference = (preference, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editPreference = (preference, props) => {   
@@ -572,7 +677,6 @@ export const createSkill = (skill, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editSkill = (skill, props) => {   
@@ -629,7 +733,6 @@ export const createMembership = (membership, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editMembership = (membership, props) => {  
@@ -688,7 +791,6 @@ export const createEmployment = (employment, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editEmployment = (employment, props) => {  
@@ -747,7 +849,6 @@ export const createEducation = (education, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editEducation = (education, props) => {  
@@ -805,7 +906,6 @@ export const createCertification = (certification, props) => {
     .catch((error) =>{
         console.log('Error', error)
     }) 
-
 }
 
 export const editCertification = (certification, props) => {  
