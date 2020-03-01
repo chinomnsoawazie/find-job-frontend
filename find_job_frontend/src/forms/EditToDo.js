@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { editToDo } from '../redux/actions'
+import { editToDo, resetFromFavoriteJobAndFromAppliedJob, resetAppliedCheck, resetViewNote, resetViewToDo, resetShowShareOptions } from '../redux/actions'
 
 export class EditToDoForm extends Component {
     state = {
@@ -23,6 +23,15 @@ export class EditToDoForm extends Component {
                 done_status: this.state.newDoneStatus || this.props.currentToDo.done_status
             }
             editToDo(task, this.props)
+    }
+
+    handleBackToDashboard = () => {
+        resetFromFavoriteJobAndFromAppliedJob(this.props.dispatch)
+        resetAppliedCheck(this.props.dispatch)
+        resetViewNote(this.props.dispatch)
+        resetViewToDo(this.props.dispatch)
+        resetShowShareOptions(this.props.dispatch)
+        this.props.push('/dashboard')
     }
 
     render() {
@@ -68,10 +77,19 @@ export class EditToDoForm extends Component {
                     </div><br/>
                     <input className='page-buttons' type="submit" value="Edit ToDo" />
                 </form>
-                <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back dashboard</button>
-                   {/**go to favorite job or applied job depending on if fromFavoritesJobs or FromAppliedJobs is ser */}
+                <button onClick = {this.handleBackToDashboard} className='page-buttons'>Back to dashboard</button>
 
-                {/* <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back to job</button> */}
+                {this.props.fromFavoriteJobs ?
+                    <button onClick = {() => this.props.push('/individual-favorite-job')} className='page-buttons'>Back to favorite job</button>
+                    :
+                    null
+                }
+
+                {this.props.fromAppliedJobs ?
+                    <button onClick = {() => this.props.push('/individual-applied-job')} className='page-buttons'>Back to applied job</button>
+                    :
+                    null
+                }
             </div>
         )
     }

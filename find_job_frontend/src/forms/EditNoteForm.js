@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { editNote } from '../redux/actions'
+import { editNote, resetAppliedCheck, resetViewNote, resetViewToDo, resetShowShareOptions, resetFromFavoriteJobAndFromAppliedJob } from '../redux/actions'
 
 export class EditNoteForm extends Component {
     state = {
@@ -21,6 +21,15 @@ export class EditNoteForm extends Component {
         editNote(note, this.props)
     }
 
+    handleBackToDashboard = () => {
+        resetFromFavoriteJobAndFromAppliedJob(this.props.dispatch)
+        resetAppliedCheck(this.props.dispatch)
+        resetViewNote(this.props.dispatch)
+        resetViewToDo(this.props.dispatch)
+        resetShowShareOptions(this.props.dispatch)
+        this.props.push('/dashboard')
+    }
+
     render() {
         return (
             <div className='forms'>
@@ -35,14 +44,19 @@ export class EditNoteForm extends Component {
                         <textarea className='note' name='newText' value={this.state.newText}  onChange={this.handleChange} /><br/>
                     <input className='page-buttons' type="submit" value="Edit note" />
                 </form><br/>
-                <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back dashboard</button>
+                <button onClick = {this.handleBackToDashboard} className='page-buttons'>Back dashboard</button>
 
-            {/**go to favorite job or applied job depending on if fromFavoritesJobs or FromAppliedJobs is ser */}
+                {this.props.fromFavoriteJobs ?
+                    <button onClick = {() => this.props.push('/individual-favorite-job')} className='page-buttons'>Back to favorite job</button>
+                    :
+                    null
+                }
 
-                {/* <button onClick = {() => this.props.push('/dashboard')} className='page-buttons'>Back to job</button> */}
-
-
-
+                {this.props.fromAppliedJobs ?
+                    <button onClick = {() => this.props.push('/individual-applied-job')} className='page-buttons'>Back to applied job</button>
+                    :
+                    null
+                }
             </div>
         )
     }

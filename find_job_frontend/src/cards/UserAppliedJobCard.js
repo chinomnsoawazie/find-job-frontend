@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions, resetFavoriteCheck} from '../redux/actions'
+import {addExistingJobToFavorites, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions, resetFavoriteCheck, resetFromFavoriteJobAndFromAppliedJob} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -34,6 +34,7 @@ const UserAppliedJobCard = (props) => {
     }
 
     const handleBackToAppliedJobs = (event) => {
+        resetFavoriteCheck(props.dispatch)
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
         resetShowShareOptions(props.dispatch)
@@ -41,6 +42,7 @@ const UserAppliedJobCard = (props) => {
     }
 
     const handleBackToDashboard = (event) => {
+        resetFromFavoriteJobAndFromAppliedJob(props.dispatch)
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
         resetShowShareOptions(props.dispatch)
@@ -136,7 +138,7 @@ const UserAppliedJobCard = (props) => {
             <div className='row columned-row'>
                 <div className='column job-card-row' >
 
-                {currentAppliedJob.favorite_key ? 
+                {favoriteCheck? 
                         <button onClick={handleUnfavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='already in favorites'/>Job in favorite jobs. Remove from favorites?</button>
                     :
                         <button onClick={handleFavoriting} className='page-buttons'> <img src={favoriteIcon} height='11vh' alt='add to favorites'/>Add to favorites </button>
@@ -234,6 +236,7 @@ const mapStateToProps = (state) =>{
         toDos: state.allToDoInfo.toDos,
         viewToDo: state.allToDoInfo.viewToDo,
         showShareOptions: state.allJobInfo.showShareOptions,
+        favoriteCheck: state.allJobInfo.favoriteCheck
     }
 }
 

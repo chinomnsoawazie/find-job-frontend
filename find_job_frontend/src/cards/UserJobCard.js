@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {applyToExistingJob, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions} from '../redux/actions'
+import {applyToExistingJob, removeJobFromFavorites, setViewNote, resetViewNote, setViewToDo, resetViewToDo, setShowShareOptions, resetShowShareOptions, resetAppliedCheck, resetFromFavoriteJobAndFromAppliedJob} from '../redux/actions'
 import applyIcon from '../pictures/applyIcon.png'
 import favoriteIcon from '../pictures/favoriteIcon.png'
 import shareIcon from '../pictures/shareIcon.png'
@@ -33,13 +33,16 @@ const UserJobCard = (props) => {
     }
 
     const handleBackToFavoriteJobs = (event) => {
+        resetAppliedCheck(props.dispatch)
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
         resetShowShareOptions(props.dispatch)
         props.history.push('/favorite-jobs')
     }
 
-    const handleBackToDashboard = (event) => {
+    const handleBackToDashboard = () => {
+        resetFromFavoriteJobAndFromAppliedJob(props.dispatch)
+        resetAppliedCheck(props.dispatch)
         resetViewNote(props.dispatch)
         resetViewToDo(props.dispatch)
         resetShowShareOptions(props.dispatch)
@@ -139,7 +142,7 @@ const UserJobCard = (props) => {
                 </div>
 
                 <div className='column job-card-row' >
-                {currentFavoriteJob.applied_key ? 
+                {appliedCheck ? 
                     <button className='page-buttons'> <img src={applyIcon} height='11vh' alt='add to favorites'/>Job already applied to</button>
                     :
                     <button  onClick={handleUserApply}   className='page-buttons'> <img src={applyIcon} height='11vh' alt='apply'/> Apply</button> 
@@ -212,7 +215,7 @@ const UserJobCard = (props) => {
              <div className='row'>
                 <button onClick = {() => window.open(currentFavoriteJob.url)} className='page-buttons'>View job on employer website</button>
                 <button onClick = {handleBackToFavoriteJobs} className='page-buttons'>Back to Favorite jobs</button>
-                <button onClick={handleBackToDashboard} className='page-buttons'>Back to dashboard</button>
+                <button onClick={handleBackToDashboard} className='page-buttons'>Go to dashboard</button>
             </div>
         </div>
     )
@@ -228,6 +231,7 @@ const mapStateToProps = (state) =>{
         toDos: state.allToDoInfo.toDos,
         viewToDo: state.allToDoInfo.viewToDo,
         showShareOptions: state.allJobInfo.showShareOptions,
+        appliedCheck: state.allJobInfo.appliedCheck
     }
 }
 

@@ -1,4 +1,4 @@
-import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_CURRENT_SKILL, SET_CURRENT_MEMBERSHIP, SET_CURRENT_EMPLOYMENT, SET_CURRENT_EDUCATION, SET_CURRENT_CERTIFICATION, SET_APP_USER_LOCATION } from './actionTypes'
+import { SET_API_KEYS, SET_USER, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_USER_JOBS, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_NOTES, SET_VIEW_NOTE, RESET_VIEW_NOTE, SET_NEW_NOTE_JOB_ID, SET_CURRENT_NOTE, SET_VIEW_TODO, RESET_VIEW_TODO, SET_NEW_TODO_JOB_ID, SET_CURRENT_TODO, SET_TODOS, SET_CURRENT_APPLIED_JOB, SET_PREFERENCES, SET_CURRENT_PREFERENCE, SET_CURRENT_COUNTRY_ID, SET_CURRENT_STATE_ID, SET_CURRENT_CITY_ID, RESET_LOCATION_IDS, SET_VIEW_PERSONAL_INFO, RESET_VIEW_PERSONAL_INFO, SET_SKILLS, SET_VIEW_SKILLS, RESET_VIEW_SKILLS, SET_VIEW_MEMBERSHIPS, RESET_VIEW_MEMBERSHIPS, SET_MEMBERSHIPS, SET_VIEW_EMPLOYMENTS, RESET_VIEW_EMPLOYMENTS, SET_EMPLOYMENTS, SET_EDUCATIONS, SET_VIEW_EDUCATIONS, RESET_VIEW_EDUCATIONS, SET_VIEW_CERTIFICATIONS, RESET_VIEW_CERTIFICATIONS, SET_CERTIFICATIONS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_CURRENT_SKILL, SET_CURRENT_MEMBERSHIP, SET_CURRENT_EMPLOYMENT, SET_CURRENT_EDUCATION, SET_CURRENT_CERTIFICATION, SET_APP_USER_LOCATION, SET_FROM_FAVORITE_JOBS, SET_FROM_APPLIED_JOBS, RESET_FROM_FAVORITE_AND_FROM_APPLIED_JOBS } from './actionTypes'
 import axios from 'axios'
 import Geocode from 'react-geocode'
 
@@ -389,6 +389,18 @@ export const resetShowShareOptions = (dispatch) => {
     dispatch({type: RESET_SHOW_SHARE_OPTIONS})
 }
 
+export const setFromFavoriteJobs = (dispatch) => {
+    dispatch({type: SET_FROM_FAVORITE_JOBS})
+}
+
+export const setFromAppliedJobs = (dispatch) => {
+    dispatch({type: SET_FROM_APPLIED_JOBS})
+}
+
+export const resetFromFavoriteJobAndFromAppliedJob = (dispatch) => {
+    dispatch({type: RESET_FROM_FAVORITE_AND_FROM_APPLIED_JOBS})
+}
+
 export const addNewJobToFavorites = (job, props) => {
     axios.post('http://localhost:3000/jobs', job)
     .then(returnedJobs => {
@@ -434,8 +446,8 @@ export const removeJobFromFavorites = (job, props) => {
     .then(returnedJobs=> {
         props.dispatch({type: RESET_FAVORITE_CHECK})
         props.dispatch({type: SET_USER_JOBS, payload: returnedJobs.data.allUserJobs})
-        alert(`${job.job_title} has been removed from your favorites and you'll be taken back to favorite jobs`)
-        props.fromAppliedJobs ? props.history.push('/applied-jobs') : props.history.push('/favorite-jobs')
+        alert(`${job.job_title} has been removed from your favorites`)
+        props.fromAppliedJobs ? props.history.push('/individual-applied-job') : props.history.push('/favorite-jobs')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -499,7 +511,7 @@ export const createNote = (note, props) => {
     .then(returnedNotes => {
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully created.')
-        props.push('/individual-favorite-job')
+        props.fromFavoriteJobs ? props.push('/individual-favorite-job') : props.push('/individual-applied-job')
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -513,11 +525,13 @@ export const deleteNote = (note, props) => {
     }
     axios.delete(`http://localhost:3000/notes/${note.id}`, config)
     .then(returnedNotes => {
-        console.log(note)
-        console.log(returnedNotes)
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully deleted.')
-        props.push('/individual-favorite-job')
+        {props.fromFavoriteJobs ?
+            props.push('/individual-favorite-job')
+            :
+            props.push('/individual-applied-job')
+        }
     })
     .catch((error) =>{
         console.log('Error', error)
@@ -532,7 +546,11 @@ export const editNote = (note, props) => {
     .then(returnedNotes => {
         props.dispatch({type: SET_NOTES, payload: returnedNotes.data.userNotes})
         alert('Note successfully updated.')
-        props.push('/individual-favorite-job')
+        {props.fromFavoriteJobs ?
+            props.push('/individual-favorite-job')
+            :
+            props.push('/individual-applied-job')
+        }
     })
     .catch((error) =>{
         console.log('Error', error)

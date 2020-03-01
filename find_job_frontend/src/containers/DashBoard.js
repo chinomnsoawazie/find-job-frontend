@@ -1,9 +1,15 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import { setFromFavoriteJobs, setFromAppliedJobs } from '../redux/actions'
 
 const DashBoard = (props) => {
     const handleClick = (event) =>{
         event.preventDefault()
+        if(event.target.name === '/favorite-jobs'){
+            setFromFavoriteJobs(props.dispatch)
+        }else if(event.target.name === '/applied-jobs'){
+            setFromAppliedJobs(props.dispatch)
+        }
         props.history.push(event.target.name)
     }
 

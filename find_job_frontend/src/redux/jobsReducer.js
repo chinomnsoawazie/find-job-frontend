@@ -1,4 +1,4 @@
-import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_APP_USER_LOCATION } from './actionTypes'
+import { SET_API_KEYS, LOGOUT, SET_JOBS_RETURNED_FROM_SEARCH, SET_CURRENT_JOB, SET_FAVORITE_CHECK, RESET_FAVORITE_CHECK, SET_APPLIED_CHECK, RESET_APPLIED_CHECK, SET_CURRENT_FAVORITE_JOB, SET_CURRENT_APPLIED_JOB, SET_USER_JOBS, SET_SHOW_SHARE_OPTIONS, RESET_SHOW_SHARE_OPTIONS, SET_APP_USER_LOCATION, SET_FROM_FAVORITE_JOBS, SET_FROM_APPLIED_JOBS, RESET_FROM_FAVORITE_AND_FROM_APPLIED_JOBS } from './actionTypes'
 
 const initialState = {
     USAJobsAPIKey: '',
@@ -12,7 +12,9 @@ const initialState = {
     currentAppliedJob: '',
     userJobs: [],
     showShareOptions: false,
-    appUserLocation: ''
+    appUserLocation: '',
+    fromFavoriteJobs: '',
+    fromAppliedJobs: ''
 }
 
 const jobsReducer = (state = initialState, action) => {
@@ -39,7 +41,9 @@ const jobsReducer = (state = initialState, action) => {
             currentAppliedJob: '',
             userJobs: [],
             showShareOptions: false,
-            appUserLocation: ''
+            appUserLocation: '',
+            fromFavoriteJobs: '',
+            fromAppliedJobs: ''
         }
 
         case SET_JOBS_RETURNED_FROM_SEARCH:
@@ -139,13 +143,29 @@ const jobsReducer = (state = initialState, action) => {
         }
 
         case SET_APP_USER_LOCATION:
-            console.log(action.payload)
         return {
             ...state,
             appUserLocation: action.payload
         }
 
+        case SET_FROM_FAVORITE_JOBS:
+        return {
+            ...state,
+            fromFavoriteJobs: true
+        }
 
+        case SET_FROM_APPLIED_JOBS:
+        return {
+            ...state,
+            fromAppliedJobs: true
+        }
+
+        case RESET_FROM_FAVORITE_AND_FROM_APPLIED_JOBS:
+        return {
+            ...state,
+            fromFavoriteJobs: false,
+            fromAppliedJobs: false
+        }
 
         default:
         return state

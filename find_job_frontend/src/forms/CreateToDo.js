@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { createToDo } from '../redux/actions'
+import { createToDo, resetFromFavoriteJobAndFromAppliedJob, resetAppliedCheck, resetViewNote, resetViewToDo, resetShowShareOptions } from '../redux/actions'
 
 export class CreateToDo extends Component {
     state = {
@@ -13,7 +13,6 @@ export class CreateToDo extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        // debugger
         if(this.state.due_date){
             let task = {
                 job_id: this.props.currentFavoriteJobID,
@@ -26,6 +25,15 @@ export class CreateToDo extends Component {
         }else{
             alert('Please chose a due date')
         }
+    }
+
+    handleBackToDashboard = () => {
+        resetFromFavoriteJobAndFromAppliedJob(this.props.dispatch)
+        resetAppliedCheck(this.props.dispatch)
+        resetViewNote(this.props.dispatch)
+        resetViewToDo(this.props.dispatch)
+        resetShowShareOptions(this.props.dispatch)
+        this.props.push('/dashboard')
     }
 
     render() {
@@ -55,7 +63,7 @@ export class CreateToDo extends Component {
 
                     <input className='page-buttons' type="submit" value="Create ToDo" />
                 </form>
-                <button className='page-buttons' onClick={() => this.props.push('/dashboard')}>Go to dashboard</button>
+                <button className='page-buttons' onClick={this.handleBackToDashboard}>Go to dashboard</button>
             </div>
         )
     }
