@@ -35,7 +35,7 @@ export class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className='row'>
                         <label>
-                            <strong>Username:</strong>
+                            <h2>Username</h2>
                         </label>
                     </div>
                     
@@ -45,13 +45,13 @@ export class Login extends Component {
                     
                     <div className='row'>
                         <label>
-                            <strong>Password:</strong>
+                            <h2>Password</h2>
                         </label>
                     </div>
                     
                     <div className='row'>
                         <input name='password' type='password' value={this.state.password} onChange={this.handleChange} />
-                    </div>
+                    </div><br/>
                     
                     <div className='row'>
                         <button className='page-buttons' type='submit' value='login'>Sign In</button>

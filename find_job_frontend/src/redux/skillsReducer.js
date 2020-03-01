@@ -40,8 +40,6 @@ const skillsReducer = (state = initialState, action) => {
             currentSkill: action.payload
         }
 
-       
-
         default:
         return state
     }
