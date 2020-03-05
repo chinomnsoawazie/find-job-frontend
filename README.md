@@ -24,7 +24,7 @@
     <a target="_blank" rel="noopener noreferrer" href="https://github.com/chinomnsoawazie/find-job-backend">
       <img src="https://img.shields.io/badge/Backend%20Repository-Click%20here-green" style="max-width:50%;">
     </a>
-   <img src="https://img.shields.io/badge/Status-Work%20in%20progress%20-brightgreen" style="max-width:50%;">
+   <img src="https://img.shields.io/badge/Status-Making%20mobile%20app%20-brightgreen" style="max-width:50%;">
  </p>
  
  
