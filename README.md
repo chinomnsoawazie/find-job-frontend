@@ -134,6 +134,11 @@
 
 <a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
 
+<h1 id="demo">Demo</h1>
+   <p>Click <a href="https://youtu.be/LVsukhMWxtI">here</a> to view demo</p>
+   
+   <a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
  <h1 id="installation">Installation</h1>
    <h2 id="prerequisites">Prerequisites</h2>
     <p>FindJob frontend is biult with React(^16.12.0), Axios(^0.19.1), redux(^4.0.5), and redux thunk(^2.3.0). Ensure you have installed these packages with the specified versions or newer ones before cloning this repo. Alternatively, run a <code>yarn</code> or <code>npm install</code> after cloning this repo. You can find their official installation guides below;
