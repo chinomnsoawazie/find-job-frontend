@@ -134,6 +134,45 @@
 
 <a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
 
+ <h1 id="installation">Installation</h1>
+   <h2 id="prerequisites">Prerequisites</h2>
+    <p>FindJob frontend is biult with React(^16.12.0), Axios(^0.19.1), redux(^4.0.5), and redux thunk(^2.3.0). Ensure you have installed these packages with the specified versions or newer ones before cloning this repo. Alternatively, run a <code>yarn</code> or <code>npm install</code> after cloning this repo. You can find their official installation guides below;
+ <ul>
+  <li><a href="https://reactjs.org/docs/getting-started.html#create-a-new-react-app">React</a></li>
+  <li><a href="https://www.npmjs.com/package/axios">Axios</a></li>
+  <li><a href="https://www.npmjs.com/package/redux">React Redux</a></li>
+  <li><a href="https://www.npmjs.com/package/redux-thunk">Redux Thunk</a></li>
+ </ul>
+</p>
+
+<h2 id="frontend-installation">Frontend installation</h2>
+<p>To install the front end of FindJob, do the following;
+ <ul>
+  <li>Clone the <a href="https://github.com/chinomnsoawazie/find-job-frontend">Frontend</a></li>
+  <li>Ensure all relevant packages from the prerequisites section above are installed by running <code>npm install</code> from your terminal</li>
+  <li>Head over to <a href="https://github.com/chinomnsoawazie/find-job-backend">Backend</a> and follow the instructions to install the backend API</li>
+ </ul>
+</p>
+
+ <h2 id="first-start">First start</h2>
+<p>After installtion you need to fire up the backend API and the frontend in that order. For the backend, navigate into the folder you cloned the backend repo into(probably need to run an <code>ls</code> command to be sure youre in the root app folder), and run <code>rails s</code>. This would start the backend on the default <code>port 3000</code>. Then in a new shell tab or new terminal window, navivate to the folder containing the cloned and properly installed frontend repo and run <code>npm start</code>. It should come up with a dialog that informs you <code>port 3000</code> is taken and props you to chose to run the frontend on a different port. Chose yes and everything should be alright. Frontend will run on a port with a number above 3000, usually 3001.<br/>
+
+To access the backend, go to <code>http://localhost:3000</code><br/>
+To acess the frontend, go to <code>http://localhost:3001</code></p>
+ 
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
+<h1 id="summary-of-files">Summary of files</h1>
+   <h2 id="external-dataset">External datatset</h2>
+    <p>
+ <ul>
+  <li><a href="https://developer.usajobs.gov/API-Reference/GET-api-Search">USAJobs API</a></li>
+  <li><a href="https://developers.google.com/maps/documentation/geocoding/start"> Google geocoding API:</a> Gives the City and State of user based on device GPS</li>
+</ul>
+</p>
+
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
 
 
 
@@ -150,3 +189,33 @@
 </p>
 
 <a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
+
+ <h1 id="contact">Contacts</h1>
+    <p>
+ <ul>
+  <li><a href="coawazie@gmail.com">Email</a></li>
+  <li><a href="https://www.linkedin.com/in/chinomnsoawazie/">LinkedIn</a></li>
+  <li><a href="https://twitter.com/COAwazie">Twitter</a></li>
+  <li><a href="https://medium.com/coffee-software">Medium</a></li>
+ </ul>
+</p>
+
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
+ <h1 id="credits">Credits</h1>
+    <p>
+ <ul>
+  <li><a href="https://flatironschool.com/">The Flatiron School</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a></li>
+  <li><a href="https://jwt.io/introduction/">JWT Auth</a></li>
+  <li><a href="https://reactjs.org/">React</a></li>
+    <li><a href="https://reacttraining.com/react-router/">React router</a></li>
+  <li><a href="https://www.npmjs.com/package/redux-thunk">Redux Thunk</a></li>
+  <li><a href="https://www.npmjs.com/package/axios">Axios</a></li>
+  <li><a href="https://www.npmjs.com/package/redux">Redux</a></li>
+ </ul>
+</p>
+
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
