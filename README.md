@@ -41,7 +41,7 @@
         <li><a href="#overview">Basic overview</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#goals">Goals</a></li>
-        <li><a href="#challenge">Challenge</a></li>
+        <li><a href="#challenge">Challenges</a></li>
       </ul>
     </li>
     <li><a href="#demo">Demo</a></li>  
@@ -64,7 +64,7 @@
   
   <h1 id="inspiration">Inspiration</h1>
   
- <p>The root inspiration for this app is project organisation. Job search is a project. As if job search is not hard enough, job searchers are thrown a platform by jobsearch engines that most times requires they have other apps to manage the job search project. It is not enough to just throw a note-taking capabilty that do not tie into individual jobs. The idea is to have a total but also fine-grained management of the job search process, automate certian tasks like a 'thank you' email being sent after a job interview with the option to not send it or modify the content, create tasks and notes for individual jobs, traack what has happened so far with jobs one is interested in and/or has applied to. The app aims to take some of the job search hassles off the shoulder of the job searcher and free up resources for other prodictive stuff like repolishing thier resume, learning new skills, etc</p>
+ <p>The root inspiration for this app is project organisation. Job search is a project. As if job search is not hard enough, job searchers are thrown a platform by jobsearch engines that most times requires they have other apps to manage the job search project. It is not enough to just throw a note-taking capabilty that do not tie into individual jobs. The idea is to have a total but also fine-grained management of the job search process, automate certian tasks like a 'thank you' email being sent after a job interview with the option to not send it or modify the content, create tasks and notes for individual jobs, traack what has happened so far with jobs one is interested in and/or has applied to. The app aims to take some of the job search hassles off the shoulder of the job searcher and free up resources for other prodictive stuff like repolishing thier resume, learning new skills, etc. Also, heavy emphasis is placed on making finding jobst that Veterans are qualified much easier.</p>
   
  <a href=#table-of-contents> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
   
@@ -77,18 +77,17 @@
       <ul> 
        <li>User can create, edit, and delete an account</li>
        <li>User can check availability of username when creating an account</li>
-       <li> A logged in user can search for jobs using the following search criteria in isolation or combination:
+       <li> Users can search for jobs using the following search criteria:
         <ul>
-         <li>City, and state</li>
-         <li>Zipcode</li>
-         <li>Job titles</li>
-         <li>Job descriptions</li>
-         <li>Company</li>
-         <li>Industry</li>
-         <li>Pay</li>
-         <li>Job description</li>
+         <li>Job title, minimum pay and city</li>
+         <li>Nearby Veterans jobs (jobs vets are preferred candidates)</li>
+         <li>Veteran jobs by location</li>
+         <li>Job title and location</li>
+         <li>Keywords and location</li>
+         <li>Nearby jobs</li>
         </ul>
        </li>
+       <li> Logged in users can get veteran jobs nationwide posted within the last 30 days </li>
        <li>A logged in user can search for jobs and do the following:
         <ul>
          <li>Add a job to 'Favorite Jobs'</li>
@@ -109,15 +108,44 @@
     </p>
     
   <a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+  
+  <h1 id="goals">Goals</h1>
+    <p>  The goals of this app are;
+
+ <ul>
+  <li>To present real jobs to users</li>
+  <li>To make it easier to for job seekers to manage their job search process within one app</li>
+   <li>To make finding Veteran jobs(jobs veterans are preferred candidates) easier</li>
+ </ul>
+</p>
+
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
+
+
+<h1 id="challenge">Challenges</h1>
+    <p> The challenges faced while developing this app were;
+
+ <ul>
+  <li>Finding suitable job APIs. Most either limited you to one job, presented the response in formats that will make data manipulation tougher, or made the results unusable for the purposes of recreating the job</li>
+  <li>Some job APIs served only business clients</li>
+ </ul>
+</p>
+
+<a href="#table-of-contents"> <img src="https://img.shields.io/badge/-Back%20To%20Table%20of%20Contents-lightgrey" style="max-width:50%;"></a>
+
+
 
 
  <h1 id="planned-improvements">Planned improvements</h1>
     <p>  Some of the planned improvements include;
 
  <ul>
-  <li>Adding IBM Watson</li>
+  <li>Adding IBM Watson to add AI capabilities for registered(those that created accounts) user behaviours</li>
   <li>Implement OAuth 2.0 to enable logging in using social media accounts</li>
   <li>Implement reminders for tasks</li>
+   <li>Integrate app with device programs like calenders, alarms, reminders, etc</li>
+
  </ul>
 </p>
 
