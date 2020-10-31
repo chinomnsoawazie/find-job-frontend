@@ -213,7 +213,6 @@ To acess the frontend, go to <code>http://localhost:3001</code></p>
  <ul>
   <li><a href="https://flatironschool.com/">The Flatiron School</a></li>
   <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a></li>
-  <li><a href="https://jwt.io/introduction/">JWT Auth</a></li>
   <li><a href="https://reactjs.org/">React</a></li>
     <li><a href="https://reacttraining.com/react-router/">React router</a></li>
   <li><a href="https://www.npmjs.com/package/redux-thunk">Redux Thunk</a></li>
