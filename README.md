@@ -101,9 +101,9 @@
         </ul>
        </li>
        <li>User can view 'My Applied Jobs' in a separate dashboard</li>
-       <li>User can add/delete notes and tasks to a job in their applied of favorite jobs</li>
+       <li>User can add/delete notes, and tasks to a job in their applied of favorite jobs</li>
        <li>User can create and delete search preferences</li>
-       <li>User can run a search for nearest jobs from thier location</li>
+       <li>User can run a search for jobs nearest to their location</li>
       </ul>
     </p>
     
